@@ -121,14 +121,13 @@
                     <configuration>
                         <preparationGoals>android:manifest-update scm:checkin</preparationGoals>
                         <autoVersionSubmodules>true</autoVersionSubmodules>
-                        <goals>install -f ybo-tv-android/pom.xml -Pandroid-release</goals>
+                        <goals>install -Pandroid-release</goals>
                     </configuration>
                 </plugin>
                 <plugin>
                     <artifactId>maven-scm-plugin</artifactId>
                     <version>1.8.1</version>
                     <configuration>
-                        <basedir>${project.basedir}/..</basedir>
                         <message>Change AndroidManifest.xml for ${project.version}</message>
                         <includes>AndroidManifest.xml</includes>
                         <excludes>pom.xml</excludes>
@@ -361,8 +360,8 @@
     </developers>
 
     <scm>
-        <connection>scm:git://github.com/ybonnel/YboTv.git</connection>
-        <developerConnection>scm:git:git@github.com:ybonnel/YboTv.git</developerConnection>
-        <url>https://github.com/ybonnel/YboTv</url>
+        <connection>scm:git://github.com/ybonnel/ybo-tv-android.git</connection>
+        <developerConnection>scm:git:git@github.com:ybonnel/ybo-tv-android.git</developerConnection>
+        <url>https://github.com/ybonnel/ybo-tv-android</url>
     </scm>
 </project>
