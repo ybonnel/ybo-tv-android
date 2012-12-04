@@ -44,7 +44,10 @@ public class UpdateProgrammes extends TacheAvecGestionErreurReseau {
         add("16");
         add("17");
         add("18");
-        add("999");
+        add("119");
+        add("199");
+        add("186");
+        add("227");
     }};
 
     public UpdateProgrammes(Context context, Handler handler, final ProgressBar loadingBar, final TextView messageLoading, YboTvDatabase database) {
