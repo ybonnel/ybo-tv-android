@@ -42,7 +42,10 @@ public class ParChaineActivity extends MenuManager.AbstractSimpleActivity {
         for (FavoriteChannel favoriteChannel : favoriteChannels) {
             Channel channelTmp = new Channel();
             channelTmp.setId(favoriteChannel.getChannel());
-            channels.add(((YboTvApplication) getApplication()).getDatabase().selectSingle(channelTmp));
+            channelTmp = ((YboTvApplication) getApplication()).getDatabase().selectSingle(channelTmp);
+            if (channelTmp != null) {
+                channels.add(channelTmp);
+            }
         }
 
         Collections.sort(channels);

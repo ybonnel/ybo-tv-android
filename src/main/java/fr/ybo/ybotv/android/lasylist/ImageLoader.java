@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.view.View;
 import android.widget.ImageView;
 
 import java.io.*;
@@ -162,6 +163,8 @@ public class ImageLoader {
                 return;
             if (bitmap != null) {
                 photoToLoad.imageView.setImageBitmap(bitmap);
+            } else {
+                photoToLoad.imageView.setVisibility(View.GONE);
             }
         }
     }
