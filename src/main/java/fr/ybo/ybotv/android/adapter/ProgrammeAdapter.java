@@ -22,12 +22,10 @@ public class ProgrammeAdapter extends BaseAdapter {
 
     private final List<ChannelWithProgramme> programmes;
     private final LayoutInflater inflater;
-    private ImageLoader imageLoader;
 
     public ProgrammeAdapter(Context context, List<ChannelWithProgramme> programmes) {
         this.programmes = programmes;
         inflater = LayoutInflater.from(context);
-        imageLoader=new ImageLoader(context.getApplicationContext());
     }
 
     @Override
@@ -72,8 +70,7 @@ public class ProgrammeAdapter extends BaseAdapter {
 
         holder.horaires.setText(currentProgramme.getProgramme().getHoraires());
         holder.title.setText(currentProgramme.getProgramme().getTitle());
-
-        imageLoader.DisplayImage(currentProgramme.getChannel().getIconUrl(), holder.iconeChaine);
+        holder.iconeChaine.setImageResource(currentProgramme.getChannel().getIconResource());
 
         return convertView;
     }

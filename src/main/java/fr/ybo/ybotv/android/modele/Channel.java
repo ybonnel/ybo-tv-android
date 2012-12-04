@@ -3,6 +3,7 @@ package fr.ybo.ybotv.android.modele;
 import fr.ybo.database.annotation.Column;
 import fr.ybo.database.annotation.Entity;
 import fr.ybo.database.annotation.PrimaryKey;
+import fr.ybo.ybotv.android.R;
 import fr.ybo.ybotv.android.service.YboTvService;
 
 import java.io.Serializable;
@@ -18,10 +19,31 @@ public class Channel implements Serializable, Comparable<Channel> {
     @Column
     private String icon;
 
-    private final static String BASE_URL = YboTvService.SERVEUR + "logos/";
+    private transient boolean favorite;
 
-    public String getIconUrl() {
-        return BASE_URL + icon;
+    public boolean isFavorite() {
+        return favorite;
+    }
+
+    public void setFavorite(boolean favorite) {
+        this.favorite = favorite;
+    }
+
+    public int getIconResource() {
+        if (icon != null) {
+            try {
+                String resourceName = icon.split("\\.")[0];
+                if (Character.isDigit(icon.charAt(0))) {
+                    resourceName = "_" + resourceName;
+                }
+                return (Integer)R.drawable.class.getDeclaredField(resourceName).get(null);
+            } catch (IllegalAccessException e) {
+                e.printStackTrace();
+            } catch (NoSuchFieldException e) {
+                e.printStackTrace();
+            }
+        }
+        return -1;
     }
 
     public String getId() {

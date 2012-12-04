@@ -44,4 +44,6 @@
     <string name="writer">Auteur : %1$s</string>
     <string name="presenter">Présentateur : %1$s</string>
 
+    <string name="filter_channels">Modifier la liste des chaînes</string>
+
 </resources>

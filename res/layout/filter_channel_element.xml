@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="fill_parent"
+              android:layout_height="fill_parent" android:padding="2dp"
+              android:orientation="vertical">
+    <RelativeLayout
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:paddingLeft="1dp"
+            android:paddingRight="3dp"
+            android:paddingTop="4dp"
+            android:paddingBottom="6dp"
+            android:background="@drawable/dark_bg">
+        <ImageView android:layout_height="50dp"
+                   android:layout_width="76dp"
+                   android:id="@+id/filter_channel_element_imageChaine"
+                   android:layout_alignParentLeft="true"
+                   android:gravity="center_vertical|left"
+                   android:src="@drawable/loading"
+                   android:contentDescription="@string/loading"
+                />
+
+        <CheckBox android:layout_width="wrap_content"
+                  android:layout_height="fill_parent"
+                  android:id="@+id/filter_channel_element_favorite"
+                  android:layout_alignParentRight="true"
+                  android:gravity="center_vertical"/>
+
+
+        <TextView android:id="@+id/filter_channel_element_displayName"
+                  android:layout_width="wrap_content"
+                  android:layout_height="fill_parent"
+                  android:layout_alignParentTop="true"
+                  android:layout_toRightOf="@id/filter_channel_element_imageChaine"
+                  android:layout_toLeftOf="@id/filter_channel_element_favorite"
+                  android:textColor="@android:color/white"
+                  android:textSize="16dp"
+                  android:textStyle="bold"
+                  android:paddingLeft="5dp"/>
+
+
+    </RelativeLayout>
+</LinearLayout>

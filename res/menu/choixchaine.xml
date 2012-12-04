@@ -7,6 +7,11 @@
           android:showAsAction="never"
           android:icon="@android:drawable/ic_menu_manage"/>
 
+    <item android:id="@+id/menu_filter_channels"
+          android:title="@string/filter_channels"
+          android:showAsAction="never"
+          android:icon="@drawable/ic_menu_filter"/>
+
     <item android:id="@+id/menu_choixChaine"
           android:title="@string/choixChaine"
           android:icon="@android:drawable/ic_menu_more"
