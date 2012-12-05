@@ -1,6 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <changelog>
+    <release version="1.4.0" versioncode="140">
+        <change>Premi@egrave;re version publi@eacute;e sur le play store.</change>
+        <change>Ajout des cha@icirc;nes autres que la TNT.</change>
+        <change>Possibilit@eacute; de choisir les cha@icirc;nes @agrave; afficher.</change>
+    </release>
     <release version="1.3.0" versioncode="130">
-        <change>Premi@egrave;re version de YboTv</change>
+        <change>Premi@egrave;re version de YboTv en beta</change>
     </release>
 </changelog>
