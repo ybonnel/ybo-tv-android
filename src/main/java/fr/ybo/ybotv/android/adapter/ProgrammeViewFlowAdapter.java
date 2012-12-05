@@ -80,7 +80,7 @@ public class ProgrammeViewFlowAdapter extends BaseAdapter implements TitleProvid
             for (String oneCategorie : programme.getCategories()) {
                 categorie = oneCategorie;
             }
-            categories.setText(categorie);
+            categories.setText(formatterMots(categorie));
         }
 
         if (programme.getDate() == null) {
@@ -111,8 +111,14 @@ public class ProgrammeViewFlowAdapter extends BaseAdapter implements TitleProvid
 
         credits.setText(builderCredits.toString());
         credits.setMovementMethod(new ScrollingMovementMethod());
-
         return view;
+    }
+
+    private String formatterMots(String motsAFormatter) {
+        StringBuilder motsFormattes = new StringBuilder();
+        motsFormattes.append(motsAFormatter.substring(0, 1).toUpperCase());
+        motsFormattes.append(motsAFormatter.substring(1));
+        return motsFormattes.toString();
     }
 
     private final static Map<String, Integer> mapOfRatings = new HashMap<String, Integer>(){{
