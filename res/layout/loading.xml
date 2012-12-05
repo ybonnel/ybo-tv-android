@@ -30,7 +30,7 @@
                   android:paddingTop="5dp"
                   android:textSize="12dp"/>
 
-        <TextView
+        <TextView android:id="@+id/firstLoading"
                 android:layout_height="wrap_content"
                 android:layout_width="fill_parent"
                 android:paddingTop="5dp"

@@ -9,18 +9,23 @@ import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.KeyEvent;
+import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import com.actionbarsherlock.app.SherlockActivity;
 import fr.ybo.ybotv.android.R;
 import fr.ybo.ybotv.android.YboTvApplication;
 import fr.ybo.ybotv.android.database.YboTvDatabase;
+import fr.ybo.ybotv.android.exception.YboTvErreurReseau;
 import fr.ybo.ybotv.android.modele.LastUpdate;
+import fr.ybo.ybotv.android.util.TacheAvecGestionErreurReseau;
 import fr.ybo.ybotv.android.util.TimeUnit;
+import fr.ybo.ybotv.android.util.UpdateChannels;
 import fr.ybo.ybotv.android.util.UpdateProgrammes;
 
 import java.util.Date;
 
+@SuppressWarnings("unchecked")
 public class LoadingActivity extends SherlockActivity {
 
     private TextView messageLoading;
@@ -47,26 +52,37 @@ public class LoadingActivity extends SherlockActivity {
         YboTvDatabase database = ((YboTvApplication) getApplication()).getDatabase();
         LastUpdate lastUpdate = database.selectSingle(new LastUpdate());
 
+        messageLoading = (TextView) findViewById(R.id.messageLoading);
+        loadingBar = (ProgressBar) findViewById(R.id.loadingBar);
+        String currentVersion = "";
+        try {
+            PackageInfo _info = getPackageManager().getPackageInfo(getPackageName(), 0);
+            currentVersion = _info.versionName;
+        } catch (PackageManager.NameNotFoundException ignore) {
+        }
+
+        ((TextView) findViewById(R.id.loading_version)).setText(getString(R.string.version, currentVersion));
+        getSupportActionBar().setTitle(R.string.loading);
+
         if (lastUpdate == null || mustUpdate(lastUpdate)) {
-
-            messageLoading = (TextView) findViewById(R.id.messageLoading);
-            loadingBar = (ProgressBar) findViewById(R.id.loadingBar);
-
-            String currentVersion = "";
-            try {
-                PackageInfo _info = getPackageManager().getPackageInfo(getPackageName(), 0);
-                currentVersion = _info.versionName;
-            } catch (PackageManager.NameNotFoundException ignore) {
-            }
-
-            ((TextView) findViewById(R.id.loading_version)).setText(getString(R.string.version, currentVersion));
-
-            getSupportActionBar().setTitle(R.string.loading);
             showDialog(R.id.dialog_loading);
         } else {
-            finish();
-            startActivity(new Intent(this, ((YboTvApplication) getApplication()).getDefaultActivity()));
-            ((YboTvApplication) getApplication()).setRecurringAlarm();
+            findViewById(R.id.firstLoading).setVisibility(View.GONE);
+            new TacheAvecGestionErreurReseau(this){
+                @Override
+                protected void myDoBackground() throws YboTvErreurReseau {
+                    UpdateChannels.updateChannels(LoadingActivity.this, ((YboTvApplication) getApplication()).getDatabase(), handler, messageLoading, loadingBar);
+                }
+
+                @Override
+                protected void onPostExecute(Void result) {
+                    super.onPostExecute(result);
+                    finish();
+                    startActivity(new Intent(LoadingActivity.this, ((YboTvApplication) getApplication()).getDefaultActivity()));
+                    ((YboTvApplication) getApplication()).setRecurringAlarm();
+                }
+            }.execute();
+
         }
 
     }
