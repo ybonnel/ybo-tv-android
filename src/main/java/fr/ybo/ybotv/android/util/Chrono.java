@@ -21,7 +21,7 @@ public class Chrono {
 
     public void stop() {
         long elapsedTime = (System.nanoTime() - startTime) / 1000 / 1000;
-        Log.d(YboTvApplication.TAG, name + " : " + elapsedTime);
+        Log.d(YboTvApplication.TAG, name + " : " + elapsedTime + "ms");
     }
 
 

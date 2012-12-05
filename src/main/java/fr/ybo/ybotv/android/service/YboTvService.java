@@ -95,4 +95,8 @@ public class YboTvService {
     public List<Programme> getProgrammes(Channel channel) throws YboTvErreurReseau {
         return getObjects(SERVEUR + PROGRAMME_SERVICE_URL + CHANNEL_PARAMETER + channel.getId(), new TypeToken<List<Programme>>(){});
     }
+
+    public List<Programme> getProgrammes(String channelId) throws YboTvErreurReseau {
+        return getObjects(SERVEUR + PROGRAMME_SERVICE_URL + CHANNEL_PARAMETER + channelId, new TypeToken<List<Programme>>(){});
+    }
 }

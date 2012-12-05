@@ -2,11 +2,13 @@ package fr.ybo.ybotv.android.adapter;
 
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.*;
 import fr.ybo.ybotv.android.R;
+import fr.ybo.ybotv.android.YboTvApplication;
 import fr.ybo.ybotv.android.database.YboTvDatabase;
 import fr.ybo.ybotv.android.lasylist.ImageLoader;
 import fr.ybo.ybotv.android.modele.Channel;
@@ -21,10 +23,8 @@ public class FilterChannelsAdapter extends BaseAdapter {
 
     private final List<Channel> channels;
     private final LayoutInflater inflater;
-    private YboTvDatabase database;
 
     public FilterChannelsAdapter(Context context, YboTvDatabase database) {
-        this.database = database;
         channels = database.selectAll(Channel.class);
 
         Set<String> favoriteIds = new HashSet<String>();
@@ -60,29 +60,6 @@ public class FilterChannelsAdapter extends BaseAdapter {
         CheckBox favorite;
     }
 
-    private static class FavoriChangedListenner implements CompoundButton.OnCheckedChangeListener {
-
-        private Channel channel;
-        private YboTvDatabase database;
-
-        private FavoriChangedListenner(Channel channel, YboTvDatabase database) {
-            this.channel = channel;
-            this.database = database;
-        }
-
-        @Override
-        public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-            channel.setFavorite(isChecked);
-            FavoriteChannel favoriteChannel = new FavoriteChannel();
-            favoriteChannel.setChannel(channel.getId());
-            if (isChecked) {
-                database.insert(favoriteChannel);
-            } else {
-                database.delete(favoriteChannel);
-            }
-        }
-    }
-
     @Override
     public View getView(int position, View convertViewIn, ViewGroup parent) {
         View convertView = convertViewIn;
@@ -103,7 +80,6 @@ public class FilterChannelsAdapter extends BaseAdapter {
         holder.displayName.setText(channel.getDisplayName());
         holder.iconeChaine.setImageResource(channel.getIconResource());
         holder.favorite.setChecked(channel.isFavorite());
-        holder.favorite.setOnCheckedChangeListener(new FavoriChangedListenner(channel, database));
         return convertView;
     }
 }

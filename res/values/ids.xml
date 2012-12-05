@@ -19,4 +19,7 @@
 
     <item type="id" name="dialog_loading"/>
     <item type="id" name="dialog_choixChaine"/>
+
+    <item type="id" name="requestCode_filterChannels"/>
+    <item type="id" name="requestCode_updateChannels"/>
 </resources>

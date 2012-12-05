@@ -46,4 +46,10 @@
 
     <string name="filter_channels">Modifier la liste des chaînes</string>
 
+    <string name="updateChannels">Mise à jour des chaînes</string>
+
+    <string name="calculUpdateChannels">Calcul des chaînes à mettre à jour</string>
+    <string name="suppressionChaine">Suppression de la chaîne %1$s</string>
+    <string name="ajoutChaine">Ajout de la chaîne %1$s</string>
+
 </resources>

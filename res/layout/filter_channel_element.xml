@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 
+<!--suppress AndroidLintUselessParent -->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:layout_width="fill_parent"
               android:layout_height="fill_parent" android:padding="2dp"
@@ -25,7 +26,10 @@
                   android:layout_height="fill_parent"
                   android:id="@+id/filter_channel_element_favorite"
                   android:layout_alignParentRight="true"
-                  android:gravity="center_vertical"/>
+                  android:gravity="center_vertical"
+                  android:focusable="false"
+                  android:focusableInTouchMode="false"
+                  android:clickable="false"/>
 
 
         <TextView android:id="@+id/filter_channel_element_displayName"
