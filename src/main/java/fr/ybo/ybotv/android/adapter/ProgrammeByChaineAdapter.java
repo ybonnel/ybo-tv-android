@@ -10,6 +10,7 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import fr.ybo.ybotv.android.R;
 import fr.ybo.ybotv.android.lasylist.ImageLoader;
@@ -51,6 +52,7 @@ public class ProgrammeByChaineAdapter extends BaseAdapter {
         ImageView iconeChaine;
         TextView horaires;
         TextView title;
+        RelativeLayout parentLayout;
     }
 
     @Override
@@ -63,6 +65,7 @@ public class ProgrammeByChaineAdapter extends BaseAdapter {
             holder.horaires = (TextView) convertView.findViewById(R.id.programme_horaire);
             holder.title = (TextView) convertView.findViewById(R.id.programme_title);
             holder.iconeChaine = (ImageView) convertView.findViewById(R.id.programme_imageChaine);
+            holder.parentLayout = (RelativeLayout) convertView.findViewById(R.id.programme_parentLayout);
             convertView.setTag(holder);
         } else {
             holder = (ViewHolder) convertView.getTag();
@@ -80,6 +83,8 @@ public class ProgrammeByChaineAdapter extends BaseAdapter {
         } else {
             holder.iconeChaine.setVisibility(View.GONE);
         }
+
+        holder.parentLayout.setBackgroundResource(currentProgramme.getDrawableForCategory());
 
         return convertView;
     }

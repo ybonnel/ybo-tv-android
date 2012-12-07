@@ -8,6 +8,7 @@ import fr.ybo.database.annotation.Column;
 import fr.ybo.database.annotation.Entity;
 import fr.ybo.database.annotation.Indexed;
 import fr.ybo.database.annotation.PrimaryKey;
+import fr.ybo.ybotv.android.R;
 import fr.ybo.ybotv.android.YboTvApplication;
 import fr.ybo.ybotv.android.database.YboTvDatabase;
 
@@ -40,22 +41,21 @@ public class Programme implements Serializable, Parcelable {
     private String starRating;
     @Column
     private String csaRating;
-    @Column( type = Column.TypeColumn.LIST_TEXT)
+    @Column(type = Column.TypeColumn.LIST_TEXT)
     private List<String> directors;
-    @Column( type = Column.TypeColumn.LIST_TEXT)
+    @Column(type = Column.TypeColumn.LIST_TEXT)
     private List<String> actors;
-    @Column( type = Column.TypeColumn.LIST_TEXT)
+    @Column(type = Column.TypeColumn.LIST_TEXT)
     private List<String> writers;
-    @Column( type = Column.TypeColumn.LIST_TEXT)
+    @Column(type = Column.TypeColumn.LIST_TEXT)
     private List<String> presenters;
-    @Column( type = Column.TypeColumn.LIST_TEXT)
+    @Column(type = Column.TypeColumn.LIST_TEXT)
     private List<String> categories;
     @Column
     private String date;
 
 
     private Map<String, String> ratings;
-
 
 
     public void fillFields() {
@@ -69,11 +69,11 @@ public class Programme implements Serializable, Parcelable {
         StringBuilder builder = new StringBuilder();
         builder.append(start.substring(8, 10));
         builder.append(':');
-        builder.append(start.substring(10,12));
+        builder.append(start.substring(10, 12));
         builder.append(" - ");
-        builder.append(stop.substring(8,10));
+        builder.append(stop.substring(8, 10));
         builder.append(':');
-        builder.append(stop.substring(10,12));
+        builder.append(stop.substring(10, 12));
 
         return builder.toString();
 
@@ -280,7 +280,7 @@ public class Programme implements Serializable, Parcelable {
         calendarTwomorrow.add(Calendar.DAY_OF_MONTH, 1);
 
         Date today = calendarToday.getTime();
-        Date yesterday  = calendarYesterday.getTime();
+        Date yesterday = calendarYesterday.getTime();
         Date twomorrow = calendarTwomorrow.getTime();
 
         String dateDebut;
@@ -436,4 +436,49 @@ public class Programme implements Serializable, Parcelable {
             return new Programme[size];
         }
     };
+
+    private Map<String, Integer> mapDrawableByCategory = new HashMap<String, Integer>() {{
+        put("ballet", R.drawable.dark_bg_1);
+
+        put("concert", R.drawable.dark_bg_1);
+        put("dessin animé", R.drawable.dark_bg_2);
+
+        put("divertissement", R.drawable.dark_bg_3);
+        put("documentaire", R.drawable.dark_bg_1);
+        put("débat", R.drawable.dark_bg_3);
+        put("feuilleton", R.drawable.dark_bg_4);
+        put("film", R.drawable.dark_bg_5);
+
+        put("interview", R.drawable.dark_bg_3);
+        put("jeu", R.drawable.dark_bg_3);
+        put("jeunesse", R.drawable.dark_bg_2);
+        put("journal", R.drawable.dark_bg_3);
+        put("loterie", R.drawable.dark_bg_3);
+        put("magazine", R.drawable.dark_bg_3);
+        put("météo", R.drawable.dark_bg_3);
+        put("opéra", R.drawable.dark_bg_1);
+        put("politique", R.drawable.dark_bg_3);
+        put("religion", R.drawable.dark_bg_3);
+        put("spectacle", R.drawable.dark_bg_1);
+        put("sport", R.drawable.dark_bg_6);
+        put("série", R.drawable.dark_bg_4);
+        put("talk show", R.drawable.dark_bg_3);
+        put("théâtre", R.drawable.dark_bg_1);
+        put("tiercé", R.drawable.dark_bg_3);
+        put("téléfilm", R.drawable.dark_bg_5);
+        put("téléréalité", R.drawable.dark_bg_3);
+        put("variétés", R.drawable.dark_bg_3);
+        put("Émission", R.drawable.dark_bg_3);
+    }};
+
+    public int getDrawableForCategory() {
+        if (getCategories().isEmpty()) {
+            return R.drawable.dark_bg;
+        }
+        String principalCategory = categories.get(0);
+        if (mapDrawableByCategory.containsKey(principalCategory)) {
+            return mapDrawableByCategory.get(principalCategory);
+        }
+        return R.drawable.dark_bg;
+    }
 }

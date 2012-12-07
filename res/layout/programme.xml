@@ -11,8 +11,7 @@
             android:paddingLeft="1dp"
             android:paddingRight="3dp"
             android:paddingTop="4dp"
-            android:paddingBottom="6dp"
-            android:background="@drawable/dark_bg">
+            android:paddingBottom="6dp">
         <ImageView android:layout_height="50dp"
                    android:layout_width="76dp"
                    android:id="@+id/programme_imageChaine"
