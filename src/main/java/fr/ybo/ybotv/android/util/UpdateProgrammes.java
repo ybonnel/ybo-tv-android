@@ -25,7 +25,7 @@ public class UpdateProgrammes extends TacheAvecGestionErreurReseau {
     private TextView messageLoading;
     private YboTvDatabase database;
 
-    private final static Set<String> defaultFavoriteChannels = new HashSet<String>(){{
+    private final static Set<String> defaultFavoriteChannels = new HashSet<String>() {{
         add("1");
         add("2");
         add("3");
@@ -91,30 +91,77 @@ public class UpdateProgrammes extends TacheAvecGestionErreurReseau {
             favoriteChannelIds.add(favoriteChannel.getChannel());
         }
 
-        Set<String> programeIds = new HashSet<String>();
-
-        List<Programme> programmesToInsert = new ArrayList<Programme>();
 
         int count = 0;
         int nbChaines = favoriteChannelIds.size();
 
         for (Channel channel : channels) {
+            Set<String> programeIds = new HashSet<String>();
+
 
             if (!favoriteChannelIds.contains(channel.getId())) {
                 continue;
             }
 
-            for (Programme programme : YboTvService.getInstance().getProgrammes(channel)) {
+            List<Programme> programmes = YboTvService.getInstance().getProgrammes(channel);
 
-                if (!programeIds.contains(programme.getId())) {
-                    programme.fillFields();
-                    programmesToInsert.add(programme);
-                    programeIds.add(programme.getId());
+            String[] channelCause = {channel.getId()};
+            database.getWritableDatabase().delete("Programme", "channel = :channel", channelCause);
+
+            SQLiteDatabase db = database.getWritableDatabase();
+            database.beginTransaction();
+            try {
+                DatabaseUtils.InsertHelper ih = new DatabaseUtils.InsertHelper(db, database.getBase().getTable(Programme.class).getName());
+
+                int idCol = ih.getColumnIndex("id");
+                int startCol = ih.getColumnIndex("start");
+                int stopCol = ih.getColumnIndex("stop");
+                int channelCol = ih.getColumnIndex("channel");
+                int iconCol = ih.getColumnIndex("icon");
+                int titleCol = ih.getColumnIndex("title");
+                int descCol = ih.getColumnIndex("desc");
+                int starRatingCol = ih.getColumnIndex("starRating");
+                int csaRatingCol = ih.getColumnIndex("csaRating");
+                int directorsCol = ih.getColumnIndex("directors");
+                int actorsCol = ih.getColumnIndex("actors");
+                int writersCol = ih.getColumnIndex("writers");
+                int presentersCol = ih.getColumnIndex("presenters");
+                int dateCol = ih.getColumnIndex("date");
+                int categoriesCol = ih.getColumnIndex("categories");
+
+                for (Programme programme : programmes) {
+
+                    if (!programeIds.contains(programme.getId())) {
+                        programme.fillFields();
+                        programeIds.add(programme.getId());
+                        ih.prepareForInsert();
+
+                        // Add the data for each column
+                        ih.bind(idCol, programme.getId());
+                        ih.bind(startCol, programme.getStart());
+                        ih.bind(stopCol, programme.getStop());
+                        ih.bind(channelCol, programme.getChannel());
+                        ih.bind(iconCol, programme.getIcon());
+                        ih.bind(titleCol, programme.getTitle());
+                        ih.bind(descCol, programme.getDesc());
+                        ih.bind(starRatingCol, programme.getStarRating());
+                        ih.bind(csaRatingCol, programme.getCsaRating());
+                        ih.bind(directorsCol, programme.getDirectorsInCsv());
+                        ih.bind(actorsCol, programme.getActorsInCsv());
+                        ih.bind(writersCol, programme.getWritersInCsv());
+                        ih.bind(presentersCol, programme.getPresentersInCsv());
+                        ih.bind(dateCol, programme.getDate());
+                        ih.bind(categoriesCol, programme.getCategoriesInCsv());
+
+                        ih.execute();
+                    }
                 }
+            } finally {
+                database.endTransaction();
             }
 
             count++;
-            final int progress = 100 * count / (nbChaines + 2);
+            final int progress = 100 * count / (nbChaines + 1);
             if (handler != null) {
                 handler.post(new Runnable() {
                     @Override
@@ -164,7 +211,7 @@ public class UpdateProgrammes extends TacheAvecGestionErreurReseau {
         }
 
         count++;
-        final int progress = 100 * count / (nbChaines + 2);
+        final int progress = 100 * count / (nbChaines + 1);
         if (handler != null) {
             handler.post(new Runnable() {
                 @Override
@@ -172,65 +219,6 @@ public class UpdateProgrammes extends TacheAvecGestionErreurReseau {
                     loadingBar.setProgress(progress);
                 }
             });
-        }
-
-        chrono.stop();
-
-        chrono = new Chrono("Programme>Suppression").start();
-
-        // Suppression de tout les programmes.
-        database.deleteAll(Programme.class);
-        chrono.stop();
-
-        chrono = new Chrono("Programme>insertion").start();
-
-
-
-        try {
-            SQLiteDatabase db = database.getWritableDatabase();
-            database.beginTransaction();
-            DatabaseUtils.InsertHelper ih = new DatabaseUtils.InsertHelper(db, database.getBase().getTable(Programme.class).getName());
-
-            int idCol = ih.getColumnIndex("id");
-            int startCol = ih.getColumnIndex("start");
-            int stopCol = ih.getColumnIndex("stop");
-            int channelCol = ih.getColumnIndex("channel");
-            int iconCol = ih.getColumnIndex("icon");
-            int titleCol = ih.getColumnIndex("title");
-            int descCol = ih.getColumnIndex("desc");
-            int starRatingCol = ih.getColumnIndex("starRating");
-            int csaRatingCol = ih.getColumnIndex("csaRating");
-            int directorsCol = ih.getColumnIndex("directors");
-            int actorsCol = ih.getColumnIndex("actors");
-            int writersCol = ih.getColumnIndex("writers");
-            int presentersCol = ih.getColumnIndex("presenters");
-            int dateCol = ih.getColumnIndex("date");
-            int categoriesCol = ih.getColumnIndex("categories");
-
-            for (Programme programme : programmesToInsert) {
-                ih.prepareForInsert();
-
-                // Add the data for each column
-                ih.bind(idCol, programme.getId());
-                ih.bind(startCol, programme.getStart());
-                ih.bind(stopCol, programme.getStop());
-                ih.bind(channelCol, programme.getChannel());
-                ih.bind(iconCol, programme.getIcon());
-                ih.bind(titleCol, programme.getTitle());
-                ih.bind(descCol, programme.getDesc());
-                ih.bind(starRatingCol, programme.getStarRating());
-                ih.bind(csaRatingCol, programme.getCsaRating());
-                ih.bind(directorsCol, programme.getDirectorsInCsv());
-                ih.bind(actorsCol, programme.getActorsInCsv());
-                ih.bind(writersCol, programme.getWritersInCsv());
-                ih.bind(presentersCol, programme.getPresentersInCsv());
-                ih.bind(dateCol, programme.getDate());
-                ih.bind(categoriesCol, programme.getCategoriesInCsv());
-
-                ih.execute();
-            }
-        } finally {
-            database.endTransaction();
         }
 
         chrono.stop();
