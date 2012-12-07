@@ -119,11 +119,12 @@ public class YboTvApplication extends Application {
     }
 
     public void setRecurringAlarm() {
+        Log.d(YboTvApplication.TAG, "setRecurringAlarm");
         Calendar updateTime = Calendar.getInstance();
         Intent alarm = new Intent(this, AlarmReceiver.class);
         PendingIntent recurringAlarm = PendingIntent.getBroadcast(this, 0, alarm, PendingIntent.FLAG_CANCEL_CURRENT);
         AlarmManager alarms = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
-        alarms.setInexactRepeating(AlarmManager.RTC_WAKEUP, updateTime.getTimeInMillis(), AlarmManager.INTERVAL_HALF_DAY, recurringAlarm);
+        alarms.setInexactRepeating(AlarmManager.RTC_WAKEUP, updateTime.getTimeInMillis(), AlarmManager.INTERVAL_HOUR * 3, recurringAlarm);
     }
 
 }
