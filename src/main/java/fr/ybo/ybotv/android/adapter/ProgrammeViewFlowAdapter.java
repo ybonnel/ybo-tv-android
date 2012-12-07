@@ -68,20 +68,8 @@ public class ProgrammeViewFlowAdapter extends BaseAdapter implements TitleProvid
     private View getDetailView() {
         View view = inflater.inflate(R.layout.programme_detail, null);
 
-        TextView categories = (TextView) view.findViewById(R.id.programme_detail_categories);
         TextView date = (TextView) view.findViewById(R.id.programme_detail_date);
         TextView credits = (TextView) view.findViewById(R.id.programme_detail_credits);
-
-        if (programme.getCategories().isEmpty()) {
-            categories.setVisibility(View.GONE);
-        } else {
-            categories.setVisibility(View.VISIBLE);
-            String categorie = null;
-            for (String oneCategorie : programme.getCategories()) {
-                categorie = oneCategorie;
-            }
-            categories.setText(formatterMots(categorie));
-        }
 
         if (programme.getDate() == null) {
             date.setVisibility(View.GONE);
@@ -139,10 +127,12 @@ public class ProgrammeViewFlowAdapter extends BaseAdapter implements TitleProvid
         View view = inflater.inflate(R.layout.programme_resume, null);
         ImageLoader imageLoader=new ImageLoader(context.getApplicationContext());
 
-        ImageView icon = (ImageView) view.findViewById(R.id.programme_activity_icon);
-        ImageView rating = (ImageView) view.findViewById(R.id.programme_activity_rating);
-        ImageView csaRating = (ImageView) view.findViewById(R.id.programme_activity_csa_rating);
-        TextView description = (TextView) view.findViewById(R.id.programme_activity_description);
+        ImageView icon = (ImageView) view.findViewById(R.id.programme_resume_icon);
+        ImageView rating = (ImageView) view.findViewById(R.id.programme_resume_rating);
+        ImageView csaRating = (ImageView) view.findViewById(R.id.programme_resume_csa_rating);
+
+        TextView categories = (TextView) view.findViewById(R.id.programme_resume_categories);
+        TextView description = (TextView) view.findViewById(R.id.programme_resume_description);
 
         if (programme.getIcon() != null && programme.getIcon().length() > 0) {
             imageLoader.DisplayImage(programme.getIcon(), icon);
@@ -165,6 +155,18 @@ public class ProgrammeViewFlowAdapter extends BaseAdapter implements TitleProvid
         } else {
             csaRating.setVisibility(View.GONE);
         }
+
+        if (programme.getCategories().isEmpty()) {
+            categories.setVisibility(View.GONE);
+        } else {
+            categories.setVisibility(View.VISIBLE);
+            String categorie = null;
+            for (String oneCategorie : programme.getCategories()) {
+                categorie = oneCategorie;
+            }
+            categories.setText(formatterMots(categorie));
+        }
+
         if (programme.getDesc() != null) {
             description.setText(programme.getDesc());
             description.setVisibility(View.VISIBLE);
