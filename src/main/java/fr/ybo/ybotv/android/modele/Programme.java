@@ -438,37 +438,44 @@ public class Programme implements Serializable, Parcelable {
     };
 
     private Map<String, Integer> mapDrawableByCategory = new HashMap<String, Integer>() {{
-        put("ballet", R.drawable.dark_bg_1);
+        // R.drawable.dark_bg_1 : culturel
+        // R.drawable.dark_bg_2 : jeunesse
+        // R.drawable.dark_bg_3 : divertissement
+        // R.drawable.dark_bg_4 : série
+        // R.drawable.dark_bg_5 : film
+        // R.drawable.dark_bg_6 : sport
 
-        put("concert", R.drawable.dark_bg_1);
-        put("dessin animé", R.drawable.dark_bg_2);
+        put("ballet", R.drawable.dark_bg_1); // culturel
 
-        put("divertissement", R.drawable.dark_bg_3);
-        put("documentaire", R.drawable.dark_bg_1);
-        put("débat", R.drawable.dark_bg_3);
-        put("feuilleton", R.drawable.dark_bg_4);
-        put("film", R.drawable.dark_bg_5);
+        put("concert", R.drawable.dark_bg_1); // culturel
+        put("dessin animé", R.drawable.dark_bg_2); // jeunesse
 
-        put("interview", R.drawable.dark_bg_3);
-        put("jeu", R.drawable.dark_bg_3);
-        put("jeunesse", R.drawable.dark_bg_2);
-        put("journal", R.drawable.dark_bg_3);
-        put("loterie", R.drawable.dark_bg_3);
-        put("magazine", R.drawable.dark_bg_3);
-        put("météo", R.drawable.dark_bg_3);
-        put("opéra", R.drawable.dark_bg_1);
-        put("politique", R.drawable.dark_bg_3);
-        put("religion", R.drawable.dark_bg_3);
-        put("spectacle", R.drawable.dark_bg_1);
-        put("sport", R.drawable.dark_bg_6);
-        put("série", R.drawable.dark_bg_4);
-        put("talk show", R.drawable.dark_bg_3);
-        put("théâtre", R.drawable.dark_bg_1);
-        put("tiercé", R.drawable.dark_bg_3);
-        put("téléfilm", R.drawable.dark_bg_5);
-        put("téléréalité", R.drawable.dark_bg_3);
-        put("variétés", R.drawable.dark_bg_3);
-        put("Émission", R.drawable.dark_bg_3);
+        put("divertissement", R.drawable.dark_bg_3); // divertissement
+        put("documentaire", R.drawable.dark_bg_1); // culturel
+        put("débat", R.drawable.dark_bg_3); // divertissement
+        put("feuilleton", R.drawable.dark_bg_4); // série
+        put("film", R.drawable.dark_bg_5); // film
+
+        put("interview", R.drawable.dark_bg_3); // divertissement
+        put("jeu", R.drawable.dark_bg_3); // divertissement
+        put("jeunesse", R.drawable.dark_bg_2); // jeunesse
+        put("journal", R.drawable.dark_bg_3); // divertissement
+        put("loterie", R.drawable.dark_bg_3); // divertissement
+        put("magazine", R.drawable.dark_bg_3); // divertissement
+        put("météo", R.drawable.dark_bg_3); // divertissement
+        put("opéra", R.drawable.dark_bg_1); // culturel
+        put("politique", R.drawable.dark_bg_3); // divertissement
+        put("religion", R.drawable.dark_bg_3); // divertissement
+        put("spectacle", R.drawable.dark_bg_1); // culturel
+        put("sport", R.drawable.dark_bg_6); // sport
+        put("série", R.drawable.dark_bg_4); // série
+        put("talk show", R.drawable.dark_bg_3); // divertissement
+        put("théâtre", R.drawable.dark_bg_1); // culturel
+        put("tiercé", R.drawable.dark_bg_3); // divertissement
+        put("téléfilm", R.drawable.dark_bg_5); // film
+        put("téléréalité", R.drawable.dark_bg_3); // divertissement
+        put("variétés", R.drawable.dark_bg_3); // divertissement
+        put("Émission", R.drawable.dark_bg_3); // divertissement
     }};
 
     public int getDrawableForCategory() {
