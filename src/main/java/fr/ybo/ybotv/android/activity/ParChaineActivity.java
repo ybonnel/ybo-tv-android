@@ -1,18 +1,16 @@
 package fr.ybo.ybotv.android.activity;
 
 import android.app.AlertDialog;
+import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.View;
+import android.widget.DatePicker;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
 import fr.ybo.ybotv.android.R;
 import fr.ybo.ybotv.android.YboTvApplication;
-import fr.ybo.ybotv.android.adapter.CeSoirViewFlowAdapter;
 import fr.ybo.ybotv.android.adapter.ParChaineViewFlowAdapter;
 import fr.ybo.ybotv.android.modele.Channel;
 import fr.ybo.ybotv.android.modele.FavoriteChannel;
@@ -21,19 +19,24 @@ import org.taptwo.android.widget.TitleFlowIndicator;
 import org.taptwo.android.widget.ViewFlow;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collections;
 import java.util.List;
 
-public class ParChaineActivity extends MenuManager.AbstractSimpleActivity {
+public class ParChaineActivity extends MenuManager.AbstractSimpleActivity implements DatePickerDialog.OnDateSetListener {
 
     private List<Channel> channels;
     private ViewFlow viewFlow;
+    private Calendar currentCalendar;
+    private ParChaineViewFlowAdapter adapter;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.flow);
         createMenu();
+
+        currentCalendar = Calendar.getInstance();
 
         List<FavoriteChannel> favoriteChannels = ((YboTvApplication) getApplication()).getDatabase().selectAll(FavoriteChannel.class);
 
@@ -51,7 +54,7 @@ public class ParChaineActivity extends MenuManager.AbstractSimpleActivity {
         Collections.sort(channels);
 
         viewFlow = (ViewFlow) findViewById(R.id.viewflow);
-        ParChaineViewFlowAdapter adapter = new ParChaineViewFlowAdapter(this, channels);
+        adapter = new ParChaineViewFlowAdapter(this, channels);
         viewFlow.setAdapter(adapter);
         TitleFlowIndicator indicator = (TitleFlowIndicator) findViewById(R.id.viewflowindic);
         indicator.setTitleProvider(adapter);
@@ -77,6 +80,9 @@ public class ParChaineActivity extends MenuManager.AbstractSimpleActivity {
         if (item.getItemId() == R.id.menu_choixChaine) {
             showDialog(R.id.dialog_choixChaine);
         }
+        if (item.getItemId() == R.id.menu_choixDate) {
+            showDialog(R.id.dialog_choixDate);
+        }
         return super.onOptionsItemSelected(item);
     }
 
@@ -98,8 +104,19 @@ public class ParChaineActivity extends MenuManager.AbstractSimpleActivity {
                 }
             });
             return builder.create();
+        } else if (id == R.id.dialog_choixDate) {
+            return new DatePickerDialog(this, this, currentCalendar.get(Calendar.YEAR),
+                    currentCalendar.get(Calendar.MONTH), currentCalendar.get(Calendar.DAY_OF_MONTH));
         }
         return super.onCreateDialog(id);
+    }
+
+    @Override
+    public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+        currentCalendar.set(Calendar.YEAR, year);
+        currentCalendar.set(Calendar.MONTH, monthOfYear);
+        currentCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+        adapter.changeCurrentDate(currentCalendar);
     }
 }
 

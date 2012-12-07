@@ -8,6 +8,8 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.os.Build;
 import android.preference.PreferenceManager;
 import android.util.Log;
@@ -29,7 +31,7 @@ public class YboTvApplication extends Application {
 
     public static final String TAG = "YboTv";
 
-    private final static Set<String> EMULATORS_PRDODUCT = new HashSet<String>(){{
+    private final static Set<String> EMULATORS_PRDODUCT = new HashSet<String>() {{
         add("full_x86");
         add("google_sdk");
         add("sdk");
@@ -42,9 +44,19 @@ public class YboTvApplication extends Application {
         return EMULATORS_PRDODUCT.contains(Build.PRODUCT);
     }
 
+    public boolean isSnapshot() {
+        try {
+            PackageInfo info = getPackageManager().getPackageInfo(getPackageName(), 0);
+            return (info.versionName.endsWith("SNAPSHOT"));
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
     @Override
     public void onCreate() {
-        if (!isEmulator()) {
+        if (!isEmulator() && !isSnapshot()) {
             ACRA.init(this);
         }
         super.onCreate();

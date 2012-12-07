@@ -52,4 +52,6 @@
     <string name="suppressionChaine">Suppression de la chaîne %1$s</string>
     <string name="ajoutChaine">Ajout de la chaîne %1$s</string>
 
+    <string name="choixDate">Choix de la date</string>
 </resources>
+

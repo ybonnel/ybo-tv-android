@@ -20,6 +20,7 @@ import org.taptwo.android.widget.TitleProvider;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -31,10 +32,18 @@ public class ParChaineViewFlowAdapter extends BaseAdapter implements TitleProvid
 
     private List<Channel> channels;
 
+    private Calendar currentDate;
+
     public ParChaineViewFlowAdapter(Activity context, List<Channel> channels) {
         this.inflater = LayoutInflater.from(context);
         this.context = context;
         this.channels = channels;
+        currentDate = Calendar.getInstance();
+    }
+
+    public void changeCurrentDate(Calendar newCurrentDate) {
+        currentDate = newCurrentDate;
+        notifyDataSetChanged();
     }
 
     @Override
@@ -92,13 +101,14 @@ public class ParChaineViewFlowAdapter extends BaseAdapter implements TitleProvid
 
             @Override
             protected Integer doInBackground(Void... params) {
-                List<Programme> programmesTmp = Programme.getProgrammes((YboTvApplication) context.getApplication(), channel);
+                List<Programme> programmesTmp = Programme.getProgrammes((YboTvApplication) context.getApplication(), channel, currentDate);
+
+                String currentDateChaine = new SimpleDateFormat("yyyyMMddHHmmss").format(currentDate.getTime());
 
                 int currentPosition = 0;
-                String currentDate = new SimpleDateFormat("yyyyMMddHHmmss").format(new Date());
                 for (Programme programme : programmesTmp) {
-                    if (currentDate.compareTo(programme.getStart()) >= 0
-                            && currentDate.compareTo(programme.getStop()) < 0) {
+                    if (currentDateChaine.compareTo(programme.getStart()) >= 0
+                            && currentDateChaine.compareTo(programme.getStop()) < 0) {
                         break;
                     }
                     currentPosition++;

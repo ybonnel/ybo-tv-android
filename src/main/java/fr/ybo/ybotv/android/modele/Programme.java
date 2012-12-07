@@ -271,12 +271,11 @@ public class Programme implements Serializable, Parcelable {
     }
 
 
-    public static List<Programme> getProgrammes(YboTvApplication application, Channel channel) {
+    public static List<Programme> getProgrammes(YboTvApplication application, Channel channel, Calendar calendarToday) {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
-        Calendar calendarToday = Calendar.getInstance();
-        Calendar calendarYesterday = Calendar.getInstance();
+        Calendar calendarYesterday = (Calendar) calendarToday.clone();
         calendarYesterday.add(Calendar.DAY_OF_MONTH, -1);
-        Calendar calendarTwomorrow = Calendar.getInstance();
+        Calendar calendarTwomorrow = (Calendar) calendarToday.clone();
         calendarTwomorrow.add(Calendar.DAY_OF_MONTH, 1);
 
         Date today = calendarToday.getTime();

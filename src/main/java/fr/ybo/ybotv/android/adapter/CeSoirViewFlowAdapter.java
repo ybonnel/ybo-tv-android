@@ -2,7 +2,6 @@ package fr.ybo.ybotv.android.adapter;
 
 
 import android.app.Activity;
-import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,10 +26,18 @@ public class CeSoirViewFlowAdapter extends BaseAdapter implements TitleProvider 
 
     private int[] titles = {R.string.primeTime, R.string.partie2, R.string.finSoiree};
 
+    private Calendar currentDate;
 
-    public CeSoirViewFlowAdapter(Activity context) {
+
+    public CeSoirViewFlowAdapter(Activity context, Calendar currentDate) {
         this.inflater = LayoutInflater.from(context);
         this.context = context;
+        this.currentDate = currentDate;
+    }
+
+    public void changeCurrentDate(Calendar calendar) {
+        currentDate = calendar;
+        notifyDataSetChanged();
     }
 
     @Override
@@ -52,36 +59,37 @@ public class CeSoirViewFlowAdapter extends BaseAdapter implements TitleProvider 
 
         private int position;
         private YboTvApplication application;
+        private Calendar currentDate;
 
-        private MyGetProgramme(int position, YboTvApplication application) {
+        private MyGetProgramme(int position, YboTvApplication application, Calendar currentDate) {
             this.position = position;
             this.application = application;
+            this.currentDate = currentDate;
         }
 
         @Override
         public List<ChannelWithProgramme> getProgrammes() {
-            Date now = new Date();
             SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyyMMdd");
             String dateToSelect;
             switch (position) {
                 case 1:
                     // Deuxième partie
-                    dateToSelect = simpleDateFormat.format(now) + "230000";
+                    dateToSelect = simpleDateFormat.format(currentDate.getTime()) + "230000";
                     break;
                 case 2:
                     // Fin de soirée
-                    Calendar calendarTwomorrow = Calendar.getInstance();
+                    Calendar calendarTwomorrow = (Calendar) currentDate.clone();
                     calendarTwomorrow.add(Calendar.DAY_OF_MONTH, 1);
                     Date twomorrow = calendarTwomorrow.getTime();
                     if (calendarTwomorrow.get(Calendar.HOUR_OF_DAY) > 2) {
-                        dateToSelect = simpleDateFormat.format(now) + "010000";
+                        dateToSelect = simpleDateFormat.format(currentDate.getTime()) + "010000";
                     } else {
                         dateToSelect = simpleDateFormat.format(twomorrow) + "010000";
                     }
                     break;
                 default:
                     // PrimeTime
-                    dateToSelect = simpleDateFormat.format(now) + "210000";
+                    dateToSelect = simpleDateFormat.format(currentDate.getTime()) + "210000";
                     break;
             }
 
@@ -96,7 +104,7 @@ public class CeSoirViewFlowAdapter extends BaseAdapter implements TitleProvider 
         }
 
         ListView listView = (ListView) convertView.findViewById(android.R.id.list);
-        new ListProgrammeManager(listView, context, new MyGetProgramme(position, (YboTvApplication) context.getApplication())).constructAdapter();
+        new ListProgrammeManager(listView, context, new MyGetProgramme(position, (YboTvApplication) context.getApplication(), currentDate)).constructAdapter();
 
         return convertView;
     }
