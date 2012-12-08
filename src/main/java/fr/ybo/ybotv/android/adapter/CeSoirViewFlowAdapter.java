@@ -2,11 +2,12 @@ package fr.ybo.ybotv.android.adapter;
 
 
 import android.app.Activity;
+import android.content.res.Configuration;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.ListView;
+import android.widget.GridView;
 import fr.ybo.ybotv.android.R;
 import fr.ybo.ybotv.android.YboTvApplication;
 import fr.ybo.ybotv.android.activity.ListProgrammeManager;
@@ -100,11 +101,19 @@ public class CeSoirViewFlowAdapter extends BaseAdapter implements TitleProvider 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         if (convertView == null) {
-            convertView = inflater.inflate(R.layout.list_ss_pub, null);
+            convertView = inflater.inflate(R.layout.grid_ss_pub, null);
         }
 
-        ListView listView = (ListView) convertView.findViewById(android.R.id.list);
-        new ListProgrammeManager(listView, context, new MyGetProgramme(position, (YboTvApplication) context.getApplication(), currentDate)).constructAdapter();
+        GridView gridView = (GridView) convertView.findViewById(R.id.grid);
+
+        if (((YboTvApplication)context.getApplication()).isTablet()) {
+            if (context.getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
+                gridView.setNumColumns(3);
+            } else {
+                gridView.setNumColumns(2);
+            }
+        }
+        new ListProgrammeManager(gridView, context, new MyGetProgramme(position, (YboTvApplication) context.getApplication(), currentDate)).constructAdapter();
 
         return convertView;
     }
