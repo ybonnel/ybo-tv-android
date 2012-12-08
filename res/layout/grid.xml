@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+             xmlns:ads="http://schemas.android.com/apk/lib/com.google.ads"
+             android:layout_width="fill_parent"
+             android:layout_height="fill_parent"
+             android:orientation="vertical">
+    <LinearLayout android:id="@+id/ad_container"
+                  android:orientation="vertical"
+                  android:layout_width="fill_parent"
+                  android:layout_height="fill_parent"
+                  android:layout_marginBottom="50dip"
+            >
+
+        <GridView android:id="@+id/grid"
+                  android:layout_width="fill_parent"
+                  android:layout_height="fill_parent"
+                  android:numColumns="1"
+                  android:verticalSpacing="0dp"
+                  android:horizontalSpacing="1dp"
+                  android:stretchMode="columnWidth"
+                  android:cacheColorHint="#00000000"
+                  android:divider="@android:color/transparent"
+                />
+    </LinearLayout>
+
+    <com.google.ads.AdView
+            android:id="@+id/adView"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            ads:adSize="BANNER"
+            ads:testDevices="TEST_EMULATOR"
+            ads:adUnitId="a150ba4f2ebca17"/>
+</FrameLayout>

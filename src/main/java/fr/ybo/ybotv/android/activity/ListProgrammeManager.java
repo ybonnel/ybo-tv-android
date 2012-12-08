@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Parcelable;
 import android.view.View;
+import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import fr.ybo.ybotv.android.adapter.ProgrammeAdapter;
@@ -30,7 +31,7 @@ public class ListProgrammeManager {
     private List<ChannelWithProgramme> channels = new ArrayList<ChannelWithProgramme>();
     private Context context;
 
-    public ListProgrammeManager(ListView listView, Activity context, GetProgramme getProgramme) {
+    public ListProgrammeManager(AbsListView listView, Activity context, GetProgramme getProgramme) {
         this.getProgramme = getProgramme;
         this.adapter = new ProgrammeAdapter(context, channels);
         this.context = context;
