@@ -4,25 +4,38 @@ import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
+import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Parcelable;
+import android.util.Log;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.DatePicker;
+import android.widget.GridView;
+import android.widget.ListView;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
 import fr.ybo.ybotv.android.R;
 import fr.ybo.ybotv.android.YboTvApplication;
+import fr.ybo.ybotv.android.adapter.ChannelsAdapter;
 import fr.ybo.ybotv.android.adapter.ParChaineViewFlowAdapter;
+import fr.ybo.ybotv.android.adapter.ProgrammeByChaineAdapter;
 import fr.ybo.ybotv.android.modele.Channel;
 import fr.ybo.ybotv.android.modele.FavoriteChannel;
+import fr.ybo.ybotv.android.modele.Programme;
 import fr.ybo.ybotv.android.util.AdMobUtil;
 import org.taptwo.android.widget.TitleFlowIndicator;
 import org.taptwo.android.widget.ViewFlow;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.List;
 
+@SuppressWarnings("unchecked")
 public class ParChaineActivity extends MenuManager.AbstractSimpleActivity implements DatePickerDialog.OnDateSetListener {
 
     private List<Channel> channels;
@@ -33,13 +46,9 @@ public class ParChaineActivity extends MenuManager.AbstractSimpleActivity implem
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.flow);
         createMenu();
-
         currentCalendar = Calendar.getInstance();
-
         List<FavoriteChannel> favoriteChannels = ((YboTvApplication) getApplication()).getDatabase().selectAll(FavoriteChannel.class);
-
         channels = new ArrayList<Channel>();
 
         for (FavoriteChannel favoriteChannel : favoriteChannels) {
@@ -53,14 +62,100 @@ public class ParChaineActivity extends MenuManager.AbstractSimpleActivity implem
 
         Collections.sort(channels);
 
+        if (((YboTvApplication) getApplication()).isTablet()) {
+            constructViewForTablet();
+        } else {
+            constructViewForPhone();
+        }
+
+        AdMobUtil.manageAds(this);
+    }
+
+    private List<Programme> programmes = new ArrayList<Programme>();
+    private Channel currentChannel;
+    private ProgrammeByChaineAdapter tabletAdapter;
+    private GridView programmesListView;
+
+    private void constructViewForTablet() {
+        setContentView(R.layout.parchaine_for_tablet);
+
+        ListView channelsListView = (ListView) findViewById(R.id.list_chaine);
+        channelsListView.setAdapter(new ChannelsAdapter(this, channels));
+        channelsListView.setTextFilterEnabled(true);
+        channelsListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                currentChannel = channels.get(position);
+                refreshTabletView();
+            }
+        });
+
+        if (!channels.isEmpty()) {
+            currentChannel = channels.get(0);
+        }
+
+        programmesListView = (GridView) findViewById(R.id.grid_programmes);
+        tabletAdapter = new ProgrammeByChaineAdapter(this, programmes);
+        programmesListView.setAdapter(tabletAdapter);
+        programmesListView.setTextFilterEnabled(true);
+        registerForContextMenu(programmesListView);
+
+        programmesListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Programme programme = tabletAdapter.getItem(position);
+                Intent intent = new Intent(ParChaineActivity.this, ProgrammeActivity.class);
+                intent.putExtra("programme", (Parcelable)programme);
+                startActivity(intent);
+            }
+        });
+
+        refreshTabletView();
+    }
+
+    private void refreshTabletView() {
+        new AsyncTask<Void, Void, Integer>() {
+
+            @Override
+            protected Integer doInBackground(Void... params) {
+                List<Programme> programmesTmp = Programme.getProgrammes((YboTvApplication) getApplication(), currentChannel, currentCalendar);
+
+                String currentDateChaine = new SimpleDateFormat("yyyyMMddHHmmss").format(currentCalendar.getTime());
+
+                int currentPosition = 0;
+                for (Programme programme : programmesTmp) {
+                    if (currentDateChaine.compareTo(programme.getStart()) >= 0
+                            && currentDateChaine.compareTo(programme.getStop()) < 0) {
+                        break;
+                    }
+                    currentPosition++;
+                }
+
+                programmes.clear();
+                programmes.addAll(programmesTmp);
+
+                return currentPosition;
+            }
+
+            @Override
+            protected void onPostExecute(Integer currentPosition) {
+                Log.d(YboTvApplication.TAG, "Nombre de programmes : " + programmes.size());
+                tabletAdapter.notifyDataSetChanged();
+                if (currentPosition < programmes.size()) {
+                    programmesListView.setSelection(currentPosition);
+                }
+            }
+        }.execute();
+    }
+
+    private void constructViewForPhone() {
+        setContentView(R.layout.flow);
         viewFlow = (ViewFlow) findViewById(R.id.viewflow);
         adapter = new ParChaineViewFlowAdapter(this, channels);
         viewFlow.setAdapter(adapter);
         TitleFlowIndicator indicator = (TitleFlowIndicator) findViewById(R.id.viewflowindic);
         indicator.setTitleProvider(adapter);
         viewFlow.setFlowIndicator(indicator);
-
-        AdMobUtil.manageAds(this);
     }
 
     @Override
@@ -100,7 +195,11 @@ public class ParChaineActivity extends MenuManager.AbstractSimpleActivity implem
             builder.setItems(chaines.toArray(new CharSequence[channels.size()]), new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
-                    viewFlow.setSelection(which);
+                    if (viewFlow != null) {
+                        viewFlow.setSelection(which);
+                    } else {
+                        refreshTabletView();
+                    }
                 }
             });
             return builder.create();
@@ -116,7 +215,12 @@ public class ParChaineActivity extends MenuManager.AbstractSimpleActivity implem
         currentCalendar.set(Calendar.YEAR, year);
         currentCalendar.set(Calendar.MONTH, monthOfYear);
         currentCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
-        adapter.changeCurrentDate(currentCalendar);
+
+        if (adapter != null) {
+            adapter.changeCurrentDate(currentCalendar);
+        } else {
+            refreshTabletView();
+        }
     }
 }
 

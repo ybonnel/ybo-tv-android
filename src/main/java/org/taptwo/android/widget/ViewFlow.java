@@ -191,9 +191,15 @@ public class ViewFlow extends AdapterView<Adapter> {
         }
     }
 
+    private boolean slideActivated = true;
+
+    public void setSlideActivated(boolean slideActivated) {
+        this.slideActivated = slideActivated;
+    }
+
     @Override
     public boolean onInterceptTouchEvent(MotionEvent ev) {
-        if (getChildCount() == 0)
+        if (getChildCount() == 0 || !slideActivated)
             return false;
 
         if (mVelocityTracker == null) {
@@ -291,7 +297,7 @@ public class ViewFlow extends AdapterView<Adapter> {
 
     @Override
     public boolean onTouchEvent(MotionEvent ev) {
-        if (getChildCount() == 0)
+        if (getChildCount() == 0 || !slideActivated)
             return false;
 
         if (mVelocityTracker == null) {

@@ -12,6 +12,7 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 import fr.ybo.ybotv.android.R;
+import fr.ybo.ybotv.android.YboTvApplication;
 import fr.ybo.ybotv.android.lasylist.ImageLoader;
 import fr.ybo.ybotv.android.modele.ChannelWithProgramme;
 import fr.ybo.ybotv.android.modele.Programme;
@@ -32,6 +33,7 @@ public class ProgrammeByChaineAdapter extends BaseAdapter {
 
     @Override
     public int getCount() {
+        Log.d(YboTvApplication.TAG, "getCount : " + programmes.size());
         return programmes.size();
     }
 
