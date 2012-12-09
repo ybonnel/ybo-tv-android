@@ -7,6 +7,12 @@
               android:orientation="vertical"
               android:padding="5dp">
 
+    <TextView android:id="@+id/programme_detail_duree"
+              android:layout_width="fill_parent"
+              android:layout_height="wrap_content"
+              android:textSize="16dp"
+              android:paddingBottom="10dp" />
+
     <TextView android:id="@+id/programme_detail_date"
               android:layout_width="fill_parent"
               android:layout_height="wrap_content"

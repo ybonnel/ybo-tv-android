@@ -59,8 +59,11 @@ public class ProgrammeActivity extends SherlockActivity implements GetView {
 
 
     public static void contructDetailView(Context context, GetView getView, Programme programme) {
+        TextView duree = (TextView) getView.findViewById(R.id.programme_detail_duree);
         TextView date = (TextView) getView.findViewById(R.id.programme_detail_date);
         TextView credits = (TextView) getView.findViewById(R.id.programme_detail_credits);
+
+        duree.setText(context.getString(R.string.duree, programme.getDuree()));
 
         if (programme.getDate() == null) {
             date.setVisibility(View.GONE);

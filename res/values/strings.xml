@@ -53,5 +53,7 @@
     <string name="ajoutChaine">Ajout de la chaîne %1$s</string>
 
     <string name="choixDate">Choix de la date</string>
+
+    <string name="duree">Durée : %1$s</string>
 </resources>
 

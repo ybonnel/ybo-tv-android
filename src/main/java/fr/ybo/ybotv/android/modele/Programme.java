@@ -12,6 +12,7 @@ import fr.ybo.ybotv.android.YboTvApplication;
 import fr.ybo.ybotv.android.database.YboTvDatabase;
 
 import java.io.Serializable;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
@@ -257,6 +258,20 @@ public class Programme implements Serializable, Parcelable {
 
     public void setDate(String date) {
         this.date = date;
+    }
+
+    public String getDuree() {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss");
+        String duree = null;
+        try {
+            Date dateStart = sdf.parse(start);
+            Date dateEnd = sdf.parse(stop);
+            Date dureeDate = new Date(dateEnd.getTime() - dateStart.getTime());
+            duree = new SimpleDateFormat("HH:mm").format(dureeDate);
+        } catch (ParseException e) {
+            Log.e(YboTvApplication.TAG, e.getMessage(), e);
+        }
+        return duree;
     }
 
     @Override
