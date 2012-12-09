@@ -1,5 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <changelog>
+    <release version="1.4.5" versioncode="145">
+        <change>Interface d@eacute;di@eacute;e tablette.</change>
+        <change>Ajout de la dur@eacute;e du programme.</change>
+        <change>Ajout de la possibilit@eacute; de choisir la date @agrave; voir.</change>
+        <change>Le type d'@eacute;mission est maintenant dans le r@eacute;sum@eacute;.</change>
+        <change>Optimisation m@eacute;moire.</change>
+        <change>Meilleure gestion des services de mise @agrave; jour.</change>
+    </release>
     <release version="1.4.0" versioncode="140">
         <change>Premi@egrave;re version publi@eacute;e sur le play store.</change>
         <change>Ajout des cha@icirc;nes autres que la TNT.</change>
