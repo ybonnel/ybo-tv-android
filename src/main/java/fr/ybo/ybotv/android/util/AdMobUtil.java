@@ -38,7 +38,7 @@ public class AdMobUtil {
         // Look up the AdView as a resource and load a request.
         AdView adView = (AdView)activity.findViewById(R.id.adView);
         if (yboTvProFound) {
-            LinearLayout layout = (LinearLayout) activity.findViewById(R.id.ad_container);
+            View layout = activity.findViewById(R.id.ad_container);
             FrameLayout.LayoutParams layoutParams = (FrameLayout.LayoutParams) layout.getLayoutParams();
             layoutParams.bottomMargin = 0;
             layout.setLayoutParams(layoutParams);
