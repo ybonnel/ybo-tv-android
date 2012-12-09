@@ -9,6 +9,7 @@ import android.os.Parcelable;
 import android.view.View;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
+import android.widget.GridView;
 import android.widget.ListView;
 import fr.ybo.ybotv.android.adapter.ProgrammeAdapter;
 import fr.ybo.ybotv.android.modele.ChannelWithProgramme;
@@ -35,7 +36,13 @@ public class ListProgrammeManager {
         this.getProgramme = getProgramme;
         this.adapter = new ProgrammeAdapter(context, channels);
         this.context = context;
-        listView.setAdapter(adapter);
+        if (listView instanceof ListView) {
+            ((ListView)listView).setAdapter(adapter);
+        } else if (listView instanceof GridView) {
+            ((GridView)listView).setAdapter(adapter);
+        } else {
+            listView.setAdapter(adapter);
+        }
         listView.setTextFilterEnabled(true);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
