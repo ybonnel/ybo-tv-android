@@ -82,7 +82,7 @@ public class CeSoirViewFlowAdapter extends BaseAdapter implements TitleProvider 
                     Calendar calendarTwomorrow = (Calendar) currentDate.clone();
                     calendarTwomorrow.add(Calendar.DAY_OF_MONTH, 1);
                     Date twomorrow = calendarTwomorrow.getTime();
-                    if (calendarTwomorrow.get(Calendar.HOUR_OF_DAY) > 2) {
+                    if (calendarTwomorrow.get(Calendar.HOUR_OF_DAY) <= 2) {
                         dateToSelect = simpleDateFormat.format(currentDate.getTime()) + "010000";
                     } else {
                         dateToSelect = simpleDateFormat.format(twomorrow) + "010000";
