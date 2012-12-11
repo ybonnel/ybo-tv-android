@@ -260,6 +260,11 @@ public class Programme implements Serializable, Parcelable {
         this.date = date;
     }
 
+    public boolean isMovie() {
+        return !getCategories().isEmpty()
+                && getCategories().get(0).equalsIgnoreCase("film");
+    }
+
     public String getDuree() {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss");
         String duree = null;

@@ -22,7 +22,7 @@ import java.io.Reader;
 import java.net.MalformedURLException;
 import java.util.List;
 
-public class YboTvService {
+public class YboTvService extends HttpService {
 
     private static final YboTvService instance = new YboTvService();
 
@@ -39,53 +39,6 @@ public class YboTvService {
 
     public static YboTvService getInstance() {
         return instance;
-    }
-
-    private static final int MAX_RETRY = 5;
-
-    private <T> List<T> getObjects(String url, TypeToken<List<T>> typeToken) throws YboTvErreurReseau {
-        int countRetry = 0;
-
-        while (countRetry < MAX_RETRY - 1) {
-            countRetry++;
-            try {
-                return getObjectsWithoutRetry(url, typeToken);
-            } catch (YboTvErreurReseau erreurReseau) {
-                Log.e("YboTv", "Erreur réseau (" + countRetry + ") en accédant à l'url : " + url);
-                Log.e("YboTv", Log.getStackTraceString(erreurReseau));
-            }
-        }
-        return getObjectsWithoutRetry(url, typeToken);
-    }
-
-
-    private <T> List<T> getObjectsWithoutRetry(String url, TypeToken<List<T>> typeToken) throws YboTvErreurReseau {
-
-        Reader reader = null;
-        try {
-            Log.d("YboTv", "Url demandee : " + url);
-            HttpClient client = HttpUtils.getHttpClient();
-            HttpUriRequest request = new HttpGet(url);
-            HttpResponse reponse = client.execute(request);
-            reader = new InputStreamReader(reponse.getEntity().getContent());
-            GsonBuilder gsonBuilder = new GsonBuilder();
-            Gson gson = gsonBuilder.create();
-            return gson.fromJson(reader, typeToken.getType());
-        } catch (MalformedURLException e) {
-            throw new YboTvException(e);
-        } catch (IOException e) {
-            throw new YboTvErreurReseau(e);
-        } catch (JsonSyntaxException e) {
-            if (e.getCause() instanceof IOException) {
-                throw new YboTvErreurReseau(e);
-            } else {
-                throw new YboTvException(e);
-            }
-        } finally {
-            if (reader != null) {
-                try { reader.close(); } catch (Exception ignore) {}
-            }
-        }
     }
 
     public List<Channel> getChannels() throws YboTvErreurReseau {

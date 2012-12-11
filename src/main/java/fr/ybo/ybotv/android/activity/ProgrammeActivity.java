@@ -13,6 +13,7 @@ import com.google.analytics.tracking.android.EasyTracker;
 import fr.ybo.ybotv.android.R;
 import fr.ybo.ybotv.android.YboTvApplication;
 import fr.ybo.ybotv.android.adapter.ProgrammeViewFlowAdapter;
+import fr.ybo.ybotv.android.lasylist.AllocineRatingLoader;
 import fr.ybo.ybotv.android.lasylist.ImageLoader;
 import fr.ybo.ybotv.android.modele.Programme;
 import fr.ybo.ybotv.android.util.AdMobUtil;
@@ -102,13 +103,6 @@ public class ProgrammeActivity extends SherlockActivity implements GetView {
         return motsFormattes.toString();
     }
 
-    private final static Map<String, Integer> mapOfRatings = new HashMap<String, Integer>(){{
-        put("1/4", R.drawable.rating_1star);
-        put("2/4", R.drawable.rating_2star);
-        put("3/4", R.drawable.rating_3star);
-        put("4/4", R.drawable.rating_4star);
-    }};
-
     private final static Map<String, Integer> mapOfCsaRatings = new HashMap<String, Integer>(){{
         put("-18", R.drawable.moins18);
         put("-16", R.drawable.moins16);
@@ -132,9 +126,9 @@ public class ProgrammeActivity extends SherlockActivity implements GetView {
         } else {
             icon.setVisibility(View.GONE);
         }
-        if (programme.getStarRating() != null
-                && mapOfRatings.containsKey(programme.getStarRating())) {
-            rating.setImageResource(mapOfRatings.get(programme.getStarRating()));
+        if (programme.isMovie()) {
+            AllocineRatingLoader allocineRatingLoader = new AllocineRatingLoader(context.getApplicationContext());
+            allocineRatingLoader.DisplayImage(programme, rating);
             rating.setVisibility(View.VISIBLE);
         } else {
             rating.setVisibility(View.GONE);
