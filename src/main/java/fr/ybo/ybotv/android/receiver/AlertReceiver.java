@@ -51,7 +51,7 @@ public class AlertReceiver extends BroadcastReceiver {
             throw new YboTvException(e);
         }
 
-        Notification notification = new Notification(channel.getIconResource(), programme.getTitle(), dateToNotif.getTime());
+        Notification notification = new Notification(channel.getNotifIconResource(), programme.getTitle(), dateToNotif.getTime());
         notification.defaults |= android.app.Notification.DEFAULT_ALL;
         notification.flags |= android.app.Notification.FLAG_AUTO_CANCEL;
         notification.setLatestEventInfo(context, programme.getTitle(), programme.getDesc(), pendingIntent);

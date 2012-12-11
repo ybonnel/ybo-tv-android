@@ -48,6 +48,24 @@ public class Channel implements Serializable, Comparable<Channel>, Parcelable {
         return -1;
     }
 
+    public int getNotifIconResource() {
+        if (icon != null) {
+            try {
+                String resourceName = icon.split("\\.")[0];
+                if (Character.isDigit(icon.charAt(0))) {
+                    resourceName = "_" + resourceName;
+                }
+                resourceName = "notif_" + resourceName;
+                return (Integer)R.drawable.class.getDeclaredField(resourceName).get(null);
+            } catch (IllegalAccessException e) {
+                e.printStackTrace();
+            } catch (NoSuchFieldException e) {
+                e.printStackTrace();
+            }
+        }
+        return -1;
+    }
+
     public String getId() {
         return id;
     }
