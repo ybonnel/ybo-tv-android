@@ -297,7 +297,22 @@ public class Programme implements Serializable, Parcelable {
 
     public void setHasAlert(Context context, boolean hasAlert) {
         alert = hasAlert;
-        SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(context).edit();
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
+
+        Set<String> idsInNotf = prefs.getStringSet("ybo-tv.programme.alert.ids", new HashSet<String>());
+        if (idsInNotf == null) {
+            idsInNotf = new HashSet<String>();
+        }
+
+        if (hasAlert) {
+            idsInNotf.add(id);
+        } else {
+            idsInNotf.remove(id);
+        }
+
+        SharedPreferences.Editor editor = prefs.edit();
+
+        editor.putStringSet("ybo-tv.programme.alert.ids", idsInNotf);
         editor.putBoolean(getIdPref(), hasAlert);
         editor.commit();
     }
