@@ -2,6 +2,7 @@ package fr.ybo.ybotv.android.activity;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.text.Html;
 import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
 import android.view.View;
@@ -159,7 +160,7 @@ public class ProgrammeActivity extends SherlockActivity implements GetView {
         }
 
         if (programme.getDesc() != null) {
-            description.setText(programme.getDesc());
+            description.setText(Html.fromHtml(programme.getDesc()));
             description.setVisibility(View.VISIBLE);
         } else {
             description.setVisibility(View.GONE);
