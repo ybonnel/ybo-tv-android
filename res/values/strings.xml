@@ -55,5 +55,7 @@
     <string name="choixDate">Choix de la date</string>
 
     <string name="duree">Durée : %1$s</string>
+
+    <string name="menu_alert">Alert</string>
 </resources>
 

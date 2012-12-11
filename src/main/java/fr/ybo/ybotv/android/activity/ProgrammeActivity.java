@@ -1,7 +1,13 @@
 package fr.ybo.ybotv.android.activity;
 
+import android.app.AlarmManager;
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.text.Html;
 import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
@@ -9,37 +15,127 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 import com.actionbarsherlock.app.SherlockActivity;
+import com.actionbarsherlock.view.Menu;
+import com.actionbarsherlock.view.MenuInflater;
+import com.actionbarsherlock.view.MenuItem;
 import com.google.analytics.tracking.android.EasyTracker;
 import fr.ybo.ybotv.android.R;
 import fr.ybo.ybotv.android.YboTvApplication;
 import fr.ybo.ybotv.android.adapter.ProgrammeViewFlowAdapter;
+import fr.ybo.ybotv.android.exception.YboTvException;
 import fr.ybo.ybotv.android.lasylist.AllocineRatingLoader;
 import fr.ybo.ybotv.android.lasylist.ImageLoader;
+import fr.ybo.ybotv.android.modele.Channel;
 import fr.ybo.ybotv.android.modele.Programme;
+import fr.ybo.ybotv.android.receiver.AlarmReceiver;
+import fr.ybo.ybotv.android.receiver.AlertReceiver;
 import fr.ybo.ybotv.android.util.AdMobUtil;
 import fr.ybo.ybotv.android.util.GetView;
+import fr.ybo.ybotv.android.util.TimeUnit;
 import org.taptwo.android.widget.TitleFlowIndicator;
 import org.taptwo.android.widget.ViewFlow;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
 public class ProgrammeActivity extends SherlockActivity implements GetView {
 
+    private Programme programme;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Programme programme = getIntent().getParcelableExtra("programme");
+        programme = getIntent().getParcelableExtra("programme");
         getSupportActionBar().setTitle(programme.getTitle());
 
-        if (((YboTvApplication)getApplication()).isTablet()) {
+        if (((YboTvApplication) getApplication()).isTablet()) {
             createViewForTablet(programme);
         } else {
             createViewForPhone(programme);
         }
 
         AdMobUtil.manageAds(this);
+    }
+
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        super.onCreateOptionsMenu(menu);
+        String currentDate = new SimpleDateFormat("yyyyMMddHHmmss").format(new Date());
+        if (currentDate.compareTo(programme.getStart()) < 0) {
+            MenuItem item = menu.add(Menu.NONE, R.id.menu_alert, Menu.NONE, R.string.menu_alert);
+            item.setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM);
+            setMenuAlertIcon(item);
+        }
+        return true;
+    }
+
+    private void setMenuAlertIcon(MenuItem item) {
+        if (programme.hasAlert((YboTvApplication) getApplication())) {
+            item.setIcon(R.drawable.ic_menu_alert_on);
+        } else {
+            item.setIcon(R.drawable.ic_menu_alert_off);
+        }
+    }
+
+    private Channel channel = null;
+
+    private Channel getChannel() {
+        if (channel == null) {
+            Channel channelSelect = new Channel();
+            channelSelect.setId(programme.getChannel());
+            channel = ((YboTvApplication)getApplication()).getDatabase().selectSingle(channelSelect);
+        }
+        return channel;
+    }
+
+    private void createNotification() {
+        long timeToNotif;
+        try {
+            // The notification is 3 minutes before programme start.
+            timeToNotif = new SimpleDateFormat("yyyyMMddHHmmss").parse(programme.getStart()).getTime() - (3 * 60 * 1000);
+        } catch (ParseException e) {
+            throw new YboTvException(e);
+        }
+
+
+        Intent alert = new Intent(this, AlertReceiver.class);
+        alert.putExtra("programme", (Parcelable) programme);
+        alert.putExtra("channel", (Parcelable) getChannel());
+        int notificationId = Integer.parseInt(programme.getStart().substring(8));
+
+        PendingIntent pendingAlert = PendingIntent.getBroadcast(this, notificationId, alert, PendingIntent.FLAG_CANCEL_CURRENT);
+        AlarmManager alarms = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+        alarms.set(AlarmManager.RTC_WAKEUP, timeToNotif, pendingAlert);
+    }
+
+    private void cancelNotification() {
+        Intent alert = new Intent(this, AlertReceiver.class);
+        alert.putExtra("programme", (Parcelable) programme);
+        alert.putExtra("channel", (Parcelable) getChannel());
+        int notificationId = Integer.parseInt(programme.getStart().substring(8));
+        PendingIntent pendingAlert = PendingIntent.getBroadcast(this, notificationId, alert, PendingIntent.FLAG_CANCEL_CURRENT);
+
+        AlarmManager alarms = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+        alarms.cancel(pendingAlert);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == R.id.menu_alert) {
+            programme.setHasAlert((YboTvApplication) getApplication(), !programme.hasAlert((YboTvApplication) getApplication()));
+            if (programme.hasAlert((YboTvApplication) getApplication())) {
+                createNotification();
+            } else {
+                cancelNotification();
+            }
+            setMenuAlertIcon(item);
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     private void createViewForPhone(Programme programme) {
@@ -57,7 +153,6 @@ public class ProgrammeActivity extends SherlockActivity implements GetView {
         contructResumeView(this, this, programme);
         contructDetailView(this, this, programme);
     }
-
 
 
     public static void contructDetailView(Context context, GetView getView, Programme programme) {
@@ -96,6 +191,7 @@ public class ProgrammeActivity extends SherlockActivity implements GetView {
         credits.setText(builderCredits.toString());
         credits.setMovementMethod(new ScrollingMovementMethod());
     }
+
     private static String formatterMots(String motsAFormatter) {
         StringBuilder motsFormattes = new StringBuilder();
         motsFormattes.append(motsAFormatter.substring(0, 1).toUpperCase());
@@ -103,7 +199,7 @@ public class ProgrammeActivity extends SherlockActivity implements GetView {
         return motsFormattes.toString();
     }
 
-    private final static Map<String, Integer> mapOfCsaRatings = new HashMap<String, Integer>(){{
+    private final static Map<String, Integer> mapOfCsaRatings = new HashMap<String, Integer>() {{
         put("-18", R.drawable.moins18);
         put("-16", R.drawable.moins16);
         put("-12", R.drawable.moins12);
@@ -111,7 +207,7 @@ public class ProgrammeActivity extends SherlockActivity implements GetView {
     }};
 
     public static void contructResumeView(Context context, GetView getView, Programme programme) {
-        ImageLoader imageLoader=new ImageLoader(context.getApplicationContext());
+        ImageLoader imageLoader = new ImageLoader(context.getApplicationContext());
 
         ImageView icon = (ImageView) getView.findViewById(R.id.programme_resume_icon);
         ImageView rating = (ImageView) getView.findViewById(R.id.programme_resume_rating);

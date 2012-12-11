@@ -33,7 +33,6 @@ public class ProgrammeByChaineAdapter extends BaseAdapter {
 
     @Override
     public int getCount() {
-        Log.d(YboTvApplication.TAG, "getCount : " + programmes.size());
         return programmes.size();
     }
 

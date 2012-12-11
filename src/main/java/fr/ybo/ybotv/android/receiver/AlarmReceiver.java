@@ -16,5 +16,4 @@ public class AlarmReceiver extends BroadcastReceiver {
         intentService.setAction(UpdateService.ACTION_UPDATE);
         context.startService(intentService);
     }
-
 }

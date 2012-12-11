@@ -115,23 +115,27 @@ public class YboTvApplication extends Application {
     }
 
     public Class<? extends Activity> getDefaultActivity() {
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+        SharedPreferences prefs = getDefaultPreferences();
         SCREEN defaultScreen = SCREEN.formString(prefs.getString("YboTv_defaultScreen", SCREEN.NOW.name()));
         return defaultScreen == null ? SCREEN.NOW.getActivity() : defaultScreen.getActivity();
+    }
+
+    public SharedPreferences getDefaultPreferences() {
+        return PreferenceManager.getDefaultSharedPreferences(this);
     }
 
     private String versionInPref = null;
 
     public String getVersionInPref() {
         if (versionInPref == null) {
-            SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+            SharedPreferences prefs = getDefaultPreferences();
             versionInPref = prefs.getString("ybo-tv.version", "0");
         }
         return versionInPref;
     }
 
     public void updateVersionInPref(String currentVersion) {
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+        SharedPreferences prefs = getDefaultPreferences();
         SharedPreferences.Editor editor = prefs.edit();
         editor.putString("ybo-tv.version", currentVersion);
         editor.commit();

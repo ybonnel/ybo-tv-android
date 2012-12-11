@@ -1,5 +1,7 @@
 package fr.ybo.ybotv.android.modele;
 
+import android.os.Parcel;
+import android.os.Parcelable;
 import fr.ybo.database.annotation.Column;
 import fr.ybo.database.annotation.Entity;
 import fr.ybo.database.annotation.PrimaryKey;
@@ -9,7 +11,7 @@ import fr.ybo.ybotv.android.service.YboTvService;
 import java.io.Serializable;
 
 @Entity
-public class Channel implements Serializable, Comparable<Channel> {
+public class Channel implements Serializable, Comparable<Channel>, Parcelable {
 
     @Column
     @PrimaryKey
@@ -86,4 +88,37 @@ public class Channel implements Serializable, Comparable<Channel> {
         int id2 = Integer.parseInt(other.getId());
         return (id1 == id2) ? 0 : (id1 < id2) ? -1 : 1;
     }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel parcel, int i) {
+        parcel.writeString(id);
+        parcel.writeString(displayName);
+        parcel.writeString(icon);
+    }
+
+    public Channel() {
+    }
+
+    public Channel(Parcel in) {
+        id = in.readString();
+        displayName = in.readString();
+        icon = in.readString();
+    }
+
+    public static final Creator<Channel> CREATOR = new Creator<Channel>() {
+        @Override
+        public Channel createFromParcel(Parcel parcel) {
+            return new Channel(parcel);
+        }
+
+        @Override
+        public Channel[] newArray(int size) {
+            return new Channel[size];
+        }
+    };
 }

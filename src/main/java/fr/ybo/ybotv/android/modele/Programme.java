@@ -1,8 +1,11 @@
 package fr.ybo.ybotv.android.modele;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import fr.ybo.database.annotation.Column;
 import fr.ybo.database.annotation.Entity;
@@ -277,6 +280,26 @@ public class Programme implements Serializable, Parcelable {
             Log.e(YboTvApplication.TAG, e.getMessage(), e);
         }
         return duree;
+    }
+
+    private transient Boolean alert;
+
+    private String getIdPref() {
+        return "ybo-tv.programme.alert." + getId();
+    }
+
+    public boolean hasAlert(Context context) {
+        if (alert != null) {
+            return alert;
+        }
+        return PreferenceManager.getDefaultSharedPreferences(context).getBoolean(getIdPref(), false);
+    }
+
+    public void setHasAlert(Context context, boolean hasAlert) {
+        alert = hasAlert;
+        SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(context).edit();
+        editor.putBoolean(getIdPref(), hasAlert);
+        editor.commit();
     }
 
     @Override
