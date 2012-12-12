@@ -63,5 +63,7 @@
     <string name="slideToChangeChannel">Slidez pour changer de chaîne</string>
     <string name="clickToHaveDetail">Cliquez sur un programme pour avoir le détail</string>
     <string name="choixType">Choix du type d\'affichage</string>
+    <string name="clickToHaveAlert">Alerte en début de programme</string>
+    <string name="slideToHaveDetail">Slidez pour avoir des détails</string>
 </resources>
 

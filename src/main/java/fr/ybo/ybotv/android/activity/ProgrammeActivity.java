@@ -1,8 +1,6 @@
 package fr.ybo.ybotv.android.activity;
 
 import android.app.AlarmManager;
-import android.app.Notification;
-import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
@@ -16,9 +14,10 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import com.actionbarsherlock.app.SherlockActivity;
 import com.actionbarsherlock.view.Menu;
-import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
 import com.google.analytics.tracking.android.EasyTracker;
+import com.octo.android.robodemo.LabeledPoint;
+import com.octo.android.robodemo.RoboDemo;
 import fr.ybo.ybotv.android.R;
 import fr.ybo.ybotv.android.YboTvApplication;
 import fr.ybo.ybotv.android.adapter.ProgrammeViewFlowAdapter;
@@ -27,17 +26,15 @@ import fr.ybo.ybotv.android.lasylist.AllocineRatingLoader;
 import fr.ybo.ybotv.android.lasylist.ImageLoader;
 import fr.ybo.ybotv.android.modele.Channel;
 import fr.ybo.ybotv.android.modele.Programme;
-import fr.ybo.ybotv.android.receiver.AlarmReceiver;
 import fr.ybo.ybotv.android.receiver.AlertReceiver;
 import fr.ybo.ybotv.android.util.AdMobUtil;
 import fr.ybo.ybotv.android.util.GetView;
-import fr.ybo.ybotv.android.util.TimeUnit;
 import org.taptwo.android.widget.TitleFlowIndicator;
 import org.taptwo.android.widget.ViewFlow;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -71,6 +68,9 @@ public class ProgrammeActivity extends SherlockActivity implements GetView {
             item.setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM);
             setMenuAlertIcon(item);
         }
+        MenuItem itemHelp = menu.add(Menu.NONE, R.id.menu_help, Menu.NONE, R.string.help);
+        itemHelp.setShowAsAction(MenuItem.SHOW_AS_ACTION_NEVER);
+        itemHelp.setIcon(android.R.drawable.ic_menu_help);
         return true;
     }
 
@@ -134,6 +134,9 @@ public class ProgrammeActivity extends SherlockActivity implements GetView {
                 cancelNotification();
             }
             setMenuAlertIcon(item);
+        } else if (item.getItemId() == R.id.menu_help) {
+            displayDemo();
+            return true;
         }
         return super.onOptionsItemSelected(item);
     }
@@ -269,6 +272,30 @@ public class ProgrammeActivity extends SherlockActivity implements GetView {
     public void onStop() {
         super.onStop();
         EasyTracker.getInstance().activityStop(this);
+    }
+
+
+
+    private String DEMO_ACTIVITY_ID = CeSoirActivity.class.getSimpleName();
+
+    /**
+     * Displays demo if never show again has never been checked by the user.
+     */
+    private void displayDemo() {
+        ArrayList<LabeledPoint> arrayListPoints = new ArrayList<LabeledPoint>();
+
+        // create a list of LabeledPoints
+        String currentDate = new SimpleDateFormat("yyyyMMddHHmmss").format(new Date());
+        if (currentDate.compareTo(programme.getStart()) < 0) {
+            arrayListPoints.add(new LabeledPoint(this, 0.95f, 0.05f, getString(R.string.clickToHaveAlert)));
+        }
+        arrayListPoints.add(new LabeledPoint(this, 1.0f, 0.5f, getString(R.string.slideToHaveDetail)));
+
+
+        // start DemoActivity.
+        Intent intent = new Intent(this, HelpDemoActivity.class);
+        RoboDemo.prepareDemoActivityIntent(intent, DEMO_ACTIVITY_ID, arrayListPoints);
+        startActivity(intent);
     }
 
 }
