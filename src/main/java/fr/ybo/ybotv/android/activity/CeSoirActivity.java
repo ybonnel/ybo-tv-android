@@ -62,6 +62,7 @@ public class CeSoirActivity extends MenuManager.AbstractSimpleActivity implement
             return true;
         } else if (item.getItemId() == R.id.menu_help) {
             displayDemo();
+            return true;
         }
         return super.onOptionsItemSelected(item);
     }
