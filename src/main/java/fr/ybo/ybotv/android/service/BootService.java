@@ -15,6 +15,7 @@ import fr.ybo.ybotv.android.exception.YboTvException;
 import fr.ybo.ybotv.android.modele.Channel;
 import fr.ybo.ybotv.android.modele.Programme;
 import fr.ybo.ybotv.android.receiver.AlertReceiver;
+import fr.ybo.ybotv.android.util.PreferencesUtil;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -34,20 +35,15 @@ public class BootService extends Service {
 
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getApplication());
 
-        Set<String> idsInNotifs = prefs.getStringSet("ybo-tv.programme.alert.ids", new HashSet<String>());
-
+        Set<String> idsInNotifs = PreferencesUtil.getStringSets(prefs, "ybo-tv.programme.alert.ids");
         Log.d(YboTvApplication.TAG, "idsInNotids : " + idsInNotifs);
 
-        if (idsInNotifs != null) {
-
-            for (String idProgramme : idsInNotifs) {
-                if (prefs.getBoolean("ybo-tv.programme.alert." + idProgramme, false))  {
-                    Programme programme = getProgrammeById(idProgramme);
-                    Channel channel = getChannelById(programme.getChannel());
-                    createNotif(programme, channel);
-                }
+        for (String idProgramme : idsInNotifs) {
+            if (prefs.getBoolean("ybo-tv.programme.alert." + idProgramme, false))  {
+                Programme programme = getProgrammeById(idProgramme);
+                Channel channel = getChannelById(programme.getChannel());
+                createNotif(programme, channel);
             }
-
         }
         stopSelf();
         return START_STICKY;
