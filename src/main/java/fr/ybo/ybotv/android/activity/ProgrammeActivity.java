@@ -150,6 +150,8 @@ public class ProgrammeActivity extends SherlockActivity implements GetView {
             builder.show();
         } else if (calendars.size() == 1) {
             addInCalendar(calendars.entrySet().iterator().next().getKey());
+        } else {
+            Toast.makeText(this, R.string.noCalendarError, Toast.LENGTH_LONG).show();
         }
     }
 

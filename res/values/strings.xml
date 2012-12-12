@@ -65,5 +65,6 @@
 
     <string name="chooseCalendar">Choisissez le calendrier.</string>
     <string name="eventAdded">Evénement ajouté</string>
+    <string name="noCalendarError">Aucun calendrier trouvé.</string>
 </resources>
 
