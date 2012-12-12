@@ -65,6 +65,9 @@ public class ProgrammeActivity extends SherlockActivity implements GetView {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         super.onCreateOptionsMenu(menu);
+        MenuItem itemShare = menu.add(Menu.NONE, R.id.menu_share, Menu.NONE, R.string.menu_share);
+        itemShare.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
+        itemShare.setIcon(android.R.drawable.ic_menu_share);
         String currentDate = new SimpleDateFormat("yyyyMMddHHmmss").format(new Date());
         if (currentDate.compareTo(programme.getStart()) < 0) {
             MenuItem item = menu.add(Menu.NONE, R.id.menu_alert, Menu.NONE, R.string.menu_alert);
@@ -126,7 +129,13 @@ public class ProgrammeActivity extends SherlockActivity implements GetView {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == R.id.menu_alert) {
+        if (item.getItemId() == R.id.menu_share) {
+            Intent intent = new Intent(Intent.ACTION_SEND);
+            intent.setType("text/plain");
+            intent.putExtra(Intent.EXTRA_SUBJECT, getString(R.string.shareSubject, programme.getTitle()));
+            intent.putExtra(Intent.EXTRA_TEXT, getString(R.string.shareText, programme.getTitle()));
+            startActivity(Intent.createChooser(intent, getString(R.string.app_name)));
+        } else if (item.getItemId() == R.id.menu_alert) {
             programme.setHasAlert((YboTvApplication) getApplication(), !programme.hasAlert((YboTvApplication) getApplication()));
             if (programme.hasAlert((YboTvApplication) getApplication())) {
                 createNotification();
