@@ -18,6 +18,7 @@
     <item type="id" name="menu_parchaine"/>
     <item type="id" name="menu_alert"/>
     <item type="id" name="menu_share"/>
+    <item type="id" name="menu_calendar"/>
 
     <item type="id" name="dialog_loading"/>
     <item type="id" name="dialog_choixChaine"/>
