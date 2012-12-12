@@ -13,6 +13,7 @@ import fr.ybo.database.annotation.Indexed;
 import fr.ybo.database.annotation.PrimaryKey;
 import fr.ybo.ybotv.android.YboTvApplication;
 import fr.ybo.ybotv.android.database.YboTvDatabase;
+import fr.ybo.ybotv.android.util.PreferencesUtil;
 
 import java.io.Serializable;
 import java.text.ParseException;
@@ -299,20 +300,17 @@ public class Programme implements Serializable, Parcelable {
         alert = hasAlert;
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
 
-        Set<String> idsInNotf = prefs.getStringSet("ybo-tv.programme.alert.ids", new HashSet<String>());
-        if (idsInNotf == null) {
-            idsInNotf = new HashSet<String>();
-        }
+        Set<String> idsInNotif = PreferencesUtil.getStringSets(prefs, "ybo-tv.programme.alert.ids");
 
         if (hasAlert) {
-            idsInNotf.add(id);
+            idsInNotif.add(id);
         } else {
-            idsInNotf.remove(id);
+            idsInNotif.remove(id);
         }
 
-        SharedPreferences.Editor editor = prefs.edit();
+        PreferencesUtil.putStringSets(prefs, "ybo-tv.programme.alert.ids", idsInNotif);
 
-        editor.putStringSet("ybo-tv.programme.alert.ids", idsInNotf);
+        SharedPreferences.Editor editor = prefs.edit();
         editor.putBoolean(getIdPref(), hasAlert);
         editor.commit();
     }
