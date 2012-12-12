@@ -17,6 +17,8 @@ import android.widget.ListView;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
+import com.octo.android.robodemo.LabeledPoint;
+import com.octo.android.robodemo.RoboDemo;
 import fr.ybo.ybotv.android.R;
 import fr.ybo.ybotv.android.YboTvApplication;
 import fr.ybo.ybotv.android.adapter.ChannelsAdapter;
@@ -174,9 +176,14 @@ public class ParChaineActivity extends MenuManager.AbstractSimpleActivity implem
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == R.id.menu_choixChaine) {
             showDialog(R.id.dialog_choixChaine);
+            return true;
         }
         if (item.getItemId() == R.id.menu_choixDate) {
             showDialog(R.id.dialog_choixDate);
+            return true;
+        } else if (item.getItemId() == R.id.menu_help) {
+            displayDemo();
+            return true;
         }
         return super.onOptionsItemSelected(item);
     }
@@ -221,6 +228,29 @@ public class ParChaineActivity extends MenuManager.AbstractSimpleActivity implem
         } else {
             refreshTabletView();
         }
+    }
+
+
+
+    private String DEMO_ACTIVITY_ID = CeSoirActivity.class.getSimpleName();
+
+    /**
+     * Displays demo if never show again has never been checked by the user.
+     */
+    private void displayDemo() {
+        ArrayList<LabeledPoint> arrayListPoints = new ArrayList<LabeledPoint>();
+
+        // create a list of LabeledPoints
+        arrayListPoints.add(new LabeledPoint(this, 0.95f, 0.05f, getString(R.string.choixDate)));
+        arrayListPoints.add(new LabeledPoint(this, 1.0f, 0.5f, getString(R.string.slideToChangeChannel)));
+        arrayListPoints.add(new LabeledPoint(this, 0.25f, 0.35f, getString(R.string.clickToHaveDetail)));
+        arrayListPoints.add(new LabeledPoint(this, 0.75f, 0.05f, getString(R.string.choixChaine)));
+
+
+        // start DemoActivity.
+        Intent intent = new Intent(this, HelpDemoActivity.class);
+        RoboDemo.prepareDemoActivityIntent(intent, DEMO_ACTIVITY_ID, arrayListPoints);
+        startActivity(intent);
     }
 }
 

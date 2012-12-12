@@ -60,6 +60,7 @@
 
     <string name="help">Aide</string>
     <string name="slideToChangeTime">Slidez pour changer d\'horaire</string>
+    <string name="slideToChangeChannel">Slidez pour changer de chaîne</string>
     <string name="clickToHaveDetail">Cliquez sur un programme pour avoir le détail</string>
     <string name="choixType">Choix du type d\'affichage</string>
 </resources>
