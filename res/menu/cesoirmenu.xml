@@ -16,4 +16,9 @@
           android:title="@string/choixDate"
           android:icon="@android:drawable/ic_menu_today"
           android:showAsAction="ifRoom"/>
+
+    <item android:id="@+id/menu_help"
+          android:title="@string/help"
+          android:icon="@android:drawable/ic_menu_help"
+          android:showAsAction="never"/>
 </menu>

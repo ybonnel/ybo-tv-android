@@ -22,6 +22,7 @@
         <activity android:name=".activity.PreferenceActivity"/>
         <activity android:name=".activity.FilterChannelsActivity"/>
         <activity android:name=".activity.UpdateChannelsActivity"/>
+        <activity android:configChanges="orientation|screenSize" android:name=".activity.HelpDemoActivity" android:noHistory="true" android:theme="@style/Theme.YboTv.RoboDemo"/>
 
         <activity android:configChanges="keyboard|keyboardHidden|orientation|screenLayout|uiMode|screenSize|smallestScreenSize" android:name="com.google.ads.AdActivity"/>
 

@@ -57,5 +57,10 @@
     <string name="duree">Durée : %1$s</string>
 
     <string name="menu_alert">Alert</string>
+
+    <string name="help">Aide</string>
+    <string name="slideToChangeTime">Slidez pour changer d\'horaire</string>
+    <string name="clickToHaveDetail">Cliquez sur un programme pour avoir le détail</string>
+    <string name="choixType">Choix du type d\'affichage</string>
 </resources>
 
