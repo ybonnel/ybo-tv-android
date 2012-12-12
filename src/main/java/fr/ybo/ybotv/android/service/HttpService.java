@@ -59,11 +59,7 @@ public abstract class HttpService {
         } catch (IOException e) {
             throw new YboTvErreurReseau(e);
         } catch (JsonSyntaxException e) {
-            if (e.getCause() instanceof IOException) {
-                throw new YboTvErreurReseau(e);
-            } else {
-                throw new YboTvException(e);
-            }
+            throw new YboTvErreurReseau(e);
         } finally {
             if (reader != null) {
                 try { reader.close(); } catch (Exception ignore) {}
