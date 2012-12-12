@@ -1,5 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <changelog>
+    <release version="1.5.0" versioncode="150">
+        <change>Ajout des avis AlloCine sur les films</change>
+        <change>Possibilit@eacute; d'avoir une notification avant le d@eacute;but du programme.</change>
+        <change>Possibilit@eacute; de partager un programme.</change>
+        <change>Possibilit@eacute; d'ajouter un programme dans le calendrier.</change>
+    </release>
     <release version="1.4.5" versioncode="145">
         <change>Interface d@eacute;di@eacute;e tablette.</change>
         <change>Ajout de la dur@eacute;e du programme.</change>
