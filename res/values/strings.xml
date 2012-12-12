@@ -58,8 +58,12 @@
 
     <string name="menu_alert">Alert</string>
     <string name="menu_share">Partager</string>
+    <string name="menu_calendar">Ajouter à l\'agenda</string>
 
     <string name="shareSubject">YboTv : %1$s</string>
     <string name="shareText">YboTv m\'a permis de trouver %1$s à regarder</string>
+
+    <string name="chooseCalendar">Choisissez le calendrier.</string>
+    <string name="eventAdded">Evénement ajouté</string>
 </resources>
 

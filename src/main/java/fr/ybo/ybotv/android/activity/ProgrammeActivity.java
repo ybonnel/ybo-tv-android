@@ -1,10 +1,10 @@
 package fr.ybo.ybotv.android.activity;
 
 import android.app.AlarmManager;
-import android.app.Notification;
-import android.app.NotificationManager;
+import android.app.AlertDialog;
 import android.app.PendingIntent;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Parcelable;
@@ -14,9 +14,9 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 import com.actionbarsherlock.app.SherlockActivity;
 import com.actionbarsherlock.view.Menu;
-import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
 import com.google.analytics.tracking.android.EasyTracker;
 import fr.ybo.ybotv.android.R;
@@ -27,17 +27,15 @@ import fr.ybo.ybotv.android.lasylist.AllocineRatingLoader;
 import fr.ybo.ybotv.android.lasylist.ImageLoader;
 import fr.ybo.ybotv.android.modele.Channel;
 import fr.ybo.ybotv.android.modele.Programme;
-import fr.ybo.ybotv.android.receiver.AlarmReceiver;
 import fr.ybo.ybotv.android.receiver.AlertReceiver;
 import fr.ybo.ybotv.android.util.AdMobUtil;
+import fr.ybo.ybotv.android.util.CalendarUtil;
 import fr.ybo.ybotv.android.util.GetView;
-import fr.ybo.ybotv.android.util.TimeUnit;
 import org.taptwo.android.widget.TitleFlowIndicator;
 import org.taptwo.android.widget.ViewFlow;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -65,20 +63,23 @@ public class ProgrammeActivity extends SherlockActivity implements GetView {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         super.onCreateOptionsMenu(menu);
+        MenuItem itemAgenda = menu.add(Menu.NONE, R.id.menu_calendar, Menu.NONE, R.string.menu_calendar);
+        itemAgenda.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
+        itemAgenda.setIcon(android.R.drawable.ic_menu_agenda);
         MenuItem itemShare = menu.add(Menu.NONE, R.id.menu_share, Menu.NONE, R.string.menu_share);
         itemShare.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
         itemShare.setIcon(android.R.drawable.ic_menu_share);
         String currentDate = new SimpleDateFormat("yyyyMMddHHmmss").format(new Date());
         if (currentDate.compareTo(programme.getStart()) < 0) {
             MenuItem item = menu.add(Menu.NONE, R.id.menu_alert, Menu.NONE, R.string.menu_alert);
-            item.setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM);
+            item.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
             setMenuAlertIcon(item);
         }
         return true;
     }
 
     private void setMenuAlertIcon(MenuItem item) {
-        if (programme.hasAlert((YboTvApplication) getApplication())) {
+        if (programme.hasAlert(getApplication())) {
             item.setIcon(R.drawable.ic_menu_alert_on);
         } else {
             item.setIcon(R.drawable.ic_menu_alert_off);
@@ -91,7 +92,7 @@ public class ProgrammeActivity extends SherlockActivity implements GetView {
         if (channel == null) {
             Channel channelSelect = new Channel();
             channelSelect.setId(programme.getChannel());
-            channel = ((YboTvApplication)getApplication()).getDatabase().selectSingle(channelSelect);
+            channel = ((YboTvApplication) getApplication()).getDatabase().selectSingle(channelSelect);
         }
         return channel;
     }
@@ -127,17 +128,56 @@ public class ProgrammeActivity extends SherlockActivity implements GetView {
         alarms.cancel(pendingAlert);
     }
 
+    private void addProgrammeToAgenda() {
+        Map<Integer, String> calendars = CalendarUtil.getCalendars(getContentResolver());
+        if (calendars.size() > 1) {
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            final int[] calenderIds = new int[calendars.size()];
+            CharSequence[] calenderNames = new String[calendars.size()];
+            int index = 0;
+            for (Map.Entry<Integer, String> entry : calendars.entrySet()) {
+                calenderIds[index] = entry.getKey();
+                calenderNames[index] = entry.getValue();
+                index++;
+            }
+
+            builder.setItems(calenderNames, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    addInCalendar(calenderIds[which]);
+                }
+            });
+            builder.show();
+        } else if (calendars.size() == 1) {
+            addInCalendar(calendars.entrySet().iterator().next().getKey());
+        }
+    }
+
+    private void addInCalendar(int calendarId) {
+        try {
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss");
+            long startTime = sdf.parse(programme.getStart()).getTime();
+            long stopTime = sdf.parse(programme.getStop()).getTime();
+            CalendarUtil.addToCalendar(this, getChannel().getDisplayName() + " - " + programme.getTitle(), programme.getDesc(), calendarId, startTime, stopTime);
+            Toast.makeText(this, R.string.eventAdded, Toast.LENGTH_SHORT).show();
+        } catch (ParseException e) {
+            throw new YboTvException(e);
+        }
+    }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == R.id.menu_share) {
+        if (item.getItemId() == R.id.menu_calendar) {
+            addProgrammeToAgenda();
+        } else if (item.getItemId() == R.id.menu_share) {
             Intent intent = new Intent(Intent.ACTION_SEND);
             intent.setType("text/plain");
             intent.putExtra(Intent.EXTRA_SUBJECT, getString(R.string.shareSubject, programme.getTitle()));
             intent.putExtra(Intent.EXTRA_TEXT, getString(R.string.shareText, programme.getTitle()));
             startActivity(Intent.createChooser(intent, getString(R.string.app_name)));
         } else if (item.getItemId() == R.id.menu_alert) {
-            programme.setHasAlert((YboTvApplication) getApplication(), !programme.hasAlert((YboTvApplication) getApplication()));
-            if (programme.hasAlert((YboTvApplication) getApplication())) {
+            programme.setHasAlert(getApplication(), !programme.hasAlert(getApplication()));
+            if (programme.hasAlert(getApplication())) {
                 createNotification();
             } else {
                 cancelNotification();
