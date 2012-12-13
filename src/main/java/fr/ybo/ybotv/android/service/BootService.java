@@ -9,18 +9,16 @@ import android.content.SharedPreferences;
 import android.os.IBinder;
 import android.os.Parcelable;
 import android.preference.PreferenceManager;
-import android.util.Log;
 import fr.ybo.ybotv.android.YboTvApplication;
 import fr.ybo.ybotv.android.exception.YboTvException;
 import fr.ybo.ybotv.android.modele.Channel;
 import fr.ybo.ybotv.android.modele.Programme;
 import fr.ybo.ybotv.android.receiver.AlertReceiver;
 import fr.ybo.ybotv.android.util.PreferencesUtil;
+import fr.ybo.ybotv.android.util.YboTvLog;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.HashSet;
-import java.util.Map;
 import java.util.Set;
 
 public class BootService extends Service {
@@ -36,7 +34,7 @@ public class BootService extends Service {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getApplication());
 
         Set<String> idsInNotifs = PreferencesUtil.getStringSets(prefs, "ybo-tv.programme.alert.ids");
-        Log.d(YboTvApplication.TAG, "idsInNotids : " + idsInNotifs);
+        YboTvLog.debug("idsInNotids : " + idsInNotifs);
 
         for (String idProgramme : idsInNotifs) {
             if (prefs.getBoolean("ybo-tv.programme.alert." + idProgramme, false))  {
@@ -63,7 +61,7 @@ public class BootService extends Service {
 
     private void createNotif(Programme programme, Channel channel) {
 
-        Log.d(YboTvApplication.TAG, "Create notif for " + programme.getStart());
+        YboTvLog.debug("Create notif for " + programme.getStart());
 
         long timeToNotif;
         try {

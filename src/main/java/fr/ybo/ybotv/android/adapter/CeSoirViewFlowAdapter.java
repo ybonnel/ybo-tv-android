@@ -56,13 +56,13 @@ public class CeSoirViewFlowAdapter extends BaseAdapter implements TitleProvider 
         return position;
     }
 
-    private static class MyGetProgramme implements ListProgrammeManager.GetProgramme {
+    protected static class MyGetProgramme implements ListProgrammeManager.GetProgramme {
 
         private int position;
         private YboTvApplication application;
         private Calendar currentDate;
 
-        private MyGetProgramme(int position, YboTvApplication application, Calendar currentDate) {
+        protected MyGetProgramme(int position, YboTvApplication application, Calendar currentDate) {
             this.position = position;
             this.application = application;
             this.currentDate = currentDate;

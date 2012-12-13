@@ -10,7 +10,6 @@ import android.os.Bundle;
 import android.os.Parcelable;
 import android.text.Html;
 import android.text.method.ScrollingMovementMethod;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -31,6 +30,7 @@ import fr.ybo.ybotv.android.receiver.AlertReceiver;
 import fr.ybo.ybotv.android.util.AdMobUtil;
 import fr.ybo.ybotv.android.util.CalendarUtil;
 import fr.ybo.ybotv.android.util.GetView;
+import fr.ybo.ybotv.android.util.YboTvLog;
 import org.taptwo.android.widget.TitleFlowIndicator;
 import org.taptwo.android.widget.ViewFlow;
 
@@ -280,7 +280,7 @@ public class ProgrammeActivity extends SherlockActivity implements GetView {
         } else {
             rating.setVisibility(View.GONE);
         }
-        Log.d(YboTvApplication.TAG, "CsaRating : " + programme.getCsaRating());
+        YboTvLog.debug("CsaRating : " + programme.getCsaRating());
         if (programme.getCsaRating() != null
                 && mapOfCsaRatings.containsKey(programme.getCsaRating())) {
             csaRating.setImageResource(mapOfCsaRatings.get(programme.getCsaRating()));

@@ -5,11 +5,9 @@ import android.database.Cursor;
 import android.database.DatabaseUtils;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Handler;
-import android.util.Log;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import fr.ybo.ybotv.android.R;
-import fr.ybo.ybotv.android.YboTvApplication;
 import fr.ybo.ybotv.android.database.YboTvDatabase;
 import fr.ybo.ybotv.android.exception.YboTvErreurReseau;
 import fr.ybo.ybotv.android.modele.FavoriteChannel;
@@ -56,7 +54,7 @@ public class UpdateChannels {
             favoriteChannels.add(favoriteChannel.getChannel());
         }
         chrono.stop();
-        Log.d(YboTvApplication.TAG, "Chaines favorites : " + favoriteChannels.toString());
+        YboTvLog.debug("Chaines favorites : " + favoriteChannels.toString());
         return favoriteChannels;
     }
 
@@ -72,7 +70,7 @@ public class UpdateChannels {
             channelsInDb.add(cursor.getString(channelCol));
         }
         chrono.stop();
-        Log.d(YboTvApplication.TAG, "Chaines en base : " + channelsInDb.toString());
+        YboTvLog.debug("Chaines en base : " + channelsInDb.toString());
         return channelsInDb;
     }
 
@@ -84,8 +82,8 @@ public class UpdateChannels {
                 channelsToAdd.add(favoriteId);
             }
         }
-        Log.d(YboTvApplication.TAG, "Nombre de chaines a ajouter : " + channelsToAdd.size());
-        Log.d(YboTvApplication.TAG, "Liste des chaines a ajouter : " + channelsToAdd.toString());
+        YboTvLog.debug("Nombre de chaines a ajouter : " + channelsToAdd.size());
+        YboTvLog.debug("Liste des chaines a ajouter : " + channelsToAdd.toString());
         chrono.stop();
         return channelsToAdd;
     }
@@ -98,8 +96,8 @@ public class UpdateChannels {
                 channelsToDelete.add(idInDb);
             }
         }
-        Log.d(YboTvApplication.TAG, "Nombre de chaines a supprimer : " + channelsToDelete.size());
-        Log.d(YboTvApplication.TAG, "Liste des chaines a supprimer : " + channelsToDelete.toString());
+        YboTvLog.debug("Nombre de chaines a supprimer : " + channelsToDelete.size());
+        YboTvLog.debug("Liste des chaines a supprimer : " + channelsToDelete.toString());
         chrono.stop();
         return channelsToDelete;
     }
@@ -223,7 +221,7 @@ public class UpdateChannels {
             }
             String[] channelCause = { channelToDelete };
             int nbProgrammeDeleted = database.getWritableDatabase().delete("Programme", "channel = :channel", channelCause);
-            Log.d(YboTvApplication.TAG, "Nombre de programme supprime pour la chaine " + channelToDelete + " : " + nbProgrammeDeleted);
+            YboTvLog.debug("Nombre de programme supprime pour la chaine " + channelToDelete + " : " + nbProgrammeDeleted);
             count++;
             final int progress = 100 * count / (nbActions);
             if (handler != null) {

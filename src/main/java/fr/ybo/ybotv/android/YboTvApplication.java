@@ -13,16 +13,15 @@ import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.os.Build;
 import android.preference.PreferenceManager;
-import android.util.Log;
 import fr.ybo.ybotv.android.activity.CeSoirActivity;
 import fr.ybo.ybotv.android.activity.NowActivity;
 import fr.ybo.ybotv.android.activity.ParChaineActivity;
 import fr.ybo.ybotv.android.database.YboTvDatabase;
 import fr.ybo.ybotv.android.receiver.AlarmReceiver;
+import fr.ybo.ybotv.android.util.YboTvLog;
 import org.acra.ACRA;
 import org.acra.annotation.ReportsCrashes;
 
-import java.lang.reflect.Method;
 import java.util.Calendar;
 import java.util.HashSet;
 import java.util.Set;
@@ -42,7 +41,7 @@ public class YboTvApplication extends Application {
     private YboTvDatabase database;
 
     public static boolean isEmulator() {
-        Log.d(YboTvApplication.TAG, "BuildProduct : " + Build.PRODUCT);
+        YboTvLog.debug("BuildProduct : " + Build.PRODUCT);
         return EMULATORS_PRDODUCT.contains(Build.PRODUCT);
     }
 
@@ -143,7 +142,7 @@ public class YboTvApplication extends Application {
     }
 
     public void setRecurringAlarm() {
-        Log.d(YboTvApplication.TAG, "setRecurringAlarm");
+        YboTvLog.debug("setRecurringAlarm");
         Calendar updateTime = Calendar.getInstance();
         Intent alarm = new Intent(this, AlarmReceiver.class);
         PendingIntent recurringAlarm = PendingIntent.getBroadcast(this, 0, alarm, PendingIntent.FLAG_CANCEL_CURRENT);

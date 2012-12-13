@@ -1,9 +1,6 @@
 package fr.ybo.ybotv.android.util;
 
 
-import android.util.Log;
-import fr.ybo.ybotv.android.YboTvApplication;
-
 public class Chrono {
 
     private String name;
@@ -21,7 +18,7 @@ public class Chrono {
 
     public void stop() {
         long elapsedTime = (System.nanoTime() - startTime) / 1000 / 1000;
-        Log.d(YboTvApplication.TAG, name + " : " + elapsedTime + "ms");
+        YboTvLog.debug(name + " : " + elapsedTime + "ms");
     }
 
 

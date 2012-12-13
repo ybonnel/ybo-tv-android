@@ -6,7 +6,6 @@ import android.database.Cursor;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.preference.PreferenceManager;
-import android.util.Log;
 import fr.ybo.database.annotation.Column;
 import fr.ybo.database.annotation.Entity;
 import fr.ybo.database.annotation.Indexed;
@@ -14,6 +13,7 @@ import fr.ybo.database.annotation.PrimaryKey;
 import fr.ybo.ybotv.android.YboTvApplication;
 import fr.ybo.ybotv.android.database.YboTvDatabase;
 import fr.ybo.ybotv.android.util.PreferencesUtil;
+import fr.ybo.ybotv.android.util.YboTvLog;
 
 import java.io.Serializable;
 import java.text.ParseException;
@@ -278,7 +278,7 @@ public class Programme implements Serializable, Parcelable {
             Date dureeDate = new Date(dateEnd.getTime() - dateStart.getTime());
             duree = new SimpleDateFormat("HH:mm").format(dureeDate);
         } catch (ParseException e) {
-            Log.e(YboTvApplication.TAG, e.getMessage(), e);
+            YboTvLog.error(e.getMessage(), e);
         }
         return duree;
     }
@@ -388,8 +388,8 @@ public class Programme implements Serializable, Parcelable {
 
         int nbResult = cursor.getCount();
         long elapsedTime = System.nanoTime() - startTime;
-        Log.d("YboTv", "Requete executee : " + sqlQuery.toString());
-        Log.d("YboTv", "Nombre de resultas : " + nbResult + " en " + (elapsedTime / 1000) + "µs");
+        YboTvLog.debug("Requete executee : " + sqlQuery.toString());
+        YboTvLog.debug("Nombre de resultas : " + nbResult + " en " + (elapsedTime / 1000) + "µs");
 
         List<Programme> programmes = new ArrayList<Programme>();
 

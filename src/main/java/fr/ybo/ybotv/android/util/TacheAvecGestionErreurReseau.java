@@ -29,8 +29,7 @@ public abstract class TacheAvecGestionErreurReseau extends AsyncTask<Void, Void,
         try {
             myDoBackground();
         } catch (YboTvErreurReseau exception) {
-            Log.e("YboTv", "Erreur reseau");
-            Log.e("YboTv", Log.getStackTraceString(exception));
+            YboTvLog.error("Erreur reseau", exception);
             erreurReseau = true;
         }
         return null;

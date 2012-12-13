@@ -4,15 +4,11 @@ package fr.ybo.ybotv.android.service;
 import android.app.Service;
 import android.content.Intent;
 import android.os.IBinder;
-import android.util.Log;
 import fr.ybo.ybotv.android.YboTvApplication;
 import fr.ybo.ybotv.android.database.YboTvDatabase;
 import fr.ybo.ybotv.android.exception.YboTvErreurReseau;
 import fr.ybo.ybotv.android.modele.LastUpdate;
-import fr.ybo.ybotv.android.util.TacheAvecGestionErreurReseau;
-import fr.ybo.ybotv.android.util.TimeUnit;
-import fr.ybo.ybotv.android.util.UpdateChannels;
-import fr.ybo.ybotv.android.util.UpdateProgrammes;
+import fr.ybo.ybotv.android.util.*;
 
 import java.util.Date;
 
@@ -35,7 +31,7 @@ public class UpdateService extends Service  {
 
     @SuppressWarnings("unchecked")
     private void update() {
-        Log.d(YboTvApplication.TAG, "UpdateService.update");
+        YboTvLog.debug("UpdateService.update");
         final YboTvDatabase database = ((YboTvApplication)getApplication()).getDatabase();
         LastUpdate lastUpdate = database.selectSingle(new LastUpdate());
         if (lastUpdate == null || mustUpdate(lastUpdate)) {

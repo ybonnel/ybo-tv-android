@@ -1,9 +1,9 @@
 package fr.ybo.ybotv.android.modele;
 
 import android.database.Cursor;
-import android.util.Log;
 import fr.ybo.ybotv.android.YboTvApplication;
 import fr.ybo.ybotv.android.database.YboTvDatabase;
+import fr.ybo.ybotv.android.util.YboTvLog;
 
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -73,8 +73,8 @@ public class ChannelWithProgramme {
 
         int nbResult = cursor.getCount();
         long elapsedTime = System.nanoTime() - startTime;
-        Log.d("YboTv", "Requete executee : " + sqlQuery.toString());
-        Log.d("YboTv", "Nombre de resultas : " + nbResult + " en " + (elapsedTime / 1000) + "µs");
+        YboTvLog.debug("Requete executee : " + sqlQuery.toString());
+        YboTvLog.debug("Nombre de resultas : " + nbResult + " en " + (elapsedTime / 1000) + "µs");
 
         List<ChannelWithProgramme> channels = new ArrayList<ChannelWithProgramme>();
 

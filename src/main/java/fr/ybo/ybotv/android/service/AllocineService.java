@@ -1,15 +1,12 @@
 package fr.ybo.ybotv.android.service;
 
 
-import android.util.Log;
 import com.google.gson.reflect.TypeToken;
-import fr.ybo.ybotv.android.YboTvApplication;
 import fr.ybo.ybotv.android.exception.YboTvErreurReseau;
 import fr.ybo.ybotv.android.modele.Programme;
 import fr.ybo.ybotv.android.service.allocine.modele.Movie;
 import fr.ybo.ybotv.android.service.allocine.modele.RootSearch;
-
-import java.util.List;
+import fr.ybo.ybotv.android.util.YboTvLog;
 
 public class AllocineService extends HttpService {
 
@@ -30,7 +27,7 @@ public class AllocineService extends HttpService {
 
         RootSearch result = getObjects(url, new TypeToken<RootSearch>(){});
 
-        Log.d(YboTvApplication.TAG, "Result : " + result.toString());
+        YboTvLog.debug("Result : " + result.toString());
 
         Movie currentMovie = getCurrentMovie(programme, result);
 
@@ -50,26 +47,26 @@ public class AllocineService extends HttpService {
                 }
             }
         }
-        Log.d(YboTvApplication.TAG, "Selected movie : " + currentMovie);
+        YboTvLog.debug("Selected movie : " + currentMovie);
         return currentMovie;
     }
 
     private Float getRatingOfMovie(Movie currentMovie) {
         Float movieRating = null;
         if (currentMovie != null && currentMovie.getStatistics() != null) {
-            Log.d(YboTvApplication.TAG, "PressRating : " + currentMovie.getStatistics().getPressRating());
+            YboTvLog.debug("PressRating : " + currentMovie.getStatistics().getPressRating());
             float sommeRating = currentMovie.getStatistics().getPressRating() == null ? 0.0f : currentMovie.getStatistics().getPressRating();
             int nbRating = currentMovie.getStatistics().getPressRating() == null ? 0 : 1;
-            Log.d(YboTvApplication.TAG, "SommeRating=" + sommeRating +", nbRating=" + nbRating);
+            YboTvLog.debug("SommeRating=" + sommeRating + ", nbRating=" + nbRating);
 
-            Log.d(YboTvApplication.TAG, "UserRating : " + currentMovie.getStatistics().getUserRating());
+            YboTvLog.debug("UserRating : " + currentMovie.getStatistics().getUserRating());
             sommeRating += currentMovie.getStatistics().getUserRating() == null ? 0.0f : currentMovie.getStatistics().getUserRating();
             nbRating += currentMovie.getStatistics().getUserRating() == null ? 0 : 1;
-            Log.d(YboTvApplication.TAG, "SommeRating=" + sommeRating +", nbRating=" + nbRating);
+            YboTvLog.debug("SommeRating=" + sommeRating + ", nbRating=" + nbRating);
 
             if (nbRating != 0) {
                 movieRating = sommeRating / ((float) nbRating);
-                Log.d(YboTvApplication.TAG, "MovieRating : " + movieRating);
+                YboTvLog.debug("MovieRating : " + movieRating);
             }
         }
         return movieRating;

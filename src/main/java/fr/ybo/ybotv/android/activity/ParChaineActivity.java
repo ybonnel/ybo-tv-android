@@ -8,7 +8,6 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Parcelable;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.DatePicker;
@@ -26,6 +25,7 @@ import fr.ybo.ybotv.android.modele.Channel;
 import fr.ybo.ybotv.android.modele.FavoriteChannel;
 import fr.ybo.ybotv.android.modele.Programme;
 import fr.ybo.ybotv.android.util.AdMobUtil;
+import fr.ybo.ybotv.android.util.YboTvLog;
 import org.taptwo.android.widget.TitleFlowIndicator;
 import org.taptwo.android.widget.ViewFlow;
 
@@ -139,7 +139,7 @@ public class ParChaineActivity extends MenuManager.AbstractSimpleActivity implem
 
             @Override
             protected void onPostExecute(Integer currentPosition) {
-                Log.d(YboTvApplication.TAG, "Nombre de programmes : " + programmes.size());
+                YboTvLog.debug("Nombre de programmes : " + programmes.size());
                 tabletAdapter.notifyDataSetChanged();
                 if (currentPosition < programmes.size()) {
                     programmesListView.setSelection(currentPosition);

@@ -8,13 +8,11 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Parcelable;
-import android.util.Log;
-import fr.ybo.ybotv.android.YboTvApplication;
 import fr.ybo.ybotv.android.activity.ProgrammeActivity;
 import fr.ybo.ybotv.android.exception.YboTvException;
 import fr.ybo.ybotv.android.modele.Channel;
 import fr.ybo.ybotv.android.modele.Programme;
-import fr.ybo.ybotv.android.service.UpdateService;
+import fr.ybo.ybotv.android.util.YboTvLog;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -25,7 +23,7 @@ public class AlertReceiver extends BroadcastReceiver {
 
     @Override
     public void onReceive(Context context, Intent intent) {
-        Log.d(YboTvApplication.TAG, "AlertReceiver>onReceive");
+        YboTvLog.debug("AlertReceiver>onReceive");
         Programme programme = intent.getParcelableExtra("programme");
         Channel channel = intent.getParcelableExtra("channel");
         createNotification(context, programme, channel);

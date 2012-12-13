@@ -52,7 +52,7 @@ public class CalendarUtil {
             }
 
         } else {
-            Log.e(YboTvApplication.TAG, "Erreur à l'insertion");
+            YboTvLog.error("Erreur à l'insertion");
         }
 
     }
@@ -88,12 +88,12 @@ public class CalendarUtil {
         cursor = contentResolver.query(calendarUri, projection, accessLevelCol + "=700", null, null);
 
         if (cursor != null){
-            Log.d(YboTvApplication.TAG, "Nombre de calendrier : " + cursor.getCount());
+            YboTvLog.debug( "Nombre de calendrier : " + cursor.getCount());
 
             if (cursor.moveToFirst()) {
                 while (!cursor.isAfterLast()) {
                     calendars.put(cursor.getInt(0), cursor.getString(1));
-                    Log.d(YboTvApplication.TAG, "Calendrier trouvé : " + cursor.getString(1));
+                    YboTvLog.debug( "Calendrier trouvé : " + cursor.getString(1));
                     cursor.moveToNext();
                 }
                 cursor.close();

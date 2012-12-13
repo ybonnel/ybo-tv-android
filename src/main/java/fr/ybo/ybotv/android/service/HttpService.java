@@ -9,6 +9,7 @@ import com.google.gson.reflect.TypeToken;
 import fr.ybo.ybotv.android.exception.YboTvErreurReseau;
 import fr.ybo.ybotv.android.exception.YboTvException;
 import fr.ybo.ybotv.android.util.HttpUtils;
+import fr.ybo.ybotv.android.util.YboTvLog;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
@@ -34,8 +35,7 @@ public abstract class HttpService {
             try {
                 return getObjectsWithoutRetry(url, typeToken);
             } catch (YboTvErreurReseau erreurReseau) {
-                Log.e("YboTv", "Erreur réseau (" + countRetry + ") en accédant à l'url : " + url);
-                Log.e("YboTv", Log.getStackTraceString(erreurReseau));
+                YboTvLog.error("Erreur réseau (" + countRetry + ") en accédant à l'url : " + url, erreurReseau);
             }
         }
         return getObjectsWithoutRetry(url, typeToken);
@@ -46,7 +46,7 @@ public abstract class HttpService {
 
         Reader reader = null;
         try {
-            Log.d("YboTv", "Url demandee : " + url);
+            YboTvLog.debug("Url demandee : " + url);
             HttpClient client = HttpUtils.getHttpClient();
             HttpUriRequest request = new HttpGet(url.replaceAll(" ", "%20"));
             HttpResponse reponse = client.execute(request);

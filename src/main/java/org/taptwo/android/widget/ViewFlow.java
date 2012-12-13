@@ -20,7 +20,6 @@ import android.content.res.Configuration;
 import android.content.res.TypedArray;
 import android.database.DataSetObserver;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.VelocityTracker;
 import android.view.View;
@@ -31,6 +30,7 @@ import android.widget.Adapter;
 import android.widget.AdapterView;
 import android.widget.Scroller;
 import fr.ybo.ybotv.android.R;
+import fr.ybo.ybotv.android.util.YboTvLog;
 
 import java.util.EnumSet;
 import java.util.LinkedList;
@@ -724,10 +724,10 @@ public class ViewFlow extends AdapterView<Adapter> {
 
     private void logBuffer() {
 
-        Log.d("viewflow", "Size of mLoadedViews: " + mLoadedViews.size() +
+        YboTvLog.debug("Size of mLoadedViews: " + mLoadedViews.size() +
                 ", Size of mRecycledViews: " + mRecycledViews.size() +
                 ", X: " + mScroller.getCurrX() + ", Y: " + mScroller.getCurrY());
-        Log.d("viewflow", "IndexInAdapter: " + mCurrentAdapterIndex
+        YboTvLog.debug("IndexInAdapter: " + mCurrentAdapterIndex
                 + ", IndexInBuffer: " + mCurrentBufferIndex);
     }
 }

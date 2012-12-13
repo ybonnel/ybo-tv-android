@@ -26,18 +26,15 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.res.Resources;
 import android.content.res.XmlResourceParser;
-import android.util.Log;
 import android.webkit.WebView;
 import android.widget.Toast;
 import fr.ybo.ybotv.android.R;
-import fr.ybo.ybotv.android.YboTvApplication;
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
 
 import java.io.IOException;
 
 public class ChangeLogDialog {
-    static final private String TAG = "ChangeLogDialog";
 
     static final private String TITLE_CHANGELOG = "title_changelog";
     static final private String CHANGELOG_XML = "changelog";
@@ -104,9 +101,9 @@ public class ChangeLogDialog {
                 eventType = xml.next();
             }
         } catch (XmlPullParserException e) {
-            Log.e(TAG, e.getMessage(), e);
+            YboTvLog.error(e.getMessage(), e);
         } catch (IOException e) {
-            Log.e(TAG, e.getMessage(), e);
+            YboTvLog.error(e.getMessage(), e);
         } finally {
             xml.close();
         }
