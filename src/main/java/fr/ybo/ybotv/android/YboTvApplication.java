@@ -86,7 +86,7 @@ public class YboTvApplication extends Application {
         return database;
     }
 
-    private static enum SCREEN {
+    protected static enum SCREEN {
         NOW(NowActivity.class),
         CE_SOIR(CeSoirActivity.class),
         PAR_CHAINE(ParChaineActivity.class);
