@@ -34,10 +34,12 @@ public class LoadingActivity extends SherlockActivity {
     private Handler handler = new Handler();
 
 
-    private boolean mustUpdate(LastUpdate lastUpdate) {
-        Date date = new Date();
+    protected static boolean mustUpdate(LastUpdate lastUpdate) {
+        if (lastUpdate == null) {
+            return true;
+        }
 
-        long timeSinceLastUpdate = date.getTime() - lastUpdate.getLastUpdate().getTime();
+        long timeSinceLastUpdate = new Date().getTime() - lastUpdate.getLastUpdate().getTime();
         long fiveDays = TimeUnit.DAYS.toMillis(5);
 
         return (timeSinceLastUpdate > fiveDays);
@@ -64,7 +66,7 @@ public class LoadingActivity extends SherlockActivity {
         ((TextView) findViewById(R.id.loading_version)).setText(getString(R.string.version, currentVersion));
         getSupportActionBar().setTitle(R.string.loading);
 
-        if (lastUpdate == null || mustUpdate(lastUpdate)) {
+        if (mustUpdate(lastUpdate)) {
             showDialog(R.id.dialog_loading);
         } else {
             findViewById(R.id.firstLoading).setVisibility(View.GONE);
