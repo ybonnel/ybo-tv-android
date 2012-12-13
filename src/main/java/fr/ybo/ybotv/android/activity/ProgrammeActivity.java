@@ -243,14 +243,14 @@ public class ProgrammeActivity extends SherlockActivity implements GetView {
         credits.setMovementMethod(new ScrollingMovementMethod());
     }
 
-    private static String formatterMots(String motsAFormatter) {
+    protected static String formatterMots(String motsAFormatter) {
         StringBuilder motsFormattes = new StringBuilder();
         motsFormattes.append(motsAFormatter.substring(0, 1).toUpperCase());
         motsFormattes.append(motsAFormatter.substring(1));
         return motsFormattes.toString();
     }
 
-    private final static Map<String, Integer> mapOfCsaRatings = new HashMap<String, Integer>() {{
+    protected final static Map<String, Integer> mapOfCsaRatings = new HashMap<String, Integer>() {{
         put("-18", R.drawable.moins18);
         put("-16", R.drawable.moins16);
         put("-12", R.drawable.moins12);

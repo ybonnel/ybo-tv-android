@@ -83,61 +83,6 @@ public class MenuManager implements ActionBar.OnNavigationListener {
         }
     }
 
-    public static abstract class AbstractListActivity extends SherlockListActivity implements MenuManagerInterface {
-
-        private MenuManager actionBarManager = new MenuManager(this);
-
-        public void createMenu() {
-            actionBarManager.createMenu();
-        }
-
-        @Override
-        protected void onResume() {
-            super.onResume();
-            getSupportActionBar().setSelectedNavigationItem(actionBarManager.getItemPositionForCurrentClass());
-        }
-
-        @Override
-        public boolean onCreateOptionsMenu(Menu menu) {
-            MenuInflater inflater = getSupportMenuInflater();
-            inflater.inflate(R.menu.mainmenu, menu);
-            return true;
-        }
-
-        @Override
-        public boolean onOptionsItemSelected(MenuItem item) {
-            boolean retour = actionBarManager.onOptionsItemSelected(item);
-            if (!retour) {
-                retour = super.onOptionsItemSelected(item);
-            }
-            return retour;
-        }
-
-        @Override
-        protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-            super.onActivityResult(requestCode, resultCode, data);
-            actionBarManager.onActivityResult(requestCode, resultCode, data);
-        }
-
-        @Override
-        public void onStart() {
-            super.onStart();
-            EasyTracker.getInstance().activityStart(this);
-        }
-
-        @Override
-        public void onStop() {
-            super.onStop();
-            EasyTracker.getInstance().activityStop(this);
-        }
-
-        @Override
-        public void refreshContent() {
-            startActivity(new Intent(this, getClass()));
-            finish();
-        }
-    }
-
     private final static SparseArray<Class<? extends MenuManagerInterface>> arrayOfActivity = new SparseArray<Class<? extends MenuManagerInterface>>() {{
         put(R.id.menu_now, NowActivity.class);
         put(R.id.menu_cesoir, CeSoirActivity.class);
