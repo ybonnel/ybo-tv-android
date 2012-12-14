@@ -42,11 +42,34 @@ public class UpdateChannels {
         // Suppression de programmes qui doivent l'être.
         deleteChannels(context, database, handler, messageLoading, loadingBar, channelsToDelete, nbActions);
 
-        // Récupération des programmes à insérer.
-        List<Programme> programmesToInsert = getProgrammeToInsert(context, handler, messageLoading, loadingBar, channelsToAdd, channelsToDelete, nbActions);
+        int count = channelsToDelete.size();
 
-        // Insertion des programmes.
-        insertProgrammes(database, handler, messageLoading, programmesToInsert);
+        // Récupération des programmes à insérer.
+        for (final String channelToAdd : channelsToAdd) {
+            if (handler != null) {
+                handler.post(new Runnable() {
+
+                    @Override
+                    public void run() {
+                        messageLoading.setText(context.getString(R.string.ajoutChaine, channelToAdd));
+                    }
+                });
+            }
+
+            // Insertion des programmes.
+            insertProgrammes(database, getProgrammeToInsert(channelToAdd));
+
+            count++;
+            final int progress = 100 * count / (nbActions);
+            if (handler != null) {
+                handler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        loadingBar.setProgress(progress);
+                    }
+                });
+            }
+        }
     }
 
     private static Set<String> getFavoriteChannelIds(YboTvDatabase database) {
@@ -104,17 +127,8 @@ public class UpdateChannels {
         return channelsToDelete;
     }
 
-    private static void insertProgrammes(YboTvDatabase database, Handler handler, final TextView messageLoading, List<Programme> programmesToInsert) {
+    private static void insertProgrammes(YboTvDatabase database, List<Programme> programmesToInsert) {
         Chrono chrono = new Chrono("Programme>insertion").start();
-        if (handler != null) {
-            handler.post(new Runnable() {
-
-                @Override
-                public void run() {
-                    messageLoading.setText(R.string.loadingProgrammes);
-                }
-            });
-        }
 
         try {
             SQLiteDatabase db = database.getWritableDatabase();
@@ -166,42 +180,18 @@ public class UpdateChannels {
         chrono.stop();
     }
 
-    private static List<Programme> getProgrammeToInsert(final Context context, Handler handler, final TextView messageLoading, final ProgressBar loadingBar, Set<String> channelsToAdd, Set<String> channelsToDelete, int nbActions) throws YboTvErreurReseau {
-        Chrono chrono = new Chrono("Channels>Add>Recuperation").start();
+    private static List<Programme> getProgrammeToInsert(String channelToAdd) throws YboTvErreurReseau {
+        Chrono chrono = new Chrono("Channels>Add>Recuperation>" + channelToAdd).start();
         Set<String> programeIds = new HashSet<String>();
         List<Programme> programmesToInsert = new ArrayList<Programme>();
-        int count = channelsToDelete.size();
-        for (final String channelToAdd : channelsToAdd) {
-            if (handler != null) {
-                handler.post(new Runnable() {
-
-                    @Override
-                    public void run() {
-                        messageLoading.setText(context.getString(R.string.ajoutChaine, channelToAdd));
-                    }
-                });
-            }
 
 
+        for (Programme programme : YboTvService.getInstance().getProgrammes(channelToAdd)) {
 
-            for (Programme programme : YboTvService.getInstance().getProgrammes(channelToAdd)) {
-
-                if (!programeIds.contains(programme.getId())) {
-                    programme.fillFields();
-                    programmesToInsert.add(programme);
-                    programeIds.add(programme.getId());
-                }
-            }
-
-            count++;
-            final int progress = 100 * count / (nbActions);
-            if (handler != null) {
-                handler.post(new Runnable() {
-                    @Override
-                    public void run() {
-                        loadingBar.setProgress(progress);
-                    }
-                });
+            if (!programeIds.contains(programme.getId())) {
+                programme.fillFields();
+                programmesToInsert.add(programme);
+                programeIds.add(programme.getId());
             }
         }
         chrono.stop();
@@ -221,7 +211,7 @@ public class UpdateChannels {
                     }
                 });
             }
-            String[] channelCause = { channelToDelete };
+            String[] channelCause = {channelToDelete};
             int nbProgrammeDeleted = database.getWritableDatabase().delete("Programme", "channel = :channel", channelCause);
             Log.d(YboTvApplication.TAG, "Nombre de programme supprime pour la chaine " + channelToDelete + " : " + nbProgrammeDeleted);
             count++;
