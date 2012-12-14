@@ -3,6 +3,8 @@ package fr.ybo.ybotv.android.adapter;
 
 import android.app.Activity;
 import android.content.res.Configuration;
+import android.util.Log;
+import android.view.DragEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,13 +15,14 @@ import fr.ybo.ybotv.android.YboTvApplication;
 import fr.ybo.ybotv.android.activity.ListProgrammeManager;
 import fr.ybo.ybotv.android.modele.ChannelWithProgramme;
 import org.taptwo.android.widget.TitleProvider;
+import org.taptwo.android.widget.ViewFlow;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
-public class CeSoirViewFlowAdapter extends BaseAdapter implements TitleProvider {
+public class CeSoirViewFlowAdapter extends BaseAdapter implements TitleProvider, ViewFlow.ViewSwitchListener {
 
 
     private LayoutInflater inflater;
@@ -54,6 +57,15 @@ public class CeSoirViewFlowAdapter extends BaseAdapter implements TitleProvider 
     @Override
     public long getItemId(int position) {
         return position;
+    }
+
+    @Override
+    public void onSwitched(View view, int position, View oldView) {
+        if (oldView != null) {
+            GridView oldGridView = (GridView) oldView.findViewById(R.id.grid);
+            GridView newGridView = (GridView) view.findViewById(R.id.grid);
+            newGridView.setSelection(oldGridView.getFirstVisiblePosition() + 1);
+        }
     }
 
     private static class MyGetProgramme implements ListProgrammeManager.GetProgramme {
@@ -101,6 +113,7 @@ public class CeSoirViewFlowAdapter extends BaseAdapter implements TitleProvider 
         }
 
         GridView gridView = (GridView) convertView.findViewById(R.id.grid);
+
 
         if (((YboTvApplication)context.getApplication()).isTablet()) {
             if (context.getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {

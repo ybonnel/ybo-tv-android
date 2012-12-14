@@ -93,7 +93,7 @@ public class ViewFlow extends AdapterView<Adapter> {
          * @param view     the {@link android.view.View} currently in focus.
          * @param position The position in the adapter of the {@link android.view.View} currently in focus.
          */
-        void onSwitched(View view, int position);
+        void onSwitched(View view, int position, View oldView);
 
     }
 
@@ -569,6 +569,8 @@ public class ViewFlow extends AdapterView<Adapter> {
         position = Math.max(position, 0);
         position = Math.min(position, mAdapter.getCount() - 1);
 
+        View oldView = getSelectedView();
+
         recycleViews();
 
         View currentView = makeAndAddView(position, true);
@@ -592,10 +594,10 @@ public class ViewFlow extends AdapterView<Adapter> {
         requestLayout();
         setVisibleView(mCurrentBufferIndex, false);
         if (mIndicator != null) {
-            mIndicator.onSwitched(currentView, mCurrentAdapterIndex);
+            mIndicator.onSwitched(currentView, mCurrentAdapterIndex, oldView);
         }
         if (mViewSwitchListener != null) {
-            mViewSwitchListener.onSwitched(currentView, mCurrentAdapterIndex);
+            mViewSwitchListener.onSwitched(currentView, mCurrentAdapterIndex, oldView);
         }
     }
 
@@ -622,6 +624,8 @@ public class ViewFlow extends AdapterView<Adapter> {
     private void postViewSwitched(int direction) {
         if (direction == 0)
             return;
+
+        View oldView = getSelectedView();
 
         if (direction > 0) { // to the right
             mCurrentAdapterIndex++;
@@ -664,12 +668,12 @@ public class ViewFlow extends AdapterView<Adapter> {
         setVisibleView(mCurrentBufferIndex, true);
         if (mIndicator != null) {
             mIndicator.onSwitched(mLoadedViews.get(mCurrentBufferIndex),
-                    mCurrentAdapterIndex);
+                    mCurrentAdapterIndex, oldView);
         }
         if (mViewSwitchListener != null) {
             mViewSwitchListener
                     .onSwitched(mLoadedViews.get(mCurrentBufferIndex),
-                            mCurrentAdapterIndex);
+                            mCurrentAdapterIndex, oldView);
         }
         logBuffer();
     }
