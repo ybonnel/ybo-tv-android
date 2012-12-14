@@ -32,6 +32,9 @@ public class CeSoirActivity extends MenuManager.AbstractSimpleActivity implement
         setContentView(R.layout.flow);
         createMenu();
         currentDate = Calendar.getInstance();
+        if (currentDate.get(Calendar.HOUR_OF_DAY) <= 2) {
+            currentDate.add(Calendar.DAY_OF_MONTH, -1);
+        }
 
         ViewFlow viewFlow = (ViewFlow) findViewById(R.id.viewflow);
         adapter = new CeSoirViewFlowAdapter(this, currentDate);
