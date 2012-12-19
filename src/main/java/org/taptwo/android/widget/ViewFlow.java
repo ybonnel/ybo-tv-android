@@ -32,6 +32,7 @@ import android.widget.AdapterView;
 import android.widget.Scroller;
 import fr.ybo.ybotv.android.R;
 
+import java.util.Collection;
 import java.util.EnumSet;
 import java.util.LinkedList;
 
@@ -133,6 +134,10 @@ public class ViewFlow extends AdapterView<Adapter> {
                 .get(getContext());
         mTouchSlop = configuration.getScaledTouchSlop();
         mMaximumVelocity = configuration.getScaledMaximumFlingVelocity();
+    }
+
+    public Collection<View> getLoadedViews() {
+        return mLoadedViews;
     }
 
     public void onConfigurationChanged(Configuration newConfig) {

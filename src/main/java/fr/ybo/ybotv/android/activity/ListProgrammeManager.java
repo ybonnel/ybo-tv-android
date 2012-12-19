@@ -37,9 +37,9 @@ public class ListProgrammeManager {
         this.adapter = new ProgrammeAdapter(context, channels);
         this.context = context;
         if (listView instanceof ListView) {
-            ((ListView)listView).setAdapter(adapter);
+            ((ListView) listView).setAdapter(adapter);
         } else if (listView instanceof GridView) {
-            ((GridView)listView).setAdapter(adapter);
+            ((GridView) listView).setAdapter(adapter);
         } else {
             listView.setAdapter(adapter);
         }
@@ -49,7 +49,7 @@ public class ListProgrammeManager {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Programme programme = channels.get(position).getProgramme();
                 Intent intent = new Intent(ListProgrammeManager.this.context, ProgrammeActivity.class);
-                intent.putExtra("programme", (Parcelable)programme);
+                intent.putExtra("programme", (Parcelable) programme);
                 ListProgrammeManager.this.context.startActivity(intent);
             }
         });

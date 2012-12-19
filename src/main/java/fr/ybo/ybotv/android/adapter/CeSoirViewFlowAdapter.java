@@ -3,9 +3,12 @@ package fr.ybo.ybotv.android.adapter;
 
 import android.app.Activity;
 import android.content.res.Configuration;
+import android.graphics.Rect;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AbsListView;
 import android.widget.BaseAdapter;
 import android.widget.GridView;
 import fr.ybo.ybotv.android.R;
@@ -15,9 +18,7 @@ import fr.ybo.ybotv.android.modele.ChannelWithProgramme;
 import org.taptwo.android.widget.TitleProvider;
 
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 public class CeSoirViewFlowAdapter extends BaseAdapter implements TitleProvider {
 
@@ -29,11 +30,13 @@ public class CeSoirViewFlowAdapter extends BaseAdapter implements TitleProvider 
 
     private Calendar currentDate;
 
+    private AbsListView.OnScrollListener onScrollListener;
 
-    public CeSoirViewFlowAdapter(Activity context, Calendar currentDate) {
+    public CeSoirViewFlowAdapter(Activity context, Calendar currentDate, AbsListView.OnScrollListener onScrollListener) {
         this.inflater = LayoutInflater.from(context);
         this.context = context;
         this.currentDate = currentDate;
+        this.onScrollListener = onScrollListener;
     }
 
     public void changeCurrentDate(Calendar calendar) {
@@ -101,8 +104,10 @@ public class CeSoirViewFlowAdapter extends BaseAdapter implements TitleProvider 
         }
 
         GridView gridView = (GridView) convertView.findViewById(R.id.grid);
+        gridView.setOnScrollListener(onScrollListener);
+        gridView.setTag(position);
 
-        if (((YboTvApplication)context.getApplication()).isTablet()) {
+        if (((YboTvApplication) context.getApplication()).isTablet()) {
             if (context.getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
                 gridView.setNumColumns(3);
             } else {
