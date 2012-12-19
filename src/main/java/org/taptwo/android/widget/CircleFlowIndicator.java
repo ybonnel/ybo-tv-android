@@ -184,7 +184,7 @@ public class CircleFlowIndicator extends View implements FlowIndicator,
       * .view.View, int)
       */
     @Override
-    public void onSwitched(View view, int position, View oldView) {
+    public void onSwitched(View view, int position) {
     }
 
     /*

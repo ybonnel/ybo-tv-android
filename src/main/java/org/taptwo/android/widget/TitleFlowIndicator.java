@@ -337,7 +337,7 @@ public class TitleFlowIndicator extends TextView implements FlowIndicator {
       * .view.View, int)
       */
     @Override
-    public void onSwitched(View view, int position, View oldView) {
+    public void onSwitched(View view, int position) {
         currentPosition = position;
         invalidate();
     }

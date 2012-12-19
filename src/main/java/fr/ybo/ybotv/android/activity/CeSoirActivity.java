@@ -39,7 +39,6 @@ public class CeSoirActivity extends MenuManager.AbstractSimpleActivity implement
         ViewFlow viewFlow = (ViewFlow) findViewById(R.id.viewflow);
         adapter = new CeSoirViewFlowAdapter(this, currentDate);
         viewFlow.setAdapter(adapter);
-        viewFlow.setOnViewSwitchListener(adapter);
         TitleFlowIndicator indicator = (TitleFlowIndicator) findViewById(R.id.viewflowindic);
         indicator.setTitleProvider(adapter);
         viewFlow.setFlowIndicator(indicator);
