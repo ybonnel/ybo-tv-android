@@ -3,6 +3,7 @@ package fr.ybo.ybotv.android.activity;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.graphics.Rect;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -102,15 +103,24 @@ public class CeSoirActivity extends MenuManager.AbstractSimpleActivity implement
             if (view.getChildAt(0) != null) {
                 Rect r = new Rect();
                 view.getChildAt(0).getLocalVisibleRect(r);
-                Log.d(YboTvApplication.TAG, "VisibleRect : " + r.toString());
                 for (GridView otherGridView : getAllLoadedGridViews()) {
                     if (otherGridView.getTag() != view.getTag()) {
-                        otherGridView.smoothScrollToPositionFromTop(view.getFirstVisiblePosition(), -r.top);
+                        scrollToPosition(otherGridView, view.getFirstVisiblePosition(), -r.top);
                     }
                 }
             }
         }
 
+    }
+
+    private void scrollToPosition(GridView gridView, int position, int offset) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
+            gridView.smoothScrollToPositionFromTop(position, offset);
+        } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.FROYO) {
+            gridView.smoothScrollToPosition(position);
+        } else {
+            gridView.setSelection(position);
+        }
     }
 
     private Collection<GridView> currentGridViews = null;
