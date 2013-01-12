@@ -6,7 +6,6 @@ import fr.ybo.database.annotation.Column;
 import fr.ybo.database.annotation.Entity;
 import fr.ybo.database.annotation.PrimaryKey;
 import fr.ybo.ybotv.android.R;
-import fr.ybo.ybotv.android.service.YboTvService;
 
 import java.io.Serializable;
 
@@ -20,6 +19,8 @@ public class Channel implements Serializable, Comparable<Channel>, Parcelable {
     private String displayName;
     @Column
     private String icon;
+    @Column(type = Column.TypeColumn.INTEGER)
+    private Integer numero;
 
     private transient boolean favorite;
 
@@ -102,9 +103,7 @@ public class Channel implements Serializable, Comparable<Channel>, Parcelable {
 
     @Override
     public int compareTo(Channel other) {
-        int id1 = Integer.parseInt(getId());
-        int id2 = Integer.parseInt(other.getId());
-        return (id1 == id2) ? 0 : (id1 < id2) ? -1 : 1;
+        return (numero.intValue() == other.numero) ? 0 : (numero < other.numero) ? -1 : 1;
     }
 
     @Override
@@ -117,6 +116,7 @@ public class Channel implements Serializable, Comparable<Channel>, Parcelable {
         parcel.writeString(id);
         parcel.writeString(displayName);
         parcel.writeString(icon);
+        parcel.writeInt(numero);
     }
 
     public Channel() {
@@ -126,6 +126,7 @@ public class Channel implements Serializable, Comparable<Channel>, Parcelable {
         id = in.readString();
         displayName = in.readString();
         icon = in.readString();
+        numero = in.readInt();
     }
 
     public static final Creator<Channel> CREATOR = new Creator<Channel>() {
@@ -139,4 +140,12 @@ public class Channel implements Serializable, Comparable<Channel>, Parcelable {
             return new Channel[size];
         }
     };
+
+    public Integer getNumero() {
+        return numero;
+    }
+
+    public void setNumero(Integer numero) {
+        this.numero = numero;
+    }
 }

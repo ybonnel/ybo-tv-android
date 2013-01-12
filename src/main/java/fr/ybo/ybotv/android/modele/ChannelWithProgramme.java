@@ -42,6 +42,7 @@ public class ChannelWithProgramme {
         sqlQuery.append("SELECT Channel.id as channelId, ");
         sqlQuery.append("Channel.displayName as channelDisplayName, ");
         sqlQuery.append("Channel.icon as channelIcon, ");
+        sqlQuery.append("Channel.numero as channelNumero, ");
         sqlQuery.append("Programme.id as programmeId, ");
         sqlQuery.append("Programme.start as programmeStart, ");
         sqlQuery.append("Programme.stop as programmeStop, ");
@@ -81,6 +82,7 @@ public class ChannelWithProgramme {
         int channelIdCol = cursor.getColumnIndex("channelId");
         int channelDisplayNameCol = cursor.getColumnIndex("channelDisplayName");
         int channelIconCol = cursor.getColumnIndex("channelIcon");
+        int channelNumeroCol = cursor.getColumnIndex("channelNumero");
         int programmeIdCol = cursor.getColumnIndex("programmeId");
         int programmeStartCol = cursor.getColumnIndex("programmeStart");
         int programmeStopCol = cursor.getColumnIndex("programmeStop");
@@ -103,6 +105,7 @@ public class ChannelWithProgramme {
             oneChannel.setId(cursor.getString(channelIdCol));
             oneChannel.setDisplayName(cursor.getString(channelDisplayNameCol));
             oneChannel.setIcon(cursor.getString(channelIconCol));
+            oneChannel.setNumero(cursor.getInt(channelNumeroCol));
             oneChannelWithProgramme.setChannel(oneChannel);
 
             Programme oneProgramme = new Programme();

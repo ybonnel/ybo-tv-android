@@ -24,7 +24,7 @@ public class YboTvDatabase extends DataBaseHelper {
     }};
 
     private static final String DB_NAME = "YBO_TV";
-    private static final int DB_VERSION = 4;
+    private static final int DB_VERSION = 5;
 
 
     public YboTvDatabase(Context context) throws DataBaseException {
@@ -47,6 +47,15 @@ public class YboTvDatabase extends DataBaseHelper {
             }
         });
         put(4, new UpgradeDatabase() {
+            @Override
+            public void upgrade(SQLiteDatabase sqLiteDatabase) {
+                deleteAll(LastUpdate.class);
+                deleteAll(FavoriteChannel.class);
+                getBase().getTable(Channel.class).dropTable(sqLiteDatabase);
+                getBase().getTable(Channel.class).createTable(sqLiteDatabase);
+            }
+        });
+        put(5, new UpgradeDatabase() {
             @Override
             public void upgrade(SQLiteDatabase sqLiteDatabase) {
                 deleteAll(LastUpdate.class);

@@ -49,6 +49,7 @@ public abstract class HttpService {
             Log.d("YboTv", "Url demandee : " + url);
             HttpClient client = HttpUtils.getHttpClient();
             HttpUriRequest request = new HttpGet(url.replaceAll(" ", "%20"));
+            request.addHeader("Accept", "application/json");
             HttpResponse reponse = client.execute(request);
             reader = new InputStreamReader(reponse.getEntity().getContent());
             GsonBuilder gsonBuilder = new GsonBuilder();

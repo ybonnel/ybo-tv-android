@@ -6,11 +6,13 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Parcelable;
+import android.util.Log;
 import android.view.View;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.ListView;
+import fr.ybo.ybotv.android.YboTvApplication;
 import fr.ybo.ybotv.android.adapter.ProgrammeAdapter;
 import fr.ybo.ybotv.android.modele.ChannelWithProgramme;
 import fr.ybo.ybotv.android.modele.Programme;
@@ -72,14 +74,14 @@ public class ListProgrammeManager {
                 Collections.sort(newChannels, new Comparator<ChannelWithProgramme>() {
                     @Override
                     public int compare(ChannelWithProgramme channelWithProgramme, ChannelWithProgramme channelWithProgramme1) {
-                        int id1 = Integer.parseInt(channelWithProgramme.getChannel().getId());
-                        int id2 = Integer.parseInt(channelWithProgramme1.getChannel().getId());
-                        if (id1 == id2) {
+                        String id1 = channelWithProgramme.getChannel().getId();
+                        String id2 = channelWithProgramme1.getChannel().getId();
+                        if (id1.equals(id2)) {
                             String start1 = channelWithProgramme.getProgramme().getStart();
                             String start2 = channelWithProgramme1.getProgramme().getStart();
                             return start1.compareTo(start2);
                         }
-                        return (id1 < id2) ? -1 : 1;
+                        return (channelWithProgramme.getChannel().getNumero() < channelWithProgramme1.getChannel().getNumero()) ? -1 : 1;
                     }
                 });
                 chrono.stop();

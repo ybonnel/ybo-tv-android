@@ -26,28 +26,34 @@ public class UpdateProgrammes extends TacheAvecGestionErreurReseau {
     private YboTvDatabase database;
 
     private final static Set<String> defaultFavoriteChannels = new HashSet<String>() {{
-        add("1");
-        add("2");
-        add("3");
-        add("4");
-        add("5");
-        add("6");
-        add("7");
-        add("8");
-        add("9");
-        add("10");
-        add("11");
-        add("12");
-        add("13");
-        add("14");
-        add("15");
-        add("16");
-        add("17");
-        add("18");
-        add("119");
-        add("199");
-        add("186");
-        add("227");
+        add("TF11");
+        add("FRA2");
+        add("FRA3");
+        add("CAN2");
+        add("FRA5");
+        add("M61");
+        add("ART1");
+        add("DIR1");
+        add("W91");
+        add("TMC1");
+        add("NT11");
+        add("NRJ1");
+        add("LAC1");
+        add("FRA4");
+        add("BFM1");
+        add("ITL1");
+        add("EUR2");
+        add("GUL1");
+        add("FRA1");
+        add("HD1");
+        add("LEQ1");
+        add("6TER");
+        add("NU23");
+        add("RMC2");
+        add("CHE1");
+        add("PAR1");
+        add("TVA1");
+        add("RTL2");
     }};
 
     public UpdateProgrammes(Context context, Handler handler, final ProgressBar loadingBar, final TextView messageLoading, YboTvDatabase database) {
