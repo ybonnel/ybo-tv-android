@@ -13,7 +13,7 @@ public class YboTvService extends HttpService {
     private static final YboTvService instance = new YboTvService();
 
     //public static final String SERVEUR = "http://192.168.1.85:8080/ybo-tv-server/";
-    public static final String SERVEUR = "http://ybo-tv.ybonnel.fr/";
+    public static final String SERVEUR = "http://ybo-tv-v2.ybonnel.fr/";
 
     private static final String CHANNEL_SERVICE_URL = "data/channel/";
 
