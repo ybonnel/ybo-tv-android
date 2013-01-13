@@ -12,4 +12,9 @@
           android:showAsAction="never"
           android:icon="@drawable/ic_menu_filter"/>
 
+    <item android:id="@+id/menu_export_channels"
+          android:title="@string/titre_export"
+          android:showAsAction="never"
+          android:icon="@android:drawable/ic_menu_save"/>
+
 </menu>

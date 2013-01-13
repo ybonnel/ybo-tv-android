@@ -10,6 +10,13 @@ public class FavoriteChannel {
     @PrimaryKey
     private String channel;
 
+    public FavoriteChannel() {
+    }
+
+    public FavoriteChannel(String channel) {
+        this.channel = channel;
+    }
+
     public String getChannel() {
         return channel;
     }

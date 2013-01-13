@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:orientation="vertical"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        >
+
+    <Button android:id="@+id/import_favorite"
+            android:layout_height="wrap_content"
+            android:layout_width="fill_parent"
+            android:layout_marginLeft="30dip"
+            android:layout_marginRight="30dip"
+            android:paddingTop="20dip"
+            android:paddingBottom="20dip"
+            android:text="@string/import_channel"/>
+    <Button android:id="@+id/export_favorite"
+            android:layout_height="wrap_content"
+            android:layout_width="fill_parent"
+            android:layout_marginTop="15dip"
+            android:layout_marginLeft="30dip"
+            android:layout_marginRight="30dip"
+            android:layout_marginBottom="15dip"
+            android:paddingTop="20dip"
+            android:paddingBottom="20dip"
+            android:text="@string/export_channel"/>
+
+    <TextView
+            android:id="@+id/export_message"
+            android:layout_height="wrap_content"
+            android:layout_width="fill_parent"
+            android:layout_marginLeft="30dip"
+            android:layout_marginRight="30dip"/>
+
+
+</LinearLayout>
+

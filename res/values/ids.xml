@@ -26,4 +26,6 @@
 
     <item type="id" name="requestCode_filterChannels"/>
     <item type="id" name="requestCode_updateChannels"/>
+
+    <item type="id" name="requestCode_exportChannels"/>
 </resources>

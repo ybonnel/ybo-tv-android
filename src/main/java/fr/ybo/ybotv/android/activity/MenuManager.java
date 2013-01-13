@@ -183,12 +183,15 @@ public class MenuManager implements ActionBar.OnNavigationListener {
         } else if (item.getItemId() == R.id.menu_filter_channels) {
             activity.startActivityForResult(new Intent(activity, FilterChannelsActivity.class), R.id.requestCode_filterChannels);
             return true;
+        } else if (item.getItemId() == R.id.menu_export_channels) {
+            activity.startActivityForResult(new Intent(activity, ExportChannelsActivity.class), R.id.requestCode_exportChannels);
+            return true;
         }
         return false;
     }
 
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == R.id.requestCode_filterChannels) {
+        if (requestCode == R.id.requestCode_filterChannels || requestCode == R.id.requestCode_exportChannels) {
             activity.startActivityForResult(new Intent(activity, UpdateChannelsActivity.class), R.id.requestCode_updateChannels);
         }
         if (requestCode == R.id.requestCode_updateChannels) {

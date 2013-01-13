@@ -66,5 +66,17 @@
     <string name="chooseCalendar">Choisissez le calendrier.</string>
     <string name="eventAdded">Evénement ajouté</string>
     <string name="noCalendarError">Aucun calendrier trouvé.</string>
+
+    <string name="titre_export">Exporter ou importer vos favoris</string>
+    <string name="export_channel">Export</string>
+    <string name="import_channel">Import</string>
+
+    <string name="exportErreurSd">Pas de SDCard détectée, impossible d\'exporter les données</string>
+    <string name="exportResult">Les chaines favorites ont été exportées dans le fichier "%1$s"</string>
+    <string name="importErreurSd">Pas de SDCard détectée, impossible d\'importer les données</string>
+    <string name="importErreurFichierNonPresent">Le fichier "%1$s" n\'existe pas</string>
+    <string name="importErreurGenerique">Un erreur est survenue pendant l\'import des favoris : %1$s</string>
+    <string name="importResult">Les favoris ont été importés</string>
+    <string name="noChannelsToImport">Aucune chaine à importer</string>
 </resources>
 
