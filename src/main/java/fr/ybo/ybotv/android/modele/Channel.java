@@ -103,7 +103,7 @@ public class Channel implements Serializable, Comparable<Channel>, Parcelable {
 
     @Override
     public int compareTo(Channel other) {
-        return (numero.intValue() == other.numero) ? 0 : (numero < other.numero) ? -1 : 1;
+        return numero.compareTo(other.numero);
     }
 
     @Override

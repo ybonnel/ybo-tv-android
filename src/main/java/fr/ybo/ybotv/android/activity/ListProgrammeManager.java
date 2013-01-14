@@ -74,14 +74,14 @@ public class ListProgrammeManager {
                 Collections.sort(newChannels, new Comparator<ChannelWithProgramme>() {
                     @Override
                     public int compare(ChannelWithProgramme channelWithProgramme, ChannelWithProgramme channelWithProgramme1) {
-                        String id1 = channelWithProgramme.getChannel().getId();
-                        String id2 = channelWithProgramme1.getChannel().getId();
-                        if (id1.equals(id2)) {
+                        Integer numero1 = channelWithProgramme.getChannel().getNumero();
+                        Integer numero2 = channelWithProgramme1.getChannel().getNumero();
+                        if (numero1.equals(numero2)) {
                             String start1 = channelWithProgramme.getProgramme().getStart();
                             String start2 = channelWithProgramme1.getProgramme().getStart();
                             return start1.compareTo(start2);
                         }
-                        return (channelWithProgramme.getChannel().getNumero() < channelWithProgramme1.getChannel().getNumero()) ? -1 : 1;
+                        return numero1.compareTo(numero2);
                     }
                 });
                 chrono.stop();
