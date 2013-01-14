@@ -4,6 +4,7 @@ package fr.ybo.ybotv.android.service;
 import android.util.Log;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.JsonIOException;
 import com.google.gson.JsonSyntaxException;
 import com.google.gson.reflect.TypeToken;
 import fr.ybo.ybotv.android.exception.YboTvErreurReseau;
@@ -64,6 +65,8 @@ public abstract class HttpService {
         } catch (IOException e) {
             throw new YboTvErreurReseau(e);
         } catch (JsonSyntaxException e) {
+            throw new YboTvErreurReseau(e);
+        } catch (JsonIOException e) {
             throw new YboTvErreurReseau(e);
         } finally {
             if (reader != null) {
