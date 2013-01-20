@@ -24,7 +24,7 @@ public class YboTvDatabase extends DataBaseHelper {
     }};
 
     private static final String DB_NAME = "YBO_TV";
-    private static final int DB_VERSION = 5;
+    private static final int DB_VERSION = 6;
 
 
     public YboTvDatabase(Context context) throws DataBaseException {
