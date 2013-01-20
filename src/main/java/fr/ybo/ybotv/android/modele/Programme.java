@@ -18,7 +18,12 @@ import fr.ybo.ybotv.android.util.PreferencesUtil;
 import java.io.Serializable;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 @Entity
 public class Programme implements Serializable, Parcelable {
@@ -275,8 +280,20 @@ public class Programme implements Serializable, Parcelable {
         try {
             Date dateStart = sdf.parse(start);
             Date dateEnd = sdf.parse(stop);
-            Date dureeDate = new Date(dateEnd.getTime() - dateStart.getTime());
-            duree = new SimpleDateFormat("HH:mm").format(dureeDate);
+            long timeInMs = dateEnd.getTime() - dateStart.getTime();
+            long timeInH = timeInMs / (1000*3600);
+            long timeInMin = (timeInMs / (1000*60)) - (timeInH * 60);
+            StringBuilder builder = new StringBuilder();
+            if (timeInH < 10) {
+                builder.append('0');
+            }
+            builder.append(timeInH);
+            builder.append(':');
+            if (timeInMin < 10) {
+                builder.append('0');
+            }
+            builder.append(timeInMin);
+            duree = builder.toString();
         } catch (ParseException e) {
             Log.e(YboTvApplication.TAG, e.getMessage(), e);
         }
