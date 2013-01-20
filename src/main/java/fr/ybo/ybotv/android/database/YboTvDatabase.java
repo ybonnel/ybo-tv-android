@@ -16,7 +16,7 @@ import java.util.Map;
 
 public class YboTvDatabase extends DataBaseHelper {
 
-    private static final List<Class<?>> databaseClasses = new ArrayList<Class<?>>(){{
+    private static final List<Class<?>> databaseClasses = new ArrayList<Class<?>>() {{
         add(Channel.class);
         add(Programme.class);
         add(LastUpdate.class);
@@ -31,7 +31,7 @@ public class YboTvDatabase extends DataBaseHelper {
         super(context, databaseClasses, DB_NAME, DB_VERSION);
     }
 
-    private final Map<Integer, UpgradeDatabase> mapUpgrades = new HashMap<Integer, UpgradeDatabase>(){{
+    private final Map<Integer, UpgradeDatabase> mapUpgrades = new HashMap<Integer, UpgradeDatabase>() {{
         put(2, new UpgradeDatabase() {
             @Override
             public void upgrade(SQLiteDatabase sqLiteDatabase) {
@@ -60,6 +60,17 @@ public class YboTvDatabase extends DataBaseHelper {
             public void upgrade(SQLiteDatabase sqLiteDatabase) {
                 deleteAll(LastUpdate.class);
                 deleteAll(FavoriteChannel.class);
+            }
+        });
+        put(6, new UpgradeDatabase() {
+            @Override
+            public void upgrade(SQLiteDatabase sqLiteDatabase) {
+                Channel syfy = new Channel();
+                syfy.setId("SCI1");
+                syfy.setDisplayName("SYFY UNIVERSAL");
+                syfy.setNumero(999);
+                syfy.setIcon("syfy.png");
+                getBase().insert(sqLiteDatabase, syfy);
             }
         });
 
