@@ -5,7 +5,7 @@
 
     <groupId>fr.ybo</groupId>
     <artifactId>ybo-tv-android</artifactId>
-    <version>1.6.5-SNAPSHOT</version>
+    <version>1.6.5</version>
     <packaging>apk</packaging>
     <name>ybo-tv-android - Application</name>
 
