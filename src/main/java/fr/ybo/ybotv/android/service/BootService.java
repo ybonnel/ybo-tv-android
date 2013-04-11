@@ -41,8 +41,10 @@ public class BootService extends Service {
         for (String idProgramme : idsInNotifs) {
             if (prefs.getBoolean("ybo-tv.programme.alert." + idProgramme, false))  {
                 Programme programme = getProgrammeById(idProgramme);
-                Channel channel = getChannelById(programme.getChannel());
-                createNotif(programme, channel);
+                if (programme != null) {
+                    Channel channel = getChannelById(programme.getChannel());
+                    createNotif(programme, channel);
+                }
             }
         }
         stopSelf();
