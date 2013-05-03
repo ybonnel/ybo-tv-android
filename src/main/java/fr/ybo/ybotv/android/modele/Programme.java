@@ -18,12 +18,7 @@ import fr.ybo.ybotv.android.util.PreferencesUtil;
 import java.io.Serializable;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 @Entity
 public class Programme implements Serializable, Parcelable {
@@ -397,6 +392,32 @@ public class Programme implements Serializable, Parcelable {
         List<String> selectionArgs = new ArrayList<String>(3);
 
         selectionArgs.add(channel.getId());
+
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMddHHmmss");
+        Date currentDateDebut;
+        Date currentDateFin;
+        try {
+            currentDateDebut = dateFormat.parse(dateDebut);
+            currentDateFin = dateFormat.parse(dateFin);
+        } catch (ParseException e) {
+            currentDateDebut = new Date();
+            currentDateFin = new Date();
+        }
+
+        TimeZone currentTimeZone = TimeZone.getDefault();
+        TimeZone frenchTimeZone = TimeZone.getTimeZone("Europe/Paris");
+
+        int diffToApplyBetweenTZForDateDebut = currentTimeZone.getOffset(currentDateDebut.getTime()) - frenchTimeZone.getOffset(currentDateDebut.getTime());
+        int diffToApplyBetweenTZForDateFin = currentTimeZone.getOffset(currentDateFin.getTime()) - frenchTimeZone.getOffset(currentDateFin.getTime());
+        if (diffToApplyBetweenTZForDateDebut != 0) {
+            currentDateDebut.setTime(currentDateDebut.getTime() + diffToApplyBetweenTZForDateDebut);
+            dateDebut = dateFormat.format(currentDateDebut);
+        }
+        if (diffToApplyBetweenTZForDateFin != 0) {
+            currentDateFin.setTime(currentDateFin.getTime() + diffToApplyBetweenTZForDateFin);
+            dateFin = dateFormat.format(currentDateFin);
+        }
+
         selectionArgs.add(dateDebut);
         selectionArgs.add(dateFin);
 
@@ -431,6 +452,14 @@ public class Programme implements Serializable, Parcelable {
             oneProgramme.setId(cursor.getString(programmeIdCol));
             oneProgramme.setStart(cursor.getString(programmeStartCol));
             oneProgramme.setStop(cursor.getString(programmeStopCol));
+            if (diffToApplyBetweenTZForDateDebut != 0) {
+                try {
+                    oneProgramme.setStart(dateFormat.format(new Date(dateFormat.parse(oneProgramme.getStart()).getTime() - diffToApplyBetweenTZForDateDebut)));
+                    oneProgramme.setStop(dateFormat.format(new Date(dateFormat.parse(oneProgramme.getStop()).getTime() - diffToApplyBetweenTZForDateDebut)));
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+            }
             oneProgramme.setIcon(cursor.getString(programmeIconCol));
             oneProgramme.setTitle(cursor.getString(programmeTitleCol));
             oneProgramme.setDesc(cursor.getString(programmeDescCol));

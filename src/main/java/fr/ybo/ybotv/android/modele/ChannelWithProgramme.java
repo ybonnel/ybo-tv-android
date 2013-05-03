@@ -5,6 +5,7 @@ import android.util.Log;
 import fr.ybo.ybotv.android.YboTvApplication;
 import fr.ybo.ybotv.android.database.YboTvDatabase;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
@@ -65,6 +66,26 @@ public class ChannelWithProgramme {
         sqlQuery.append("AND Programme.start <= :currentDate ");
         sqlQuery.append("AND Programme.stop >= :currentDate ");
 
+
+
+        TimeZone currentTimeZone = TimeZone.getDefault();
+        TimeZone frenchTimeZone = TimeZone.getTimeZone("Europe/Paris");
+
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMddHHmmss");
+        Date currentDate;
+        try {
+            currentDate = dateFormat.parse(date);
+        } catch (ParseException e) {
+            currentDate = new Date();
+        }
+
+        int diffToApplyBetweenTZ = currentTimeZone.getOffset(currentDate.getTime()) - frenchTimeZone.getOffset(currentDate.getTime());
+        if (diffToApplyBetweenTZ != 0) {
+            currentDate.setTime(currentDate.getTime() + diffToApplyBetweenTZ);
+            date = dateFormat.format(currentDate);
+        }
+
+
         List<String> selectionArgs = new ArrayList<String>(1);
 
         selectionArgs.add(date);
@@ -112,6 +133,14 @@ public class ChannelWithProgramme {
             oneProgramme.setId(cursor.getString(programmeIdCol));
             oneProgramme.setStart(cursor.getString(programmeStartCol));
             oneProgramme.setStop(cursor.getString(programmeStopCol));
+            if (diffToApplyBetweenTZ != 0) {
+                try {
+                    oneProgramme.setStart(dateFormat.format(new Date(dateFormat.parse(oneProgramme.getStart()).getTime() - diffToApplyBetweenTZ)));
+                    oneProgramme.setStop(dateFormat.format(new Date(dateFormat.parse(oneProgramme.getStop()).getTime() - diffToApplyBetweenTZ)));
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+            }
             oneProgramme.setIcon(cursor.getString(programmeIconCol));
             oneProgramme.setTitle(cursor.getString(programmeTitleCol));
             oneProgramme.setDesc(cursor.getString(programmeDescCol));
