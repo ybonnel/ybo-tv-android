@@ -8,6 +8,7 @@ import com.omertron.themoviedbapi.model.MovieDb;
 import fr.ybo.ybotv.android.YboTvApplication;
 import fr.ybo.ybotv.android.exception.YboTvErreurReseau;
 import fr.ybo.ybotv.android.modele.Programme;
+import fr.ybo.ybotv.android.util.AsciiUtils;
 
 import java.util.List;
 
@@ -20,7 +21,7 @@ public class MovieDbService {
     }
 
     public MovieDb getMovie(Programme programme, TheMovieDbApi api) throws MovieDbException {
-        List<MovieDb> movies = api.searchMovie(programme.getTitle(), -1, null, true, -1);
+        List<MovieDb> movies = api.searchMovie(AsciiUtils.convertNonAscii(programme.getTitle()), -1, null, true, -1);
         return getCurrentMovie(programme, movies);
     }
 

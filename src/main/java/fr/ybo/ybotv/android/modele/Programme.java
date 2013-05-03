@@ -13,6 +13,9 @@ import fr.ybo.database.annotation.Indexed;
 import fr.ybo.database.annotation.PrimaryKey;
 import fr.ybo.ybotv.android.YboTvApplication;
 import fr.ybo.ybotv.android.database.YboTvDatabase;
+import fr.ybo.ybotv.android.exception.YboTvErreurReseau;
+import fr.ybo.ybotv.android.service.MovieDbService;
+import fr.ybo.ybotv.android.service.TvDbService;
 import fr.ybo.ybotv.android.util.PreferencesUtil;
 
 import java.io.Serializable;
@@ -269,6 +272,21 @@ public class Programme implements Serializable, Parcelable {
                 && getCategories().get(0).equalsIgnoreCase("film");
     }
 
+    public boolean isTvShow() {
+        return !getCategories().isEmpty()
+                && getCategories().get(0).equalsIgnoreCase("série");
+    }
+
+    public Float getRating() throws YboTvErreurReseau {
+        if (isMovie()) {
+            return MovieDbService.getInstance().getMovieRating(this);
+        } else if (isTvShow()) {
+            return TvDbService.getInstance().getTvShowRating(this);
+        } else {
+            return null;
+        }
+    }
+
     public String getDuree() {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss");
         String duree = null;
@@ -335,6 +353,7 @@ public class Programme implements Serializable, Parcelable {
                 ", stop='" + stop + '\'' +
                 ", channel='" + channel + '\'' +
                 ", title='" + title + '\'' +
+                ", date='" + date + '\'' +
                 '}';
     }
 

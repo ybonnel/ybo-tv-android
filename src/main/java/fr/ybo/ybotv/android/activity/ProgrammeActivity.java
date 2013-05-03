@@ -320,7 +320,7 @@ public class ProgrammeActivity extends SherlockActivity implements GetView {
         } else {
             icon.setVisibility(View.GONE);
         }
-        if (programme.isMovie()) {
+        if (programme.isMovie() || programme.isTvShow()) {
             RatingLoader ratingLoader = new RatingLoader(context.getApplicationContext());
             ratingLoader.DisplayImage(programme, rating);
             rating.setVisibility(View.VISIBLE);

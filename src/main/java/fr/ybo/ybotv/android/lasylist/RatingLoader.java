@@ -54,7 +54,7 @@ public class RatingLoader {
     private Integer getResource(Programme programme) {
         //from web
         try {
-            Float result = MovieDbService.getInstance().getMovieRating(programme);
+            Float result = programme.getRating();
             if (result != null) {
                 return mapOfRatings.get(Math.round(result));
             } else {
