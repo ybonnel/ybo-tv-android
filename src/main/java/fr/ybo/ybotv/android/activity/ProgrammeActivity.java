@@ -23,7 +23,7 @@ import fr.ybo.ybotv.android.R;
 import fr.ybo.ybotv.android.YboTvApplication;
 import fr.ybo.ybotv.android.adapter.ProgrammeViewFlowAdapter;
 import fr.ybo.ybotv.android.exception.YboTvException;
-import fr.ybo.ybotv.android.lasylist.AllocineRatingLoader;
+import fr.ybo.ybotv.android.lasylist.RatingLoader;
 import fr.ybo.ybotv.android.lasylist.ImageLoader;
 import fr.ybo.ybotv.android.modele.Channel;
 import fr.ybo.ybotv.android.modele.Programme;
@@ -274,8 +274,8 @@ public class ProgrammeActivity extends SherlockActivity implements GetView {
             icon.setVisibility(View.GONE);
         }
         if (programme.isMovie()) {
-            AllocineRatingLoader allocineRatingLoader = new AllocineRatingLoader(context.getApplicationContext());
-            allocineRatingLoader.DisplayImage(programme, rating);
+            RatingLoader ratingLoader = new RatingLoader(context.getApplicationContext());
+            ratingLoader.DisplayImage(programme, rating);
             rating.setVisibility(View.VISIBLE);
         } else {
             rating.setVisibility(View.GONE);
