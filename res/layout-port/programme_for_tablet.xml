@@ -23,6 +23,10 @@
                      android:layout_height="wrap_content"
                      android:layout_width="fill_parent"
                     android:layout_marginTop="20dp"/>
+            <include layout="@layout/programme_trailer"
+                     android:layout_height="wrap_content"
+                     android:layout_width="fill_parent"
+                     android:layout_marginTop="20dp"/>
         </LinearLayout>
     </ScrollView>
 

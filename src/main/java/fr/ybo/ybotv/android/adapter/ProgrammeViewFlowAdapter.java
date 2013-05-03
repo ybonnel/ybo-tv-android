@@ -19,18 +19,25 @@ public class ProgrammeViewFlowAdapter extends BaseAdapter implements TitleProvid
     private Activity context;
     private Programme programme;
 
-    private int[] titles = {R.string.resume, R.string.detail};
+    private int[] titlesForMovies = {R.string.resume, R.string.detail, R.string.trailer};
+    private int[] titlesForOthers = {R.string.resume, R.string.detail};
+    private int[] titlesToApply;
 
 
     public ProgrammeViewFlowAdapter(Activity context, Programme programme) {
         this.inflater = LayoutInflater.from(context);
         this.context = context;
         this.programme = programme;
+        if (programme.isMovie()) {
+            titlesToApply = titlesForMovies;
+        } else {
+            titlesToApply = titlesForOthers;
+        }
     }
 
     @Override
     public int getCount() {
-        return titles.length;
+        return titlesToApply.length;
     }
 
     @Override
@@ -53,6 +60,9 @@ public class ProgrammeViewFlowAdapter extends BaseAdapter implements TitleProvid
             case 1:
                 convertView = getDetailView();
                 break;
+            case 2:
+                convertView = getTrailerView();
+                break;
         }
 
         return convertView;
@@ -61,6 +71,17 @@ public class ProgrammeViewFlowAdapter extends BaseAdapter implements TitleProvid
     private View getDetailView() {
         final View view = inflater.inflate(R.layout.programme_detail, null);
         ProgrammeActivity.contructDetailView(context, new GetView() {
+            @Override
+            public View findViewById(int resource) {
+                return view.findViewById(resource);
+            }
+        }, programme);
+        return view;
+    }
+
+    private View getTrailerView() {
+        final View view = inflater.inflate(R.layout.programme_trailer, null);
+        ProgrammeActivity.contructTrailerView(context, new GetView() {
             @Override
             public View findViewById(int resource) {
                 return view.findViewById(resource);
@@ -87,6 +108,6 @@ public class ProgrammeViewFlowAdapter extends BaseAdapter implements TitleProvid
     */
     @Override
     public String getTitle(int position) {
-        return context.getString(titles[position]);
+        return context.getString(titlesToApply[position]);
     }
 }

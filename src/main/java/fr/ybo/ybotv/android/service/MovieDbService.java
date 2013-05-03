@@ -11,12 +11,21 @@ import fr.ybo.ybotv.android.modele.Programme;
 
 import java.util.List;
 
-public class MovieDbService extends HttpService {
+public class MovieDbService {
 
     private static final MovieDbService instance = new MovieDbService();
 
     public static MovieDbService getInstance() {
         return instance;
+    }
+
+    public MovieDb getMovie(Programme programme, TheMovieDbApi api) throws MovieDbException {
+        List<MovieDb> movies = api.searchMovie(programme.getTitle(), -1, null, true, -1);
+        return getCurrentMovie(programme, movies);
+    }
+
+    public TheMovieDbApi getTheMovieDbApi() throws MovieDbException {
+        return new TheMovieDbApi("7adbba8f19ab75647fe8ec087f3ba37b");
     }
 
     public Float getMovieRating(Programme programme) throws YboTvErreurReseau {
@@ -25,9 +34,7 @@ public class MovieDbService extends HttpService {
         }
 
         try {
-            TheMovieDbApi api = new TheMovieDbApi("7adbba8f19ab75647fe8ec087f3ba37b");
-            List<MovieDb> movies = api.searchMovie(programme.getTitle(), -1, null, true, -1);
-            return getRatingOfMovie(getCurrentMovie(programme, movies));
+            return getRatingOfMovie(getMovie(programme, getTheMovieDbApi()));
         } catch (MovieDbException e) {
             throw new YboTvErreurReseau(e);
         }

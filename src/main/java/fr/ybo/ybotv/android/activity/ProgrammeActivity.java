@@ -6,12 +6,14 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.text.Html;
 import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -22,15 +24,18 @@ import com.google.analytics.tracking.android.EasyTracker;
 import fr.ybo.ybotv.android.R;
 import fr.ybo.ybotv.android.YboTvApplication;
 import fr.ybo.ybotv.android.adapter.ProgrammeViewFlowAdapter;
+import fr.ybo.ybotv.android.exception.YboTvErreurReseau;
 import fr.ybo.ybotv.android.exception.YboTvException;
 import fr.ybo.ybotv.android.lasylist.RatingLoader;
 import fr.ybo.ybotv.android.lasylist.ImageLoader;
 import fr.ybo.ybotv.android.modele.Channel;
 import fr.ybo.ybotv.android.modele.Programme;
 import fr.ybo.ybotv.android.receiver.AlertReceiver;
+import fr.ybo.ybotv.android.service.YouTubeService;
 import fr.ybo.ybotv.android.util.AdMobUtil;
 import fr.ybo.ybotv.android.util.CalendarUtil;
 import fr.ybo.ybotv.android.util.GetView;
+import fr.ybo.ybotv.android.util.TacheAvecGestionErreurReseau;
 import org.taptwo.android.widget.TitleFlowIndicator;
 import org.taptwo.android.widget.ViewFlow;
 
@@ -203,8 +208,50 @@ public class ProgrammeActivity extends SherlockActivity implements GetView {
         setContentView(R.layout.programme_for_tablet);
         contructResumeView(this, this, programme);
         contructDetailView(this, this, programme);
+        if (programme.isMovie()) {
+            contructTrailerView(this, this, programme);
+        } else {
+            findViewById(R.id.programme_trailer_loading).setVisibility(View.GONE);
+        }
     }
 
+    public static void contructTrailerView(final Context context, GetView getView, final Programme programme) {
+        if (programme == null || programme.getTitle() == null) {
+            return;
+        }
+
+        final Button trailerButton = (Button) getView.findViewById(R.id.programme_trailer_button);
+        final TextView trailerLoading = (TextView) getView.findViewById(R.id.programme_trailer_loading);
+        trailerButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String videoId = (String) v.getTag();
+                Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("vnd.youtube:" + videoId));
+                intent.putExtra("VIDEO_ID", videoId);
+                context.startActivity(intent);
+            }
+        });
+
+        new TacheAvecGestionErreurReseau(context) {
+            private String videoId;
+            @Override
+            protected void myDoBackground() throws YboTvErreurReseau {
+                videoId = YouTubeService.getInstance().getFirstResult("Bande annonce " + programme.getTitle());
+            }
+
+            @Override
+            protected void onPostExecute(Void result) {
+                super.onPostExecute(result);
+                if (videoId == null) {
+                    trailerLoading.setText(R.string.no_trailer_found);
+                } else {
+                    trailerLoading.setVisibility(View.INVISIBLE);
+                    trailerButton.setVisibility(View.VISIBLE);
+                    trailerButton.setTag(videoId);
+                }
+            }
+        }.execute();
+    }
 
     public static void contructDetailView(Context context, GetView getView, Programme programme) {
         TextView duree = (TextView) getView.findViewById(R.id.programme_detail_duree);
