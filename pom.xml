@@ -105,17 +105,6 @@
                     </configuration>
                 </plugin>
 
-
-                <plugin>
-                    <groupId>com.github.github</groupId>
-                    <artifactId>downloads-maven-plugin</artifactId>
-                    <version>0.5</version>
-                    <configuration>
-                        <description>${project.version} release of ${project.name}</description>
-                        <override>true</override>
-                        <includeAttached>true</includeAttached>
-                    </configuration>
-                </plugin>
                 <plugin>
                     <artifactId>maven-compiler-plugin</artifactId>
                     <version>2.3.2</version>
@@ -180,95 +169,43 @@
             <build>
                 <plugins>
                     <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-jarsigner-plugin</artifactId>
+                        <version>1.2</version>
                         <executions>
                             <execution>
-                                <id>sign-application-apk</id>
-                                <phase>package</phase>
+                                <id>signing</id>
                                 <goals>
                                     <goal>sign</goal>
-                                    <goal>verify</goal>
                                 </goals>
+                                <phase>package</phase>
+                                <inherited>true</inherited>
+                                <configuration>
+                                    <archiveDirectory></archiveDirectory>
+                                    <includes>
+                                        <include>target/*.apk</include>
+                                    </includes>
+                                    <keystore>${sign.keystore}</keystore>
+                                    <storepass>${sign.storepass}</storepass>
+                                    <keypass>${sign.keypass}</keypass>
+                                    <alias>${sign.alias}</alias>
+                                    <arguments>
+                                        <argument>-sigalg</argument><argument>MD5withRSA</argument>
+                                        <argument>-digestalg</argument><argument>SHA1</argument>
+                                    </arguments>
+                                </configuration>
                             </execution>
                         </executions>
                     </plugin>
                     <plugin>
                         <groupId>com.jayway.maven.plugins.android.generation2</groupId>
                         <artifactId>android-maven-plugin</artifactId>
-                        <executions>
-                            <execution>
-                                <id>zipalign-application-apk</id>
-                                <phase>package</phase>
-                                <goals>
-                                    <goal>zipalign</goal>
-                                </goals>
-                            </execution>
-                        </executions>
+                        <inherited>true</inherited>
                         <configuration>
-                            <zipalign>
-                                <verbose>true</verbose>
-                                <inputApk>${project.build.directory}/${project.artifactId}-${project.version}.apk
-                                </inputApk>
-                                <outputApk>
-                                    ${project.build.directory}/${project.artifactId}-${project.version}-signed-aligned.apk
-                                </outputApk>
-                            </zipalign>
                             <sign>
                                 <debug>false</debug>
                             </sign>
                         </configuration>
-                    </plugin>
-                    <plugin>
-                        <artifactId>maven-enforcer-plugin</artifactId>
-                        <executions>
-                            <execution>
-                                <id>enforce-signing-properties</id>
-                                <goals>
-                                    <goal>enforce</goal>
-                                </goals>
-                                <configuration>
-                                    <rules>
-                                        <requireProperty>
-                                            <property>sign.keystore</property>
-                                            <message>The 'sign.keystore' property is missing. It must contain the path
-                                                to the
-                                                keystore used to sign the application.
-                                            </message>
-                                        </requireProperty>
-                                        <requireFilesExist>
-                                            <files>
-                                                <file>${sign.keystore}</file>
-                                            </files>
-                                            <message>The 'sign.keystore' property does not point to a file. It must
-                                                contain the
-                                                path to the keystore used to sign the application.
-                                            </message>
-                                        </requireFilesExist>
-                                        <requireProperty>
-                                            <property>sign.alias</property>
-                                            <message>The 'sign.alias' property is missing. It must contain the key alias
-                                                used to
-                                                sign the application.
-                                            </message>
-                                        </requireProperty>
-                                        <requireProperty>
-                                            <property>sign.storepass</property>
-                                            <message>The 'sign.storepass' property is missing. It must contain the
-                                                password of
-                                                the keystore used to sign the application.
-                                            </message>
-                                        </requireProperty>
-                                        <requireProperty>
-                                            <property>sign.keypass</property>
-                                            <message>The 'sign.keypass' property is missing. It must contain the
-                                                password of the
-                                                key used to sign the application.
-                                            </message>
-                                        </requireProperty>
-                                    </rules>
-                                </configuration>
-                            </execution>
-                        </executions>
                     </plugin>
                 </plugins>
             </build>
