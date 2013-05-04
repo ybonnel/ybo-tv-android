@@ -21,8 +21,7 @@ public class TvDbService {
     }
 
     public Series getTvShow(Programme programme, TheTVDBApi api) throws TheTVDBApiException {
-
-        List<Series> tvshows = api.searchSeries(AsciiUtils.convertNonAscii(programme.getTitle()), null);
+        List<Series> tvshows = api.searchSeries(AsciiUtils.convertNonAscii(programme.getTitle()), "fr");
         return getCurrentTvShow(programme, tvshows, api);
     }
 
