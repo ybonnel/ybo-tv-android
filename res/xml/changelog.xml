@@ -1,5 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <changelog>
+    <release version="1.7.0" versioncode="170">
+        <change>Utilisation de MovieDb et TvDB pour r@eacute;p@eacute;rer la note du programme.</change>
+        <change>Ajout d'un bouton permettant d'ouvrir la bande annonce pour les films.</change>
+        <change>Gestion des time zones.</change>
+    </release>
     <release version="1.6.0" versioncode="160">
         <change>Ajout de nouvelles chaines (HD1, L'@eacute;quipe 21, 6Ter, Num@eacute;ro 23, RMC D@eacute;couverte, Ch@eacute;rie 25, beIN Sports 1 et 2, et No Life)</change>
         <change>Possibilit@eacute; d'exporter ou importer vos chaines favorites.</change>
