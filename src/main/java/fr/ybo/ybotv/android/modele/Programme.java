@@ -14,6 +14,7 @@ import fr.ybo.database.annotation.PrimaryKey;
 import fr.ybo.ybotv.android.YboTvApplication;
 import fr.ybo.ybotv.android.database.YboTvDatabase;
 import fr.ybo.ybotv.android.exception.YboTvErreurReseau;
+import fr.ybo.ybotv.android.lasylist.RatingLoader;
 import fr.ybo.ybotv.android.service.MovieDbService;
 import fr.ybo.ybotv.android.service.TvDbService;
 import fr.ybo.ybotv.android.util.PreferencesUtil;
@@ -280,6 +281,9 @@ public class Programme implements Serializable, Parcelable {
     private Integer ratingResource = null;
 
     public Integer getRatingResource() {
+        if (ratingResource == null) {
+            ratingResource = RatingLoader.getResurceInCache(this);
+        }
         return ratingResource;
     }
 

@@ -61,7 +61,7 @@ public class ListProgrammeManager {
     private void getRatings() {
         ExecutorService executorService = Executors.newFixedThreadPool(5);
         for (ChannelWithProgramme channel : channels) {
-            if (channel.getProgramme().isTvShow() || channel.getProgramme().isMovie()) {
+            if ((channel.getProgramme().isTvShow() || channel.getProgramme().isMovie()) && channel.getProgramme().getRatingResource() == null) {
                 executorService.submit(new RatingLoader(channel.getProgramme(), new RunNotifyDataSetChangedOnUiThread(context, adapter)));
             }
         }

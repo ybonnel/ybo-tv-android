@@ -323,7 +323,12 @@ public class ProgrammeActivity extends SherlockActivity implements GetView {
             icon.setVisibility(View.GONE);
         }
         if (programme.isMovie() || programme.isTvShow()) {
-            new Thread(new RatingLoader(programme, new RunChangeRatingImageOnUiThread(context, rating, programme))).start();
+            if (programme.getRatingResource() == null) {
+                new Thread(new RatingLoader(programme, new RunChangeRatingImageOnUiThread(context, rating, programme))).start();
+            } else {
+                rating.setImageResource(programme.getRatingResource());
+                rating.setVisibility(View.VISIBLE);
+            }
         } else {
             rating.setVisibility(View.GONE);
         }

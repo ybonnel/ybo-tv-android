@@ -49,6 +49,10 @@ public class RatingLoader implements Runnable {
         }
     });
 
+    public static Integer getResurceInCache(Programme programme) {
+        return cacheOfResources.get(programme.getId());
+    }
+
     private Integer getResource(Programme programme) {
         //from web
         try {
