@@ -277,6 +277,16 @@ public class Programme implements Serializable, Parcelable {
                 && getCategories().get(0).equalsIgnoreCase("série");
     }
 
+    private Integer ratingResource = null;
+
+    public Integer getRatingResource() {
+        return ratingResource;
+    }
+
+    public void setRatingResource(Integer ratingResource) {
+        this.ratingResource = ratingResource;
+    }
+
     public Float getRating() throws YboTvErreurReseau {
         if (isMovie()) {
             return MovieDbService.getInstance().getMovieRating(this);

@@ -2,18 +2,16 @@ package fr.ybo.ybotv.android.activity;
 
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Parcelable;
-import android.util.Log;
 import android.view.View;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.ListView;
-import fr.ybo.ybotv.android.YboTvApplication;
 import fr.ybo.ybotv.android.adapter.ProgrammeAdapter;
+import fr.ybo.ybotv.android.lasylist.RatingLoader;
 import fr.ybo.ybotv.android.modele.ChannelWithProgramme;
 import fr.ybo.ybotv.android.modele.Programme;
 import fr.ybo.ybotv.android.util.Chrono;
@@ -22,6 +20,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 public class ListProgrammeManager {
 
@@ -32,7 +32,7 @@ public class ListProgrammeManager {
     private final GetProgramme getProgramme;
     private final ProgrammeAdapter adapter;
     private List<ChannelWithProgramme> channels = new ArrayList<ChannelWithProgramme>();
-    private Context context;
+    private Activity context;
 
     public ListProgrammeManager(AbsListView listView, Activity context, GetProgramme getProgramme) {
         this.getProgramme = getProgramme;
@@ -56,6 +56,15 @@ public class ListProgrammeManager {
             }
         });
         context.registerForContextMenu(listView);
+    }
+
+    private void getRatings() {
+        ExecutorService executorService = Executors.newFixedThreadPool(5);
+        for (ChannelWithProgramme channel : channels) {
+            if (channel.getProgramme().isTvShow() || channel.getProgramme().isMovie()) {
+                executorService.submit(new RatingLoader(channel.getProgramme(), new RunNotifyDataSetChangedOnUiThread(context, adapter)));
+            }
+        }
     }
 
     @SuppressWarnings("unchecked")
@@ -96,9 +105,40 @@ public class ListProgrammeManager {
             @Override
             protected void onPostExecute(Void aVoid) {
                 adapter.notifyDataSetChanged();
+                getRatings();
                 super.onPostExecute(aVoid);
             }
         }.execute();
 
+    }
+
+    private static class NotifyDataSetChanged implements Runnable {
+
+        private ProgrammeAdapter adapter;
+
+        private NotifyDataSetChanged(ProgrammeAdapter adapter) {
+            this.adapter = adapter;
+        }
+
+        @Override
+        public void run() {
+            adapter.notifyDataSetChanged();
+        }
+    }
+
+    private static class RunNotifyDataSetChangedOnUiThread implements Runnable {
+
+        private Activity context;
+        private ProgrammeAdapter adapter;
+
+        private RunNotifyDataSetChangedOnUiThread(Activity context, ProgrammeAdapter adapter) {
+            this.context = context;
+            this.adapter = adapter;
+        }
+
+        @Override
+        public void run() {
+            context.runOnUiThread(new NotifyDataSetChanged(adapter));
+        }
     }
 }

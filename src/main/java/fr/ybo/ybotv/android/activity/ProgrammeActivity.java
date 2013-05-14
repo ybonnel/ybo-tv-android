@@ -1,5 +1,6 @@
 package fr.ybo.ybotv.android.activity;
 
+import android.app.Activity;
 import android.app.AlarmManager;
 import android.app.AlertDialog;
 import android.app.PendingIntent;
@@ -23,6 +24,7 @@ import com.actionbarsherlock.view.MenuItem;
 import com.google.analytics.tracking.android.EasyTracker;
 import fr.ybo.ybotv.android.R;
 import fr.ybo.ybotv.android.YboTvApplication;
+import fr.ybo.ybotv.android.adapter.ProgrammeAdapter;
 import fr.ybo.ybotv.android.adapter.ProgrammeViewFlowAdapter;
 import fr.ybo.ybotv.android.exception.YboTvErreurReseau;
 import fr.ybo.ybotv.android.exception.YboTvException;
@@ -304,7 +306,7 @@ public class ProgrammeActivity extends SherlockActivity implements GetView {
         put("-10", R.drawable.moins10);
     }};
 
-    public static void contructResumeView(Context context, GetView getView, Programme programme) {
+    public static void contructResumeView(Activity context, GetView getView, Programme programme) {
         ImageLoader imageLoader = new ImageLoader(context.getApplicationContext());
 
         ImageView icon = (ImageView) getView.findViewById(R.id.programme_resume_icon);
@@ -314,16 +316,14 @@ public class ProgrammeActivity extends SherlockActivity implements GetView {
         TextView categories = (TextView) getView.findViewById(R.id.programme_resume_categories);
         TextView description = (TextView) getView.findViewById(R.id.programme_resume_description);
 
-        if (programme.getIcon() != null && programme.getIcon().length() > 0) {
+        if (programme.getIcon() != null && !programme.getIcon().isEmpty()) {
             imageLoader.DisplayImage(programme.getIcon(), icon);
             icon.setVisibility(View.VISIBLE);
         } else {
             icon.setVisibility(View.GONE);
         }
         if (programme.isMovie() || programme.isTvShow()) {
-            RatingLoader ratingLoader = new RatingLoader(context.getApplicationContext());
-            ratingLoader.DisplayImage(programme, rating);
-            rating.setVisibility(View.VISIBLE);
+            new Thread(new RatingLoader(programme, new RunChangeRatingImageOnUiThread(context, rating, programme))).start();
         } else {
             rating.setVisibility(View.GONE);
         }
@@ -367,6 +367,44 @@ public class ProgrammeActivity extends SherlockActivity implements GetView {
     public void onStop() {
         super.onStop();
         EasyTracker.getInstance().activityStop(this);
+    }
+
+    private static class ChangeRatingImage implements Runnable {
+
+        private ImageView rating;
+        private Programme programme;
+
+        private ChangeRatingImage(ImageView rating, Programme programme) {
+
+            this.rating = rating;
+            this.programme = programme;
+        }
+
+        @Override
+        public void run() {
+            if (programme.getRatingResource() != null) {
+                rating.setImageResource(programme.getRatingResource());
+                rating.setVisibility(View.VISIBLE);
+            }
+        }
+    }
+
+    private static class RunChangeRatingImageOnUiThread implements Runnable {
+
+        private Activity context;
+        private ImageView rating;
+        private Programme programme;
+
+        private RunChangeRatingImageOnUiThread(Activity context, ImageView rating, Programme programme) {
+            this.context = context;
+            this.rating = rating;
+            this.programme = programme;
+        }
+
+        @Override
+        public void run() {
+            context.runOnUiThread(new ChangeRatingImage(rating, programme));
+        }
     }
 
 }

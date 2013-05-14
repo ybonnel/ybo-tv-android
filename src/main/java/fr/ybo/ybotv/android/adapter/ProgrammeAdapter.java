@@ -49,6 +49,7 @@ public class ProgrammeAdapter extends BaseAdapter {
         ImageView iconeChaine;
         TextView horaires;
         TextView title;
+        ImageView rating;
     }
 
     @Override
@@ -61,6 +62,7 @@ public class ProgrammeAdapter extends BaseAdapter {
             holder.horaires = (TextView) convertView.findViewById(R.id.programme_horaire);
             holder.title = (TextView) convertView.findViewById(R.id.programme_title);
             holder.iconeChaine = (ImageView) convertView.findViewById(R.id.programme_imageChaine);
+            holder.rating = (ImageView) convertView.findViewById(R.id.programme_rating);
             convertView.setTag(holder);
         } else {
             holder = (ViewHolder) convertView.getTag();
@@ -71,6 +73,13 @@ public class ProgrammeAdapter extends BaseAdapter {
         holder.horaires.setText(currentProgramme.getProgramme().getHoraires());
         holder.title.setText(currentProgramme.getProgramme().getTitle());
         holder.iconeChaine.setImageResource(currentProgramme.getChannel().getIconResource());
+
+        if (currentProgramme.getProgramme().getRatingResource() != null) {
+            holder.rating.setImageResource(currentProgramme.getProgramme().getRatingResource());
+            holder.rating.setVisibility(View.VISIBLE);
+        } else {
+            holder.rating.setVisibility(View.GONE);
+        }
 
         return convertView;
     }
