@@ -67,7 +67,7 @@ public class TvDbService {
         if (currentTvShow == null || currentTvShow.getRating() == null) {
             return null;
         }
-        Float rating = Float.parseFloat(currentTvShow.getRating()) / 2;
+        Float rating = Float.parseFloat(currentTvShow.getRating());
         Log.d(YboTvApplication.TAG, "Rating of " + currentTvShow.getSeriesName() + " : " + rating);
         return rating;
     }

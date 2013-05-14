@@ -28,11 +28,16 @@ public class RatingLoader implements Runnable {
 
 
     private static final Map<Integer, Integer> mapOfRatings = new HashMap<Integer, Integer>(){{
-        put(1, R.drawable.rating_1star);
-        put(2, R.drawable.rating_2star);
-        put(3, R.drawable.rating_3star);
-        put(4, R.drawable.rating_4star);
-        put(5, R.drawable.rating_5star);
+        put(1, R.drawable.rating_0_5star);
+        put(2, R.drawable.rating_1star);
+        put(3, R.drawable.rating_1_5star);
+        put(4, R.drawable.rating_2star);
+        put(5, R.drawable.rating_2_5star);
+        put(6, R.drawable.rating_3star);
+        put(7, R.drawable.rating_3_5star);
+        put(8, R.drawable.rating_4star);
+        put(9, R.drawable.rating_4_5star);
+        put(10, R.drawable.rating_5star);
     }};
 
     private static final int SIZE_OF_CACHE = 100;

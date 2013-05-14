@@ -63,7 +63,7 @@ public class MovieDbService {
         if (currentMovie == null) {
             return null;
         }
-        Float rating = currentMovie.getVoteAverage() / 2;
+        Float rating = currentMovie.getVoteAverage();
         Log.d(YboTvApplication.TAG, "Rating of " + currentMovie.getTitle() + " : " + rating);
         return rating;
     }
