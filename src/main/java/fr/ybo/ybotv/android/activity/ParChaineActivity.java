@@ -46,6 +46,7 @@ public class ParChaineActivity extends MenuManager.AbstractSimpleActivity implem
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        overridePendingTransition(R.anim.fadein, R.anim.fadeout);
         createMenu();
         currentCalendar = Calendar.getInstance();
         List<FavoriteChannel> favoriteChannels = ((YboTvApplication) getApplication()).getDatabase().selectAll(FavoriteChannel.class);

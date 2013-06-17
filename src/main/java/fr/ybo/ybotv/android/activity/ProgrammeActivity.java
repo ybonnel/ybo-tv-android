@@ -55,6 +55,7 @@ public class ProgrammeActivity extends SherlockActivity implements GetView {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        overridePendingTransition(R.anim.fadein, R.anim.fadeout);
         programme = getIntent().getParcelableExtra("programme");
         getSupportActionBar().setTitle(programme.getTitle());
 

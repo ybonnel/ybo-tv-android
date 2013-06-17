@@ -16,6 +16,7 @@ public class NowActivity extends MenuManager.AbstractSimpleActivity implements L
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        overridePendingTransition(R.anim.fadein, R.anim.fadeout);
         setContentView(R.layout.grid);
         createMenu();
 

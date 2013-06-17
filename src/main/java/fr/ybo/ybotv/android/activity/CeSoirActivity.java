@@ -35,6 +35,7 @@ public class CeSoirActivity extends MenuManager.AbstractSimpleActivity implement
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        overridePendingTransition(R.anim.fadein, R.anim.fadeout);
         setContentView(R.layout.flow);
         createMenu();
         currentDate = Calendar.getInstance();
