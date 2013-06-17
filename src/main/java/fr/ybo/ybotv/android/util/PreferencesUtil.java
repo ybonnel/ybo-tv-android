@@ -15,17 +15,25 @@ public class PreferencesUtil {
 
     public static Set<String> getStringSets(SharedPreferences prefs, String key) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
-            return prefs.getStringSet(key, new HashSet<String>());
-        } else {
-            GsonBuilder build = new GsonBuilder();
-            Gson gson = build.create();
-            String serializedValue = prefs.getString(key, "[]");
-            if (serializedValue == null) {
-                serializedValue = "[]";
+            try {
+                return prefs.getStringSet(key, new HashSet<String>());
+            } catch (ClassCastException ignore) {
+                return getStringsSetsForOldVersion(prefs, key);
             }
-            return gson.fromJson(serializedValue, new TypeToken<Set<String>>() {
-            }.getType());
+        } else {
+            return getStringsSetsForOldVersion(prefs, key);
         }
+    }
+
+    private static Set<String> getStringsSetsForOldVersion(SharedPreferences prefs, String key) {
+        GsonBuilder build = new GsonBuilder();
+        Gson gson = build.create();
+        String serializedValue = prefs.getString(key, "[]");
+        if (serializedValue == null) {
+            serializedValue = "[]";
+        }
+        return gson.fromJson(serializedValue, new TypeToken<Set<String>>() {
+        }.getType());
     }
 
     public static void putStringSets(SharedPreferences prefs, String key, Set<String> values) {
