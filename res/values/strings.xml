@@ -4,6 +4,7 @@
     <string name="now">Maintenant</string>
     <string name="cesoir">Ce soir</string>
     <string name="parchaine">Par chaîne</string>
+    <string name="grid">Grille</string>
     <string name="loading">Chargement</string>
     <string name="getChannels">Récupération des chaînes…</string>
     <string name="getProgrammes">Récupération des programmes…</string>

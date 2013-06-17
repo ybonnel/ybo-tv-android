@@ -8,6 +8,7 @@ import fr.ybo.database.annotation.PrimaryKey;
 import fr.ybo.ybotv.android.R;
 
 import java.io.Serializable;
+import java.util.List;
 
 @Entity
 public class Channel implements Serializable, Comparable<Channel>, Parcelable {
@@ -148,4 +149,6 @@ public class Channel implements Serializable, Comparable<Channel>, Parcelable {
     public void setNumero(Integer numero) {
         this.numero = numero;
     }
+
+    public transient List<Programme> programmes;
 }

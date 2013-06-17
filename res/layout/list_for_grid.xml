@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+             xmlns:ads="http://schemas.android.com/apk/lib/com.google.ads"
+             android:layout_width="fill_parent"
+             android:layout_height="fill_parent"
+             android:orientation="vertical">
+    <LinearLayout android:id="@+id/ad_container"
+                  android:orientation="vertical"
+                  android:layout_width="fill_parent"
+                  android:layout_height="fill_parent"
+                  android:layout_marginBottom="50dip"
+            >
+
+        <TextView
+                android:id="@+id/messageLoading"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:textSize="25dp"
+                android:text="@string/loading"/>
+
+        <ScrollView
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:fillViewport="true">
+
+            <LinearLayout
+                          android:orientation="horizontal"
+                          android:layout_width="fill_parent"
+                          android:layout_height="fill_parent"
+                    >
+
+
+
+                <LinearLayout android:id="@+id/icone_chaine_container"
+                              android:orientation="vertical"
+                              android:layout_width="75dp"
+                              android:layout_height="fill_parent"
+                        >
+
+                </LinearLayout>
+
+
+
+                <HorizontalScrollView
+                        android:layout_width="fill_parent"
+                        android:layout_height="fill_parent"
+                        android:fillViewport="true"
+                        android:id="@+id/horizontal_scroll">
+
+                    <LinearLayout android:id="@+id/grid_container"
+                                  android:orientation="vertical"
+                                  android:layout_width="wrap_content"
+                                  android:layout_height="fill_parent"
+                            >
+
+                    </LinearLayout>
+                </HorizontalScrollView>
+            </LinearLayout>
+        </ScrollView>
+
+    </LinearLayout>
+
+    <com.google.ads.AdView
+            android:id="@+id/adView"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            ads:adSize="BANNER"
+            ads:testDevices="TEST_EMULATOR"
+            ads:adUnitId="a150ba4f2ebca17"/>
+</FrameLayout>

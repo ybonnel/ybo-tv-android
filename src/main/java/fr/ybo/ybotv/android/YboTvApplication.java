@@ -17,6 +17,7 @@ import android.util.Log;
 import fr.ybo.ybotv.android.activity.CeSoirActivity;
 import fr.ybo.ybotv.android.activity.NowActivity;
 import fr.ybo.ybotv.android.activity.ParChaineActivity;
+import fr.ybo.ybotv.android.activity.ProgrammeGridActivity;
 import fr.ybo.ybotv.android.database.YboTvDatabase;
 import fr.ybo.ybotv.android.receiver.AlarmReceiver;
 import org.acra.ACRA;
@@ -89,7 +90,8 @@ public class YboTvApplication extends Application {
     private static enum SCREEN {
         NOW(NowActivity.class),
         CE_SOIR(CeSoirActivity.class),
-        PAR_CHAINE(ParChaineActivity.class);
+        PAR_CHAINE(ParChaineActivity.class),
+        GRID(ProgrammeGridActivity.class);
 
         private Class<? extends Activity> activity;
 

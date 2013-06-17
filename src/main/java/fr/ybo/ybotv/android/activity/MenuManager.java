@@ -3,6 +3,7 @@ package fr.ybo.ybotv.android.activity;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 import android.util.SparseArray;
 import android.widget.ArrayAdapter;
 import com.actionbarsherlock.app.ActionBar;
@@ -94,6 +95,7 @@ public class MenuManager implements ActionBar.OnNavigationListener {
         @Override
         protected void onResume() {
             super.onResume();
+            Log.d(YboTvApplication.TAG, "" + actionBarManager.getItemPositionForCurrentClass());
             getSupportActionBar().setSelectedNavigationItem(actionBarManager.getItemPositionForCurrentClass());
         }
 
@@ -142,6 +144,7 @@ public class MenuManager implements ActionBar.OnNavigationListener {
         put(R.id.menu_now, NowActivity.class);
         put(R.id.menu_cesoir, CeSoirActivity.class);
         put(R.id.menu_parchaine, ParChaineActivity.class);
+        put(R.id.menu_grid, ProgrammeGridActivity.class);
     }};
 
     private int[] menuIds;
@@ -216,6 +219,7 @@ public class MenuManager implements ActionBar.OnNavigationListener {
     }
 
     protected void startActivityIfNotAlreadyIn(Class<? extends MenuManagerInterface> activityToStart) {
+        Log.d(YboTvApplication.TAG, activityToStart.toString());
         if (this.activity.getClass() != activityToStart) {
             this.activity.finish();
             Intent intent = new Intent(this.activity, activityToStart);

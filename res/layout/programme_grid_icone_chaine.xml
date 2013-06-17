@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="horizontal"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+        >
+<ImageView xmlns:android="http://schemas.android.com/apk/res/android"
+           android:layout_height="100dp"
+           android:layout_width="75dp"
+           android:padding="12dp"
+           android:id="@+id/programme_imageChaine"
+           android:gravity="center"
+           android:src="@drawable/loading"
+           android:contentDescription="@string/loading"
+        />
+
+</LinearLayout>

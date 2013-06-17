@@ -16,6 +16,7 @@
     <item type="id" name="menu_now"/>
     <item type="id" name="menu_cesoir"/>
     <item type="id" name="menu_parchaine"/>
+    <item type="id" name="menu_grid"/>
     <item type="id" name="menu_alert"/>
     <item type="id" name="menu_share"/>
     <item type="id" name="menu_calendar"/>
