@@ -82,5 +82,6 @@
     <string name="importErreurGenerique">Un erreur est survenue pendant l\'import des favoris : %1$s</string>
     <string name="importResult">Les favoris ont été importés</string>
     <string name="noChannelsToImport">Aucune chaine à importer</string>
+    <string name="youtubeNotFound">Youtube n\\'est pas installé sur votre appareil</string>
 </resources>
 

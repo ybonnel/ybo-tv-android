@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.AlarmManager;
 import android.app.AlertDialog;
 import android.app.PendingIntent;
+import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -230,7 +231,11 @@ public class ProgrammeActivity extends SherlockActivity implements GetView {
                 String videoId = (String) v.getTag();
                 Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("vnd.youtube:" + videoId));
                 intent.putExtra("VIDEO_ID", videoId);
-                context.startActivity(intent);
+                try {
+                    context.startActivity(intent);
+                } catch (ActivityNotFoundException ignore) {
+                    Toast.makeText(context, R.string.youtubeNotFound, Toast.LENGTH_LONG).show();
+                }
             }
         });
 
