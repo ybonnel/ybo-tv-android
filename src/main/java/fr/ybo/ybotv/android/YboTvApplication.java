@@ -119,6 +119,9 @@ public class YboTvApplication extends Application {
     public Class<? extends Activity> getDefaultActivity() {
         SharedPreferences prefs = getDefaultPreferences();
         SCREEN defaultScreen = SCREEN.formString(prefs.getString("YboTv_defaultScreen", SCREEN.NOW.name()));
+        if (defaultScreen == SCREEN.GRID && Build.VERSION.SDK_INT < Build.VERSION_CODES.ICE_CREAM_SANDWICH) {
+            return SCREEN.NOW.getActivity();
+        }
         return defaultScreen == null ? SCREEN.NOW.getActivity() : defaultScreen.getActivity();
     }
 

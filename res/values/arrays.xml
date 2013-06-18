@@ -19,4 +19,11 @@
         <item>PAR_CHAINE</item>
         <item>GRID</item>
     </string-array>
+
+    <integer-array name="menu_api_level">
+        <item>7</item>
+        <item>7</item>
+        <item>7</item>
+        <item>14</item>
+    </integer-array>
 </resources>

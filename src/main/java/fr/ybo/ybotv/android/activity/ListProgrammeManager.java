@@ -86,9 +86,12 @@ public class ListProgrammeManager {
                         Integer numero1 = channelWithProgramme.getChannel().getNumero();
                         Integer numero2 = channelWithProgramme1.getChannel().getNumero();
                         if (numero1.equals(numero2)) {
-                            String start1 = channelWithProgramme.getProgramme().getStart();
-                            String start2 = channelWithProgramme1.getProgramme().getStart();
-                            return start1.compareTo(start2);
+                            if (channelWithProgramme.getChannel().getDisplayName().equals(channelWithProgramme1.getChannel().getDisplayName())) {
+                                String start1 = channelWithProgramme.getProgramme().getStart();
+                                String start2 = channelWithProgramme1.getProgramme().getStart();
+                                return start1.compareTo(start2);
+                            }
+                            return channelWithProgramme.getChannel().getDisplayName().compareTo(channelWithProgramme1.getChannel().getDisplayName());
                         }
                         return numero1.compareTo(numero2);
                     }

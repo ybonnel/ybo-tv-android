@@ -3,6 +3,7 @@ package fr.ybo.ybotv.android.activity;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.util.Log;
 import android.util.SparseArray;
 import android.widget.ArrayAdapter;
@@ -13,10 +14,14 @@ import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
 import com.google.analytics.tracking.android.EasyTracker;
+import fr.ybo.ybotv.android.BuildConfig;
 import fr.ybo.ybotv.android.R;
 import fr.ybo.ybotv.android.YboTvApplication;
 import fr.ybo.ybotv.android.util.ArraysUtil;
 import fr.ybo.ybotv.android.util.ChangeLogDialog;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class MenuManager implements ActionBar.OnNavigationListener {
 
@@ -144,7 +149,9 @@ public class MenuManager implements ActionBar.OnNavigationListener {
         put(R.id.menu_now, NowActivity.class);
         put(R.id.menu_cesoir, CeSoirActivity.class);
         put(R.id.menu_parchaine, ParChaineActivity.class);
-        put(R.id.menu_grid, ProgrammeGridActivity.class);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.ICE_CREAM_SANDWICH) {
+            put(R.id.menu_grid, ProgrammeGridActivity.class);
+        }
     }};
 
     private int[] menuIds;
@@ -158,11 +165,29 @@ public class MenuManager implements ActionBar.OnNavigationListener {
     }
 
     public void createMenu() {
-
-        menuIds = ArraysUtil.getIdsArray(activity, R.array.menu_principal_ids);
-
         Context context = menuManagerInterface.getSupportActionBar().getThemedContext();
-        ArrayAdapter<CharSequence> listMenu = ArrayAdapter.createFromResource(context, R.array.menu_principal_chaines, R.layout.sherlock_spinner_item);
+
+        int[] menuIdsTmp = ArraysUtil.getIdsArray(activity, R.array.menu_principal_ids);
+        String[] listMenuTmp = context.getResources().getStringArray(R.array.menu_principal_chaines);
+        int[] listApiLevel = context.getResources().getIntArray(R.array.menu_api_level);
+
+        List<CharSequence> listMenuValues = new ArrayList<CharSequence>();
+        List<Integer> menuIdsValues = new ArrayList<Integer>();
+        for (int index = 0; index < listMenuTmp.length; index++) {
+            if (listApiLevel[index] <= Build.VERSION.SDK_INT) {
+                listMenuValues.add(listMenuTmp[index]);
+                menuIdsValues.add(menuIdsTmp[index]);
+            }
+        }
+
+        menuIds = new int[menuIdsValues.size()];
+        for (int index = 0; index < menuIdsValues.size(); index++) {
+            menuIds[index] = menuIdsValues.get(index);
+        }
+
+        ArrayAdapter<CharSequence> listMenu = new ArrayAdapter<CharSequence>(context,  R.layout.sherlock_spinner_item, listMenuValues);
+
+
         listMenu.setDropDownViewResource(R.layout.sherlock_spinner_dropdown_item);
         menuManagerInterface.getSupportActionBar().setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
         menuManagerInterface.getSupportActionBar().setListNavigationCallbacks(listMenu, this);
