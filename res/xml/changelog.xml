@@ -1,5 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <changelog>
+    <release version="1.8.0" versioncode="180">
+        <change>Ajout de la note directement dans la liste des programmes</change>
+        <change>Ajout de demi @eacute;toile pour les notes</change>
+        <change>Changement d'animation entre les @eacute;crans</change>
+        <change>Ajout d'une grille (disponible avec android 4.0 minimum)</change>
+        <change>Quelques corrections</change>
+    </release>
     <release version="1.7.0" versioncode="170">
         <change>Utilisation de MovieDb et TvDB pour r@eacute;p@eacute;rer la note du programme.</change>
         <change>Ajout d'un bouton permettant d'ouvrir la bande annonce pour les films.</change>
