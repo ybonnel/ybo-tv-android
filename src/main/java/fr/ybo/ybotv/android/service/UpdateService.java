@@ -2,7 +2,9 @@ package fr.ybo.ybotv.android.service;
 
 
 import android.app.Service;
+import android.content.Context;
 import android.content.Intent;
+import android.net.ConnectivityManager;
 import android.os.IBinder;
 import android.util.Log;
 import fr.ybo.ybotv.android.YboTvApplication;
@@ -25,6 +27,7 @@ public class UpdateService extends Service  {
         return null;
     }
 
+    @SuppressWarnings("RefusedBequest")
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         if (intent != null && ACTION_UPDATE.equals(intent.getAction())) {
@@ -40,6 +43,7 @@ public class UpdateService extends Service  {
         LastUpdate lastUpdate = database.selectSingle(new LastUpdate());
         if (lastUpdate == null || mustUpdate(lastUpdate)) {
             new UpdateProgrammes(null, null, null, null, database){
+                @SuppressWarnings("RefusedBequest")
                 @Override
                 protected void onPostExecute(Void result) {
                     stopSelf();
@@ -61,12 +65,26 @@ public class UpdateService extends Service  {
         }
     }
 
+    private static final long DAYS_FOR_WIFI = TimeUnit.DAYS.toMillis(1);
+    private static final long DAYS_FOR_GSM = TimeUnit.DAYS.toMillis(3);
+
     private boolean mustUpdate(LastUpdate lastUpdate) {
         Date date = new Date();
 
-        long timeSinceLastUpdate = date.getTime() - lastUpdate.getLastUpdate().getTime();
-        long twoDays = TimeUnit.DAYS.toMillis(2);
+        ConnectivityManager connMgr = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
 
-        return (timeSinceLastUpdate > twoDays);
+
+
+        long timeSinceLastUpdate = date.getTime() - lastUpdate.getLastUpdate().getTime();
+        if (connMgr.getActiveNetworkInfo() != null && connMgr.getActiveNetworkInfo().isConnected()) {
+
+            long deltaToUpdate = DAYS_FOR_GSM;
+            if (connMgr.getActiveNetworkInfo().getType() == ConnectivityManager.TYPE_WIFI) {
+                deltaToUpdate = DAYS_FOR_WIFI;
+            }
+            return timeSinceLastUpdate > deltaToUpdate;
+        } else {
+            return false;
+        }
     }
 }
