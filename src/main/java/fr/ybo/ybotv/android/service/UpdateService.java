@@ -78,9 +78,13 @@ public class UpdateService extends Service  {
         long timeSinceLastUpdate = date.getTime() - lastUpdate.getLastUpdate().getTime();
         if (connMgr.getActiveNetworkInfo() != null && connMgr.getActiveNetworkInfo().isConnected()) {
 
+            YboTvApplication.CONNECTIVITY connectivity = ((YboTvApplication)getApplication()).getConnectivity();
+
             long deltaToUpdate = DAYS_FOR_GSM;
             if (connMgr.getActiveNetworkInfo().getType() == ConnectivityManager.TYPE_WIFI) {
                 deltaToUpdate = DAYS_FOR_WIFI;
+            } else if (connectivity == YboTvApplication.CONNECTIVITY.WIFI) {
+                return false;
             }
             return timeSinceLastUpdate > deltaToUpdate;
         } else {

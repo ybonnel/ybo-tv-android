@@ -125,6 +125,29 @@ public class YboTvApplication extends Application {
         return defaultScreen == null ? SCREEN.NOW.getActivity() : defaultScreen.getActivity();
     }
 
+    public static enum CONNECTIVITY {
+        ALL,
+        WIFI;
+
+        public static CONNECTIVITY formString(String value) {
+            if (value == null) {
+                return null;
+            }
+            for (CONNECTIVITY oneValue : values()) {
+                if (oneValue.name().equals(value)) {
+                    return oneValue;
+                }
+            }
+            return null;
+        }
+    }
+
+    public CONNECTIVITY getConnectivity() {
+        SharedPreferences prefs = getDefaultPreferences();
+        CONNECTIVITY connectivity = CONNECTIVITY.formString(prefs.getString("YboTv_connectivity", SCREEN.NOW.name()));
+        return connectivity == null ? CONNECTIVITY.ALL : connectivity;
+    }
+
     public SharedPreferences getDefaultPreferences() {
         return PreferenceManager.getDefaultSharedPreferences(this);
     }

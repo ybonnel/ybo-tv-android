@@ -84,5 +84,11 @@
     <string name="importResult">Les favoris ont été importés</string>
     <string name="noChannelsToImport">Aucune chaine à importer</string>
     <string name="youtubeNotFound">Youtube n\'est pas installé sur votre appareil</string>
+
+	<string name="connectivity_title">Mise à jour des programmes</string>
+
+	<string name="connectivity_all">Par Wi-Fi ou réseau mobile</string>
+	<string name="connectivity_wifi">Par Wi-Fi uniquement</string>
+
 </resources>
 

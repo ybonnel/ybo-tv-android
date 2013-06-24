@@ -26,4 +26,14 @@
         <item>7</item>
         <item>14</item>
     </integer-array>
+
+	<string-array name="connectivity_choose">
+		<item>@string/connectivity_all</item>
+		<item>@string/connectivity_wifi</item>
+	</string-array>
+
+	<string-array name="connectivity">
+		<item>ALL</item>
+		<item>WIFI</item>
+	</string-array>
 </resources>

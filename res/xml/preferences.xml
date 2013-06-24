@@ -8,7 +8,17 @@
                 android:entryValues="@array/screens"
                 android:key="YboTv_defaultScreen"
                 android:title="@string/chooseDefaultScreen"
-                android:defaultValue="@id/menu_now"/>
+                android:defaultValue="NOW"/>
     </PreferenceCategory>
+
+	<PreferenceCategory android:title="@string/connectivity_title" >
+		<ListPreference
+				android:dialogTitle="@string/connectivity_title"
+				android:entries="@array/connectivity_choose"
+				android:entryValues="@array/connectivity"
+				android:key="YboTv_connectivity"
+				android:title="@string/connectivity_title"
+				android:defaultValue="ALL"/>
+	</PreferenceCategory>
 
 </PreferenceScreen>
