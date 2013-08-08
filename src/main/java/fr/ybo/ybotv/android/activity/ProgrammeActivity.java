@@ -322,7 +322,7 @@ public class ProgrammeActivity extends SherlockActivity implements GetView {
         TextView categories = (TextView) getView.findViewById(R.id.programme_resume_categories);
         TextView description = (TextView) getView.findViewById(R.id.programme_resume_description);
 
-        if (programme.getIcon() != null && !programme.getIcon().isEmpty()) {
+        if (programme.getIcon() != null && programme.getIcon().length() != 0) {
             imageLoader.DisplayImage(programme.getIcon(), icon);
             icon.setVisibility(View.VISIBLE);
         } else {
