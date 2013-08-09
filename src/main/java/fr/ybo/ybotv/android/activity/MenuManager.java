@@ -3,6 +3,7 @@ package fr.ybo.ybotv.android.activity;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Build;
 import android.util.Log;
 import android.util.SparseArray;
@@ -212,6 +213,10 @@ public class MenuManager implements ActionBar.OnNavigationListener {
             return true;
         } else if (item.getItemId() == R.id.menu_export_channels) {
             activity.startActivityForResult(new Intent(activity, ExportChannelsActivity.class), R.id.requestCode_exportChannels);
+            return true;
+        } else if (item.getItemId() == R.id.menu_stop_pub) {
+            Uri uri = Uri.parse("https://play.google.com/store/apps/details?id=fr.ybo.ybotv.android.pro");
+            activity.startActivity(new Intent(Intent.ACTION_VIEW, uri));
             return true;
         }
         return false;

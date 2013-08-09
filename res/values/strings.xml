@@ -89,6 +89,7 @@
 
 	<string name="connectivity_all">Par Wi-Fi ou réseau mobile</string>
 	<string name="connectivity_wifi">Par Wi-Fi uniquement</string>
+    <string name="titre_stop_pub">Supprimer la pub</string>
 
 </resources>
 

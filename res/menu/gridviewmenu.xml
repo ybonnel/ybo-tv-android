@@ -17,4 +17,9 @@
           android:showAsAction="never"
           android:icon="@android:drawable/ic_menu_save"/>
 
+    <item android:id="@+id/menu_stop_pub"
+          android:title="@string/titre_stop_pub"
+          android:showAsAction="never"
+          android:icon="@android:drawable/ic_menu_close_clear_cancel"/>
+
 </menu>
