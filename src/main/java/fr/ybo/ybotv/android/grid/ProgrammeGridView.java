@@ -73,7 +73,9 @@ public class ProgrammeGridView extends View implements View.OnTouchListener {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss");
         int maxOffset = 0;
         try {
-            maxOffset = (int) ((sdf.parse(programmes.get(programmes.size() -1).getStop()).getTime() - start.getTime()) / 1000 / 60 * sizeofminute);
+            if (programmes.size() > 0) {
+                maxOffset = (int) ((sdf.parse(programmes.get(programmes.size() -1).getStop()).getTime() - start.getTime()) / 1000 / 60 * sizeofminute);
+            }
         } catch (ParseException ignore) {
         }
         setMeasuredDimension(maxOffset|MeasureSpec.EXACTLY, getLayoutParams().height|MeasureSpec.EXACTLY);
