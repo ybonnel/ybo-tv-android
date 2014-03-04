@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-             xmlns:app="http://schemas.android.com/apk/res/fr.ybo.ybotv.android"
+             xmlns:app="http://schemas.android.com/apk/res-auto"
              xmlns:ads="http://schemas.android.com/apk/lib/com.google.ads"
              android:layout_width="fill_parent"
              android:layout_height="fill_parent"
@@ -22,7 +22,7 @@
                     android:layout_width="fill_parent"
                     app:footerLineHeight="2dp"
                     app:footerTriangleHeight="10dp" app:textColor="#FFFFFFFF"
-                    app:selectedColor="@color/abs__holo_blue_light" app:footerColor="@color/abs__holo_blue_light"
+                    app:selectedColor="#ff33b5e5" app:footerColor="#ff33b5e5"
                     app:titlePadding="5dp" app:textSize="11dp" app:selectedSize="12dp" android:layout_marginTop="6dip"
                     app:clipPadding="0dp"/>
 

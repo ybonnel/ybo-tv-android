@@ -55,7 +55,7 @@ public abstract class HttpService {
             reader = new InputStreamReader(reponse.getEntity().getContent());
             GsonBuilder gsonBuilder = new GsonBuilder();
             Gson gson = gsonBuilder.create();
-            T retour = gson.fromJson(reader, typeToken.getType());
+            T retour = gson.<T>fromJson(reader, typeToken.getType());
             if (retour == null) {
                 throw new YboTvErreurReseau("Null object in respose");
             }

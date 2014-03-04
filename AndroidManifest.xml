@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android" android:versionCode="1008002" android:versionName="1.8.3" package="fr.ybo.ybotv.android">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android" android:versionCode="1008003" android:versionName="1.8.3" package="fr.ybo.ybotv.android">
 
-    <uses-sdk android:minSdkVersion="7" android:targetSdkVersion="16"/>
+    <uses-sdk android:minSdkVersion="7" android:targetSdkVersion="17"/>
 
     <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
