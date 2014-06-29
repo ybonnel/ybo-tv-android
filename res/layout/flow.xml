@@ -39,6 +39,6 @@
             android:layout_gravity="bottom"
             ads:adSize="BANNER"
             ads:testDevices="TEST_EMULATOR"
-            ads:adUnitId="a150ba4f2ebca17"/>
+            ads:adUnitId="ca-app-pub-8332173212247555/8645643428"/>
 
 </FrameLayout>

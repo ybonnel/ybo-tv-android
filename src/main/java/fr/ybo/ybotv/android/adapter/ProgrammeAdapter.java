@@ -54,6 +54,9 @@ public class ProgrammeAdapter extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertViewIn, ViewGroup parent) {
+        if (position == -1) {
+            return convertViewIn;
+        }
         View convertView = convertViewIn;
         ViewHolder holder;
         if (convertView == null) {

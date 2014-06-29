@@ -10,3 +10,5 @@ out
 gradle.properties
 local.properties
 build
+sign.properties
+ybonnel.keystore

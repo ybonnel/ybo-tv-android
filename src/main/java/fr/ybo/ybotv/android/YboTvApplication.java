@@ -20,15 +20,11 @@ import fr.ybo.ybotv.android.activity.ParChaineActivity;
 import fr.ybo.ybotv.android.activity.ProgrammeGridActivity;
 import fr.ybo.ybotv.android.database.YboTvDatabase;
 import fr.ybo.ybotv.android.receiver.AlarmReceiver;
-import org.acra.ACRA;
-import org.acra.annotation.ReportsCrashes;
 
-import java.lang.reflect.Method;
 import java.util.Calendar;
 import java.util.HashSet;
 import java.util.Set;
 
-@ReportsCrashes(formKey = "dDBLNm5ZR2dLWFhyQTV0dDMtTDdFZVE6MQ")
 public class YboTvApplication extends Application {
 
 
@@ -65,9 +61,6 @@ public class YboTvApplication extends Application {
 
     @Override
     public void onCreate() {
-        if (!isEmulator() && !isSnapshot()) {
-            ACRA.init(this);
-        }
         super.onCreate();
         database = new YboTvDatabase(this);
         /*StrictMode.setThreadPolicy(new StrictMode.ThreadPolicy.Builder()
