@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
     <string name="app_name">YboTv</string>
     <string name="now">Maintenant</string>
     <string name="cesoir">Ce soir</string>
@@ -11,71 +12,51 @@
     <string name="loadingChannels">Chargement des chaînes…</string>
     <string name="loadingProgrammes">Chargement des programmes…</string>
     <string name="erreurReseau">Une erreur réseau est survenue, veuillez réessayer plus tard</string>
-
     <string name="primeTime">Prime Time</string>
     <string name="partie2">2ème partie</string>
     <string name="finSoiree">Fin de soirée</string>
-
     <string name="rate">Note</string>
-
     <string name="title_changelog">YboTv</string>
     <string name="changelog_close">Fermer</string>
-
     <string name="firstLoading">Il s\'agit du premier lancement de l\'application, nous sommes donc obligés de récupérer les programmes. Après ce premier lancement, cette opération se fera de manière silencieuse afin que vous ayez toujours les derniers programmes à disposition.</string>
     <string name="firstLoadingMessage">Les données des programmes doivent être chargées, cela va télécharger environ 2Mo de données.\nSouhaitez vous le faire maintenant?</string>
     <string name="version">Version %1$s.</string>
     <string name="welcome">Bienvenue sur YboTv!</string>
     <string name="preference">Préférences</string>
-
     <string name="defaultScreen">Affichage par défaut</string>
     <string name="chooseDefaultScreen">Choisissez l\'affichage par défaut</string>
-
     <string name="oui">oui</string>
     <string name="non">non</string>
-
     <string name="choixChaine">Choix chaîne</string>
-
     <string name="resume">Résumé</string>
     <string name="detail">Détail</string>
     <string name="trailer">Bande annonce</string>
     <string name="open_trailer">Lancer bande annonce</string>
     <string name="loading_trailer">Recherche de la bande annonce</string>
     <string name="no_trailer_found">Aucune bande annonce trouvée</string>
-
     <string name="date">Date : %1$s</string>
-
     <string name="director">Réalisateur : %1$s</string>
     <string name="actor">Acteur : %1$s</string>
     <string name="writer">Auteur : %1$s</string>
     <string name="presenter">Présentateur : %1$s</string>
-
     <string name="filter_channels">Modifier la liste des chaînes</string>
-
     <string name="updateChannels">Mise à jour des chaînes</string>
-
     <string name="calculUpdateChannels">Calcul des chaînes à mettre à jour</string>
     <string name="suppressionChaine">Suppression de la chaîne %1$s</string>
     <string name="ajoutChaine">Ajout de la chaîne %1$s</string>
-
     <string name="choixDate">Choix de la date</string>
-
     <string name="duree">Durée : %1$s</string>
-
     <string name="menu_alert">Alert</string>
     <string name="menu_share">Partager</string>
     <string name="menu_calendar">Ajouter à l\'agenda</string>
-
     <string name="shareSubject">YboTv : %1$s</string>
     <string name="shareText">YboTv m\'a permis de trouver %1$s à regarder</string>
-
     <string name="chooseCalendar">Choisissez le calendrier.</string>
     <string name="eventAdded">Evénement ajouté</string>
     <string name="noCalendarError">Aucun calendrier trouvé.</string>
-
     <string name="titre_export">Exporter ou importer vos favoris</string>
     <string name="export_channel">Export</string>
     <string name="import_channel">Import</string>
-
     <string name="exportErreurSd">Pas de SDCard détectée, impossible d\'exporter les données</string>
     <string name="exportResult">Les chaines favorites ont été exportées dans le fichier "%1$s"</string>
     <string name="importErreurSd">Pas de SDCard détectée, impossible d\'importer les données</string>
@@ -84,12 +65,17 @@
     <string name="importResult">Les favoris ont été importés</string>
     <string name="noChannelsToImport">Aucune chaine à importer</string>
     <string name="youtubeNotFound">Youtube n\'est pas installé sur votre appareil</string>
-
-	<string name="connectivity_title">Mise à jour des programmes</string>
-
-	<string name="connectivity_all">Par Wi-Fi ou réseau mobile</string>
-	<string name="connectivity_wifi">Par Wi-Fi uniquement</string>
+    <string name="connectivity_title">Mise à jour des programmes</string>
+    <string name="connectivity_all">Par Wi-Fi ou réseau mobile</string>
+    <string name="connectivity_wifi">Par Wi-Fi uniquement</string>
     <string name="titre_stop_pub">Supprimer la pub</string>
+    <string name="title_activity_main">MainActivity</string>
+    <string name="title_section1">Section 1</string>
+    <string name="title_section2">Section 2</string>
+    <string name="title_section3">Section 3</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="action_example">Example action</string>
+    <string name="action_settings">Settings</string>
 
 </resources>
-

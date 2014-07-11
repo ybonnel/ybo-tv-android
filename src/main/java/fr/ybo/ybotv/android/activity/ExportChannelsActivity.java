@@ -1,35 +1,17 @@
 package fr.ybo.ybotv.android.activity;
 
-import android.app.AlertDialog;
-import android.app.Dialog;
-import android.content.DialogInterface;
-import android.content.Intent;
-import android.content.pm.PackageInfo;
-import android.content.pm.PackageManager;
-import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Handler;
-import android.view.KeyEvent;
+import android.support.v7.app.ActionBarActivity;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ProgressBar;
 import android.widget.TextView;
-import com.actionbarsherlock.app.SherlockActivity;
+
 import fr.ybo.ybotv.android.R;
 import fr.ybo.ybotv.android.YboTvApplication;
-import fr.ybo.ybotv.android.database.YboTvDatabase;
-import fr.ybo.ybotv.android.exception.YboTvErreurReseau;
-import fr.ybo.ybotv.android.modele.LastUpdate;
 import fr.ybo.ybotv.android.util.FavorisManager;
-import fr.ybo.ybotv.android.util.TacheAvecGestionErreurReseau;
-import fr.ybo.ybotv.android.util.TimeUnit;
-import fr.ybo.ybotv.android.util.UpdateChannels;
-import fr.ybo.ybotv.android.util.UpdateProgrammes;
-
-import java.util.Date;
 
 @SuppressWarnings("unchecked")
-public class ExportChannelsActivity extends SherlockActivity {
+public class ExportChannelsActivity extends ActionBarActivity {
 
     private FavorisManager favorisManager;
 

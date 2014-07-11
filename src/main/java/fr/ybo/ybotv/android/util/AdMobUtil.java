@@ -1,6 +1,7 @@
 package fr.ybo.ybotv.android.util;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.text.Layout;
@@ -39,6 +40,34 @@ public class AdMobUtil {
         AdView adView = (AdView)activity.findViewById(R.id.adView);
         if (yboTvProFound) {
             View layout = activity.findViewById(R.id.ad_container);
+            FrameLayout.LayoutParams layoutParams = (FrameLayout.LayoutParams) layout.getLayoutParams();
+            layoutParams.bottomMargin = 0;
+            layout.setLayoutParams(layoutParams);
+            adView.setVisibility(View.GONE);
+        } else {
+            adView.loadAd(new AdRequest());
+        }
+    }
+
+    public static void manageAds(Context context, ViewGroup viewGroup) {
+        final PackageManager pm = context.getPackageManager();
+        //get a list of installed apps.
+        List<ApplicationInfo> packages = pm
+                .getInstalledApplications(PackageManager.GET_META_DATA);
+
+        boolean yboTvProFound = false;
+
+        for (ApplicationInfo info : packages) {
+            if (PACKAGE_PRO.equals(info.packageName)) {
+                yboTvProFound = true;
+                break;
+            }
+        }
+
+        // Look up the AdView as a resource and load a request.
+        AdView adView = (AdView)viewGroup.findViewById(R.id.adView);
+        if (yboTvProFound) {
+            View layout = viewGroup.findViewById(R.id.ad_container);
             FrameLayout.LayoutParams layoutParams = (FrameLayout.LayoutParams) layout.getLayoutParams();
             layoutParams.bottomMargin = 0;
             layout.setLayoutParams(layoutParams);

@@ -1,19 +1,18 @@
 package fr.ybo.ybotv.android.activity;
 
 import android.app.Activity;
+import android.app.ListActivity;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.util.SparseArray;
-import android.widget.ArrayAdapter;
-import com.actionbarsherlock.app.ActionBar;
-import com.actionbarsherlock.app.SherlockActivity;
-import com.actionbarsherlock.app.SherlockListActivity;
-import com.actionbarsherlock.view.Menu;
-import com.actionbarsherlock.view.MenuInflater;
-import com.actionbarsherlock.view.MenuItem;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import com.google.analytics.tracking.android.EasyTracker;
 import fr.ybo.ybotv.android.R;
 import fr.ybo.ybotv.android.YboTvApplication;
@@ -25,6 +24,10 @@ import java.util.List;
 
 public class MenuManager implements ActionBar.OnNavigationListener {
 
+    private static final int requestCode_filterChannels = 101;
+    private static final int requestCode_exportChannels = 102;
+    private static final int requestCode_updateChannels = 103;
+
     public static interface MenuManagerInterface {
 
         abstract int getMenuIdOfClass();
@@ -34,7 +37,7 @@ public class MenuManager implements ActionBar.OnNavigationListener {
         abstract void refreshContent();
     }
 
-    public static abstract class AbstractSimpleActivity extends SherlockActivity implements MenuManagerInterface {
+    public static abstract class AbstractSimpleActivity extends ActionBarActivity implements MenuManagerInterface {
 
         private MenuManager actionBarManager = new MenuManager(this);
 
@@ -45,12 +48,12 @@ public class MenuManager implements ActionBar.OnNavigationListener {
         @Override
         protected void onResume() {
             super.onResume();
-            getSupportActionBar().setSelectedNavigationItem(actionBarManager.getItemPositionForCurrentClass());
+            //getSupportActionBar().setSelectedNavigationItem(actionBarManager.getItemPositionForCurrentClass());
         }
 
         @Override
         public boolean onCreateOptionsMenu(Menu menu) {
-            MenuInflater inflater = getSupportMenuInflater();
+            MenuInflater inflater = getMenuInflater();
             inflater.inflate(R.menu.mainmenu, menu);
             return true;
         }
@@ -89,7 +92,7 @@ public class MenuManager implements ActionBar.OnNavigationListener {
         }
     }
 
-    public static abstract class AbstractListActivity extends SherlockListActivity implements MenuManagerInterface {
+    public static abstract class AbstractListActivity extends ActionBarListActivity implements MenuManagerInterface {
 
         private MenuManager actionBarManager = new MenuManager(this);
 
@@ -106,7 +109,7 @@ public class MenuManager implements ActionBar.OnNavigationListener {
 
         @Override
         public boolean onCreateOptionsMenu(Menu menu) {
-            MenuInflater inflater = getSupportMenuInflater();
+            MenuInflater inflater = getMenuInflater();
             inflater.inflate(R.menu.mainmenu, menu);
             return true;
         }
@@ -185,14 +188,14 @@ public class MenuManager implements ActionBar.OnNavigationListener {
             menuIds[index] = menuIdsValues.get(index);
         }
 
-        ArrayAdapter<CharSequence> listMenu = new ArrayAdapter<CharSequence>(context,  R.layout.sherlock_spinner_item, listMenuValues);
+        /*ArrayAdapter<CharSequence> listMenu = new ArrayAdapter<CharSequence>(context,  R.layout.sherlock_spinner_item, listMenuValues);
 
 
         listMenu.setDropDownViewResource(R.layout.sherlock_spinner_dropdown_item);
         menuManagerInterface.getSupportActionBar().setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
         menuManagerInterface.getSupportActionBar().setListNavigationCallbacks(listMenu, this);
         menuManagerInterface.getSupportActionBar().setSelectedNavigationItem(getItemPositionForCurrentClass());
-        menuManagerInterface.getSupportActionBar().setDisplayShowTitleEnabled(false);
+        menuManagerInterface.getSupportActionBar().setDisplayShowTitleEnabled(false);*/
 
         //Launch change log dialog
         ChangeLogDialog changeLogDialog = new ChangeLogDialog(activity);
@@ -209,10 +212,10 @@ public class MenuManager implements ActionBar.OnNavigationListener {
             activity.startActivity(new Intent(activity, PreferenceActivity.class));
             return true;
         } else if (item.getItemId() == R.id.menu_filter_channels) {
-            activity.startActivityForResult(new Intent(activity, FilterChannelsActivity.class), R.id.requestCode_filterChannels);
+            activity.startActivityForResult(new Intent(activity, FilterChannelsActivity.class), requestCode_filterChannels);
             return true;
         } else if (item.getItemId() == R.id.menu_export_channels) {
-            activity.startActivityForResult(new Intent(activity, ExportChannelsActivity.class), R.id.requestCode_exportChannels);
+            activity.startActivityForResult(new Intent(activity, ExportChannelsActivity.class), requestCode_exportChannels);
             return true;
         } else if (item.getItemId() == R.id.menu_stop_pub) {
             Uri uri = Uri.parse("https://play.google.com/store/apps/details?id=fr.ybo.ybotv.android.pro");
@@ -223,10 +226,10 @@ public class MenuManager implements ActionBar.OnNavigationListener {
     }
 
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == R.id.requestCode_filterChannels || requestCode == R.id.requestCode_exportChannels) {
-            activity.startActivityForResult(new Intent(activity, UpdateChannelsActivity.class), R.id.requestCode_updateChannels);
+        if (requestCode == requestCode_filterChannels || requestCode == requestCode_exportChannels) {
+            activity.startActivityForResult(new Intent(activity, UpdateChannelsActivity.class), requestCode_updateChannels);
         }
-        if (requestCode == R.id.requestCode_updateChannels) {
+        if (requestCode == requestCode_updateChannels) {
             menuManagerInterface.refreshContent();
         }
     }

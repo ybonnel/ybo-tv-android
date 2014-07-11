@@ -8,11 +8,11 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.v7.app.ActionBarActivity;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import com.actionbarsherlock.app.SherlockActivity;
 import fr.ybo.ybotv.android.R;
 import fr.ybo.ybotv.android.YboTvApplication;
 import fr.ybo.ybotv.android.database.YboTvDatabase;
@@ -26,7 +26,7 @@ import fr.ybo.ybotv.android.util.UpdateProgrammes;
 import java.util.Date;
 
 @SuppressWarnings("unchecked")
-public class LoadingActivity extends SherlockActivity {
+public class LoadingActivity extends ActionBarActivity {
 
     private TextView messageLoading;
     private ProgressBar loadingBar;
@@ -98,7 +98,8 @@ public class LoadingActivity extends SherlockActivity {
                 finish();
                 if (!hasErreurReseau()) {
                     ((YboTvApplication) getApplication()).setRecurringAlarm();
-                    startActivity(new Intent(LoadingActivity.this, ((YboTvApplication) getApplication()).getDefaultActivity()));
+                    //startActivity(new Intent(LoadingActivity.this, ((YboTvApplication) getApplication()).getDefaultActivity()));
+                    LoadingActivity.this.finish();
                 }
             }
         }.execute();

@@ -1,52 +1,78 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android" android:versionCode="1008004" android:versionName="1.8.4" package="fr.ybo.ybotv.android">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="fr.ybo.ybotv.android"
+    android:versionCode="1008004"
+    android:versionName="1.8.4" >
 
-    <uses-sdk android:minSdkVersion="7" android:targetSdkVersion="17"/>
+    <uses-sdk
+        android:minSdkVersion="7"
+        android:targetSdkVersion="19" />
 
-    <uses-permission android:name="android.permission.INTERNET"/>
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
-    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
-    <uses-permission android:name="android.permission.VIBRATE"/>
-    <uses-permission android:name="android.permission.READ_CALENDAR"/>
-    <uses-permission android:name="android.permission.WRITE_CALENDAR"/>
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+    <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.READ_CALENDAR" />
+    <uses-permission android:name="android.permission.WRITE_CALENDAR" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
-    <application android:icon="@drawable/icon" android:label="@string/app_name" android:name=".YboTvApplication" android:theme="@style/Theme.Sherlock">
-        <activity android:configChanges="orientation|keyboardHidden|screenSize" android:name=".activity.LoadingActivity">
+    <application
+        android:name=".YboTvApplication"
+        android:icon="@drawable/icon"
+        android:label="@string/app_name"
+        android:theme="@style/YboTvTheme" >
+
+
+        <activity
+            android:name=".activity.MainActivity"
+            android:label="@string/title_activity_main" >
             <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
-                <category android:name="android.intent.category.LAUNCHER"/>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".activity.CeSoirActivity"/>
-        <activity android:name=".activity.ParChaineActivity"/>
-        <activity android:name=".activity.NowActivity"/>
-        <activity android:name=".activity.ProgrammeGridActivity"/>
-        <activity android:name=".activity.ProgrammeActivity"/>
-        <activity android:name=".activity.PreferenceActivity"/>
-        <activity android:name=".activity.FilterChannelsActivity"/>
-        <activity android:name=".activity.UpdateChannelsActivity"/>
-        <activity android:name=".activity.ExportChannelsActivity"/>
 
-        <activity android:configChanges="keyboard|keyboardHidden|orientation|screenLayout|uiMode|screenSize|smallestScreenSize" android:name="com.google.ads.AdActivity"/>
+        <activity
+            android:name=".activity.LoadingActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize" >
+        </activity>
+        <activity android:name=".activity.CeSoirActivity" />
+        <activity android:name=".activity.ParChaineActivity" />
+        <activity android:name=".activity.NowActivity" />
+        <activity android:name=".activity.ProgrammeGridActivity" />
+        <activity android:name=".activity.ProgrammeActivity" />
+        <activity android:name=".activity.PreferenceActivity" />
+        <activity android:name=".activity.FilterChannelsActivity" />
+        <activity android:name=".activity.UpdateChannelsActivity" />
+        <activity android:name=".activity.ExportChannelsActivity" />
+        <activity
+            android:name="com.google.ads.AdActivity"
+            android:configChanges="keyboard|keyboardHidden|orientation|screenLayout|uiMode|screenSize|smallestScreenSize" />
 
-        <receiver android:name=".receiver.AlarmReceiver"/>
-        <receiver android:name=".receiver.AlertReceiver"/>
+        <receiver android:name=".receiver.AlarmReceiver" />
+        <receiver android:name=".receiver.AlertReceiver" />
 
-        <service android:exported="false" android:name=".service.UpdateService">
+        <service
+            android:name=".service.UpdateService"
+            android:exported="false" >
             <intent-filter>
-                <action android:name="fr.ybo.ybotv.android.action.UPDATE"/>
+                <action android:name="fr.ybo.ybotv.android.action.UPDATE" />
             </intent-filter>
         </service>
 
-        <receiver android:enabled="true" android:exported="false" android:name=".receiver.BootReceiver">
+        <receiver
+            android:name=".receiver.BootReceiver"
+            android:enabled="true"
+            android:exported="false" >
             <intent-filter>
-                <action android:name="android.intent.action.BOOT_COMPLETED"/>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
             </intent-filter>
         </receiver>
 
-        <service android:enabled="true" android:name=".service.BootService"/>
-
+        <service
+            android:name=".service.BootService"
+            android:enabled="true" />
     </application>
 
 </manifest>

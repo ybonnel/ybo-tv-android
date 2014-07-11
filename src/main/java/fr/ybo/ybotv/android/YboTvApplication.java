@@ -137,7 +137,7 @@ public class YboTvApplication extends Application {
 
     public CONNECTIVITY getConnectivity() {
         SharedPreferences prefs = getDefaultPreferences();
-        CONNECTIVITY connectivity = CONNECTIVITY.formString(prefs.getString("YboTv_connectivity", SCREEN.NOW.name()));
+        CONNECTIVITY connectivity = CONNECTIVITY.formString(prefs.getString("YboTv_connectivity", CONNECTIVITY.ALL.name()));
         return connectivity == null ? CONNECTIVITY.ALL : connectivity;
     }
 

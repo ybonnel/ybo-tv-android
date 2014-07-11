@@ -2,14 +2,13 @@ package fr.ybo.ybotv.android.service;
 
 
 import android.util.Log;
+
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonIOException;
 import com.google.gson.JsonSyntaxException;
 import com.google.gson.reflect.TypeToken;
-import fr.ybo.ybotv.android.exception.YboTvErreurReseau;
-import fr.ybo.ybotv.android.exception.YboTvException;
-import fr.ybo.ybotv.android.util.HttpUtils;
+
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
@@ -19,8 +18,10 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.Reader;
 import java.net.MalformedURLException;
-import java.net.URLEncoder;
-import java.util.List;
+
+import fr.ybo.ybotv.android.exception.YboTvErreurReseau;
+import fr.ybo.ybotv.android.exception.YboTvException;
+import fr.ybo.ybotv.android.util.HttpUtils;
 
 public abstract class HttpService {
 
@@ -37,6 +38,7 @@ public abstract class HttpService {
             } catch (YboTvErreurReseau erreurReseau) {
                 Log.e("YboTv", "Erreur réseau (" + countRetry + ") en accédant à l'url : " + url);
                 Log.e("YboTv", Log.getStackTraceString(erreurReseau));
+                erreurReseau.printStackTrace();
             }
         }
         return getObjectsWithoutRetry(url, typeToken);

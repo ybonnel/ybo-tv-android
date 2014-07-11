@@ -1,11 +1,12 @@
 package fr.ybo.ybotv.android.activity;
 
 
+import android.app.ListActivity;
 import android.os.Bundle;
+import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.*;
-import com.actionbarsherlock.app.SherlockListActivity;
 import fr.ybo.ybotv.android.R;
 import fr.ybo.ybotv.android.YboTvApplication;
 import fr.ybo.ybotv.android.adapter.FilterChannelsAdapter;
@@ -13,7 +14,7 @@ import fr.ybo.ybotv.android.database.YboTvDatabase;
 import fr.ybo.ybotv.android.modele.Channel;
 import fr.ybo.ybotv.android.modele.FavoriteChannel;
 
-public class FilterChannelsActivity extends SherlockListActivity  {
+public class FilterChannelsActivity extends ActionBarListActivity {
 
     private FilterChannelsAdapter adapter;
     private YboTvDatabase database;

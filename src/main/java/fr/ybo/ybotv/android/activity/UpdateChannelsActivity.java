@@ -2,10 +2,10 @@ package fr.ybo.ybotv.android.activity;
 
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.v7.app.ActionBarActivity;
 import android.view.KeyEvent;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import com.actionbarsherlock.app.SherlockActivity;
 import fr.ybo.ybotv.android.R;
 import fr.ybo.ybotv.android.YboTvApplication;
 import fr.ybo.ybotv.android.database.YboTvDatabase;
@@ -14,7 +14,7 @@ import fr.ybo.ybotv.android.util.TacheAvecGestionErreurReseau;
 import fr.ybo.ybotv.android.util.UpdateChannels;
 
 @SuppressWarnings("unchecked")
-public class UpdateChannelsActivity extends SherlockActivity {
+public class UpdateChannelsActivity extends ActionBarActivity {
 
     private TextView messageLoading;
     private ProgressBar loadingBar;

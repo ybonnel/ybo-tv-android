@@ -96,6 +96,7 @@ public class ChannelWithProgramme {
         int nbResult = cursor.getCount();
         long elapsedTime = System.nanoTime() - startTime;
         Log.d("YboTv", "Requete executee : " + sqlQuery.toString());
+        Log.d("YboTv", "currentDate : " + date);
         Log.d("YboTv", "Nombre de resultas : " + nbResult + " en " + (elapsedTime / 1000) + "µs");
 
         List<ChannelWithProgramme> channels = new ArrayList<ChannelWithProgramme>();

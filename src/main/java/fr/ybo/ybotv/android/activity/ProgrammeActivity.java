@@ -11,21 +11,20 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Parcelable;
+import android.support.v7.app.ActionBarActivity;
 import android.text.Html;
 import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
-import com.actionbarsherlock.app.SherlockActivity;
-import com.actionbarsherlock.view.Menu;
-import com.actionbarsherlock.view.MenuItem;
 import com.google.analytics.tracking.android.EasyTracker;
 import fr.ybo.ybotv.android.R;
 import fr.ybo.ybotv.android.YboTvApplication;
-import fr.ybo.ybotv.android.adapter.ProgrammeAdapter;
 import fr.ybo.ybotv.android.adapter.ProgrammeViewFlowAdapter;
 import fr.ybo.ybotv.android.exception.YboTvErreurReseau;
 import fr.ybo.ybotv.android.exception.YboTvException;
@@ -48,7 +47,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
-public class ProgrammeActivity extends SherlockActivity implements GetView {
+public class ProgrammeActivity extends ActionBarActivity implements GetView {
 
     private Programme programme;
 
@@ -73,15 +72,15 @@ public class ProgrammeActivity extends SherlockActivity implements GetView {
     public boolean onCreateOptionsMenu(Menu menu) {
         super.onCreateOptionsMenu(menu);
         MenuItem itemAgenda = menu.add(Menu.NONE, R.id.menu_calendar, Menu.NONE, R.string.menu_calendar);
-        itemAgenda.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
+        //itemAgenda.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
         itemAgenda.setIcon(android.R.drawable.ic_menu_agenda);
         MenuItem itemShare = menu.add(Menu.NONE, R.id.menu_share, Menu.NONE, R.string.menu_share);
-        itemShare.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
+        //itemShare.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
         itemShare.setIcon(android.R.drawable.ic_menu_share);
         String currentDate = new SimpleDateFormat("yyyyMMddHHmmss").format(new Date());
         if (currentDate.compareTo(programme.getStart()) < 0) {
             MenuItem item = menu.add(Menu.NONE, R.id.menu_alert, Menu.NONE, R.string.menu_alert);
-            item.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
+            //item.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
             setMenuAlertIcon(item);
         }
         return true;
