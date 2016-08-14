@@ -78,18 +78,18 @@ public class CeSoirViewFlowAdapter extends BaseAdapter implements TitleProvider 
             switch (position) {
                 case 1:
                     // Deuxième partie
-                    dateToSelect = simpleDateFormat.format(currentDate.getTime()) + "230000";
+                    dateToSelect = simpleDateFormat.format(currentDate.getTime()) + "231500";
                     break;
                 case 2:
                     // Fin de soirée
                     Calendar calendarTwomorrow = (Calendar) currentDate.clone();
                     calendarTwomorrow.add(Calendar.DAY_OF_MONTH, 1);
                     Date twomorrow = calendarTwomorrow.getTime();
-                    dateToSelect = simpleDateFormat.format(twomorrow) + "010000";
+                    dateToSelect = simpleDateFormat.format(twomorrow) + "011500";
                     break;
                 default:
                     // PrimeTime
-                    dateToSelect = simpleDateFormat.format(currentDate.getTime()) + "210000";
+                    dateToSelect = simpleDateFormat.format(currentDate.getTime()) + "211500";
                     break;
             }
 
