@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android" android:versionCode="1008005" android:versionName="1.8.5" package="fr.ybo.ybotv.android">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android" android:versionCode="1008006" android:versionName="1.8.6" package="fr.ybo.ybotv.android">
 
-    <uses-sdk android:minSdkVersion="7" android:targetSdkVersion="17"/>
+    <uses-sdk android:minSdkVersion="9" android:targetSdkVersion="17"/>
 
     <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
@@ -28,7 +28,7 @@
         <activity android:name=".activity.UpdateChannelsActivity"/>
         <activity android:name=".activity.ExportChannelsActivity"/>
 
-        <activity android:configChanges="keyboard|keyboardHidden|orientation|screenLayout|uiMode|screenSize|smallestScreenSize" android:name="com.google.ads.AdActivity"/>
+        <activity android:configChanges="keyboard|keyboardHidden|orientation|screenLayout|uiMode|screenSize|smallestScreenSize" android:name="com.google.android.gms.ads.AdActivity"/>
 
         <receiver android:name=".receiver.AlarmReceiver"/>
         <receiver android:name=".receiver.AlertReceiver"/>

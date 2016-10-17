@@ -9,8 +9,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
-import com.google.ads.AdRequest;
-import com.google.ads.AdView;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
+
 import fr.ybo.ybotv.android.R;
 import fr.ybo.ybotv.android.YboTvApplication;
 
@@ -44,7 +45,7 @@ public class AdMobUtil {
             layout.setLayoutParams(layoutParams);
             adView.setVisibility(View.GONE);
         } else {
-            adView.loadAd(new AdRequest());
+            adView.loadAd(new AdRequest.Builder().build());
         }
     }
 }
