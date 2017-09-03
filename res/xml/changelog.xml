@@ -1,5 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <changelog>
+    <release version="2.0.0" versioncode="200">
+        <change>Nouvelle source de données pour les programmes</change>
+        <change>272 chaînes</change>
+        <change>Retour des critiques et des images</change>
+    </release>
     <release version="1.8.0" versioncode="180">
         <change>Ajout de la note directement dans la liste des programmes</change>
         <change>Ajout de demi @eacute;toile pour les notes</change>
