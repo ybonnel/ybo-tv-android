@@ -61,6 +61,8 @@ public class Programme implements Serializable, Parcelable {
     private List<String> categories;
     @Column
     private String date;
+    @Column
+    private String critique;
 
 
     private Map<String, String> ratings;
@@ -158,6 +160,14 @@ public class Programme implements Serializable, Parcelable {
 
     public void setCsaRating(String csaRating) {
         this.csaRating = csaRating;
+    }
+
+    public String getCritique() {
+        return critique;
+    }
+
+    public void setCritique(String critique) {
+        this.critique = critique;
     }
 
     public List<String> getDirectors() {
@@ -478,6 +488,7 @@ public class Programme implements Serializable, Parcelable {
         int programmePresentersCol = cursor.getColumnIndex("programmePresenters");
         int programmeDateCol = cursor.getColumnIndex("programmeDate");
         int programmeCategoriesCol = cursor.getColumnIndex("programmeCategories");
+        int programmeCritiqueCol = cursor.getColumnIndex("programmeCritique");
 
         while (cursor.moveToNext()) {
 
@@ -496,6 +507,7 @@ public class Programme implements Serializable, Parcelable {
             oneProgramme.setIcon(cursor.getString(programmeIconCol));
             oneProgramme.setTitle(cursor.getString(programmeTitleCol));
             oneProgramme.setDesc(cursor.getString(programmeDescCol));
+            oneProgramme.setCritique(cursor.getString(programmeCritiqueCol));
             oneProgramme.setStarRating(cursor.getString(programmeStarRatingCol));
             oneProgramme.setCsaRating(cursor.getString(programmeCsaRatingCol));
             oneProgramme.setChannel(channel.getId());
@@ -535,7 +547,8 @@ public class Programme implements Serializable, Parcelable {
         parcel.writeStringList(getWriters());
         parcel.writeStringList(getPresenters());
         parcel.writeString(date);
-        parcel.writeStringList(getCategories());
+        parcel.writeStringList(getCategories());;
+        parcel.writeString(critique);
     }
 
     public Programme() {
@@ -557,6 +570,7 @@ public class Programme implements Serializable, Parcelable {
         in.readStringList(getPresenters());
         date = in.readString();
         in.readStringList(getCategories());
+        critique = in.readString();
     }
 
     public static final Creator<Programme> CREATOR = new Creator<Programme>() {

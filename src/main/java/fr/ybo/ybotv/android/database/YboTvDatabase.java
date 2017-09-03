@@ -24,7 +24,7 @@ public class YboTvDatabase extends DataBaseHelper {
     }};
 
     private static final String DB_NAME = "YBO_TV";
-    private static final int DB_VERSION = 7;
+    private static final int DB_VERSION = 8;
 
 
     public YboTvDatabase(Context context) throws DataBaseException {
@@ -82,6 +82,13 @@ public class YboTvDatabase extends DataBaseHelper {
                 eurosport.setNumero(999);
                 eurosport.setIcon("eurosport.png");
                 getBase().insert(sqLiteDatabase, eurosport);
+            }
+        });
+        put(8, new UpgradeDatabase() {
+            @Override
+            public void upgrade(SQLiteDatabase sqLiteDatabase) {
+                getBase().dropDataBase(sqLiteDatabase);
+                getBase().createDataBase(sqLiteDatabase);
             }
         });
 

@@ -21,6 +21,7 @@ import java.io.Reader;
 import java.net.MalformedURLException;
 import java.net.URLEncoder;
 import java.util.List;
+import java.util.zip.GZIPInputStream;
 
 public abstract class HttpService {
 
@@ -51,8 +52,13 @@ public abstract class HttpService {
             HttpClient client = HttpUtils.getHttpClient();
             HttpUriRequest request = new HttpGet(url.replaceAll(" ", "%20"));
             request.addHeader("Accept", "application/json");
+            request.addHeader("Accept-Encoding", "gzip");
             HttpResponse reponse = client.execute(request);
-            reader = new InputStreamReader(reponse.getEntity().getContent());
+            if (reponse.containsHeader("content-encoding") && reponse.getFirstHeader("content-encoding").getValue().equals("gzip")) {
+                reader = new InputStreamReader(new GZIPInputStream(reponse.getEntity().getContent()));
+            } else {
+                reader = new InputStreamReader(reponse.getEntity().getContent());
+            }
             GsonBuilder gsonBuilder = new GsonBuilder();
             Gson gson = gsonBuilder.create();
             T retour = gson.<T>fromJson(reader, typeToken.getType());

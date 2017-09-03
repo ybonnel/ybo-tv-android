@@ -57,7 +57,8 @@ public class ChannelWithProgramme {
         sqlQuery.append("Programme.writers as programmeWriters, ");
         sqlQuery.append("Programme.presenters as programmePresenters, ");
         sqlQuery.append("Programme.date as programmeDate, ");
-        sqlQuery.append("Programme.categories as programmeCategories ");
+        sqlQuery.append("Programme.categories as programmeCategories, ");
+        sqlQuery.append("Programme.critique as programmeCritique ");
 
         sqlQuery.append("FROM Channel, Programme, FavoriteChannel ");
         sqlQuery.append("WHERE ");
@@ -118,6 +119,7 @@ public class ChannelWithProgramme {
         int programmePresentersCol = cursor.getColumnIndex("programmePresenters");
         int programmeDateCol = cursor.getColumnIndex("programmeDate");
         int programmeCategoriesCol = cursor.getColumnIndex("programmeCategories");
+        int programmeCritiqueCol = cursor.getColumnIndex("programmeCritique");
 
         while (cursor.moveToNext()) {
             ChannelWithProgramme oneChannelWithProgramme = new ChannelWithProgramme();
@@ -144,6 +146,7 @@ public class ChannelWithProgramme {
             oneProgramme.setIcon(cursor.getString(programmeIconCol));
             oneProgramme.setTitle(cursor.getString(programmeTitleCol));
             oneProgramme.setDesc(cursor.getString(programmeDescCol));
+            oneProgramme.setCritique(cursor.getString(programmeCritiqueCol));
             oneProgramme.setStarRating(cursor.getString(programmeStarRatingCol));
             oneProgramme.setCsaRating(cursor.getString(programmeCsaRatingCol));
             oneProgramme.setChannel(oneChannel.getId());

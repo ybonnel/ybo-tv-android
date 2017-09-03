@@ -321,6 +321,7 @@ public class ProgrammeActivity extends SherlockActivity implements GetView {
 
         TextView categories = (TextView) getView.findViewById(R.id.programme_resume_categories);
         TextView description = (TextView) getView.findViewById(R.id.programme_resume_description);
+        TextView critique = (TextView) getView.findViewById(R.id.programme_resume_critique);
 
         if (programme.getIcon() != null && programme.getIcon().length() != 0) {
             imageLoader.DisplayImage(programme.getIcon(), icon);
@@ -359,13 +360,20 @@ public class ProgrammeActivity extends SherlockActivity implements GetView {
         }
 
         if (programme.getDesc() != null) {
-            description.setText(Html.fromHtml(programme.getDesc()));
+            description.setText(Html.fromHtml("<b>Résumé</b> : " + programme.getDesc()));
             description.setVisibility(View.VISIBLE);
         } else {
             description.setVisibility(View.GONE);
         }
 
-        description.setMovementMethod(new ScrollingMovementMethod());
+        if (programme.getCritique() != null) {
+            critique.setText(Html.fromHtml("<b>Critique</b> : " + programme.getCritique()));
+            critique.setVisibility(View.VISIBLE);
+        } else {
+            critique.setVisibility(View.GONE);
+        }
+
+        critique.setMovementMethod(new ScrollingMovementMethod());
     }
 
     @Override

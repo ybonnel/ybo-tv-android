@@ -6,6 +6,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.os.Handler;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+
 import fr.ybo.ybotv.android.R;
 import fr.ybo.ybotv.android.database.YboTvDatabase;
 import fr.ybo.ybotv.android.exception.YboTvErreurReseau;
@@ -26,34 +27,35 @@ public class UpdateProgrammes extends TacheAvecGestionErreurReseau {
     private YboTvDatabase database;
 
     private final static Set<String> defaultFavoriteChannels = new HashSet<String>() {{
-        add("TF11");
-        add("FRA2");
-        add("FRA3");
-        add("CAN2");
-        add("FRA5");
-        add("M61");
-        add("ART1");
-        add("DIR1");
-        add("W91");
-        add("TMC1");
-        add("NT11");
-        add("NRJ1");
-        add("LAC1");
-        add("FRA4");
-        add("BFM1");
-        add("ITL1");
-        add("EUR2");
-        add("GUL1");
-        add("FRA1");
-        add("HD1");
-        add("LEQ1");
-        add("6TER");
-        add("NU23");
-        add("RMC2");
-        add("CHE1");
-        add("PAR1");
-        add("TVA1");
-        add("RTL2");
+        add("192");
+        add("4");
+        add("80");
+        add("34");
+        add("47");
+        add("118");
+        add("111");
+        add("445");
+        add("119");
+        add("195");
+        add("446");
+        add("444");
+        add("234");
+        add("78");
+        add("481");
+        add("226");
+        add("458");
+        add("482");
+        add("160");
+        add("1404");
+        add("1401");
+        add("1403");
+        add("1402");
+        add("1400");
+        add("1399");
+        add("112");
+        add("2111");
+        add("191");
+        add("205");
     }};
 
     public UpdateProgrammes(Context context, Handler handler, final ProgressBar loadingBar, final TextView messageLoading, YboTvDatabase database) {
@@ -134,6 +136,7 @@ public class UpdateProgrammes extends TacheAvecGestionErreurReseau {
                 int presentersCol = ih.getColumnIndex("presenters");
                 int dateCol = ih.getColumnIndex("date");
                 int categoriesCol = ih.getColumnIndex("categories");
+                int critiqueCol = ih.getColumnIndex("critique");
 
                 for (Programme programme : programmes) {
 
@@ -158,6 +161,7 @@ public class UpdateProgrammes extends TacheAvecGestionErreurReseau {
                         ih.bind(presentersCol, programme.getPresentersInCsv());
                         ih.bind(dateCol, programme.getDate());
                         ih.bind(categoriesCol, programme.getCategoriesInCsv());
+                        ih.bind(critiqueCol, programme.getCritique());
 
                         ih.execute();
                     }

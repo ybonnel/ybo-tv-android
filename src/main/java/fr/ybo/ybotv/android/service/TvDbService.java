@@ -30,7 +30,7 @@ public class TvDbService {
     }
 
     public Float getTvShowRating(Programme programme) throws YboTvErreurReseau {
-        if (programme == null || programme.getTitle() == null || programme.getDate() == null) {
+        if (programme == null || programme.getTitle() == null) {
             return null;
         }
 
@@ -42,7 +42,7 @@ public class TvDbService {
     }
 
     private Series getCurrentTvShow(Programme programme, List<Series> tvshows, TheTVDBApi api) throws TheTVDBApiException {
-        int programmeDate = Integer.parseInt(programme.getDate());
+        int programmeDate = programme.getDate() == null || programme.getDate().equals("null") ? 2000 : Integer.parseInt(programme.getDate());
         Log.d(YboTvApplication.TAG, "Series : " + tvshows);
         int currentDate = 0;
         Series currentTvShow = null;
