@@ -423,7 +423,8 @@ public class Programme implements Serializable, Parcelable {
         sqlQuery.append("Programme.writers as programmeWriters, ");
         sqlQuery.append("Programme.presenters as programmePresenters, ");
         sqlQuery.append("Programme.date as programmeDate, ");
-        sqlQuery.append("Programme.categories as programmeCategories ");
+        sqlQuery.append("Programme.categories as programmeCategories, ");
+        sqlQuery.append("Programme.critique as programmeCritique ");
 
         sqlQuery.append("FROM Programme ");
         sqlQuery.append("WHERE ");
